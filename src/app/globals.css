@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-exo: "Exo 2", sans-serif;
+  --font-rajdhani: "Rajdhani", sans-serif;
+  --font-share-tech: "Share Tech Mono", monospace;
+}
+
+@keyframes float-logo {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+@keyframes float-tri {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.07;
+  }
+  33% {
+    transform: translateY(-14px) rotate(2deg);
+    opacity: 0.12;
+  }
+  66% {
+    transform: translateY(8px) rotate(-1.5deg);
+    opacity: 0.05;
+  }
+}
+
+@keyframes float-particle {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.15;
+  }
+  33% {
+    transform: translateY(-22px) translateX(12px);
+    opacity: 0.55;
+  }
+  66% {
+    transform: translateY(11px) translateX(-9px);
+    opacity: 0.25;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 80px rgba(168, 85, 247, 0.6);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#7c3aed, #a855f7);
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #3b0764;
+  border-radius: 2px;
+}
+
+body {
+  background: #000;
+  color: #fff;
+}
