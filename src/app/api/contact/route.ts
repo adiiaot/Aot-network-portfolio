@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
+import nodemailer from "nodemailer";
 
 const TO_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "aotayom34@gmail.com";
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.SMTP_EMAIL,
+    pass: process.env.SMTP_PASSWORD,
+  },
+});
 
 export async function POST(req: Request) {
   try {
@@ -17,9 +22,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const { error } = await resend.emails.send({
-      from: `AOT Network <${FROM_EMAIL}>`,
-      to: [TO_EMAIL],
+    await transporter.sendMail({
+      from: process.env.SMTP_EMAIL,
+      replyTo: email,
+      to: TO_EMAIL,
       subject: `Project Request from ${name}`,
       html: `
         <h2>New Project Inquiry</h2>
@@ -30,10 +36,6 @@ export async function POST(req: Request) {
         <p>${idea.replace(/\n/g, "<br>")}</p>
       `,
     });
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
 
     return NextResponse.json({ success: true });
   } catch (err) {
