@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const FONT_LINK =
@@ -51,6 +52,7 @@ export default function RootLayout({
       <body className="min-h-full antialiased">
         <ThemeProvider>
           {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
