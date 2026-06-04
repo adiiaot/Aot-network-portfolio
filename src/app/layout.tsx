@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const FONT_LINK =
-  "https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap";
+  "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap";
 
 export const metadata: Metadata = {
   title: "AOT Network - Build. Ship. Scale.",
   description:
-    "From MVP to production\u2014fast, structured, and reliable. We build scalable mobile apps, web platforms, AI systems, and automation workflows.",
+    "From MVP to production—fast, structured, and reliable. I build scalable mobile apps, web platforms, AI systems, and automation workflows.",
   keywords: [
     "AOT Network",
     "Mobile Development",
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AOT Network - Build. Ship. Scale.",
     description:
-      "Premium product development and AI systems agency. Mobile apps, web platforms, AI workflows.",
+      "Premium contract development. Mobile apps, web platforms, and AI systems.",
     type: "website",
     locale: "en_US",
     siteName: "AOT Network",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AOT Network - Build. Ship. Scale.",
     description:
-      "Premium product development and AI systems agency.",
+      "Premium contract development. Mobile apps, web platforms, AI systems.",
   },
   robots: {
     index: true,
@@ -43,12 +44,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" data-theme="light">
       <head>
         <link href={FONT_LINK} rel="stylesheet" />
       </head>
-      <body className="min-h-full bg-black text-white antialiased">
-        {children}
+      <body className="min-h-full antialiased">
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

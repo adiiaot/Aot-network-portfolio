@@ -38,10 +38,7 @@ export function Contact() {
     <section
       id="contact"
       className="py-32 px-6"
-      style={{
-        background:
-          "radial-gradient(ellipse 90% 60% at 50% -5%, #1e0540 0%, #000 55%)",
-      }}
+      style={{ background: "var(--section-contact)" }}
     >
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-16">
@@ -56,7 +53,7 @@ export function Contact() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    "radial-gradient(circle,rgba(168,85,247,0.3) 0%,transparent 70%)",
+                    "radial-gradient(circle, rgba(var(--accent-rgb), 0.3) 0%, transparent 70%)",
                   filter: "blur(35px)",
                   transform: "scale(2)",
                 }}
@@ -65,10 +62,11 @@ export function Contact() {
             </div>
           </div>
           <h2
-            className="text-5xl md:text-6xl font-black text-white mb-4"
+            className="text-5xl md:text-6xl font-black mb-4"
             style={{
-              fontFamily: "'Exo 2', sans-serif",
-              textShadow: "0 0 80px rgba(168,85,247,0.3)",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              color: "var(--text-primary)",
+              textShadow: "0 0 80px rgba(var(--accent-rgb), 0.3)",
             }}
           >
             Have an idea?
@@ -76,7 +74,7 @@ export function Contact() {
             <span
               style={{
                 background:
-                  "linear-gradient(135deg,#e879f9,#7c3aed)",
+                  "linear-gradient(135deg,var(--accent-soft),var(--accent-primary))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
@@ -85,19 +83,19 @@ export function Contact() {
             </span>
           </h2>
           <p
-            className="text-zinc-500 text-sm"
-            style={{ fontFamily: "'Rajdhani', sans-serif" }}
+            className="text-sm"
+            style={{ fontFamily: "'Inter', sans-serif", color: "var(--text-muted)" }}
           >
-            Fill in the form or reach us directly. We respond fast.
+            Fill in the form or reach me directly. I respond fast.
           </p>
         </div>
 
         <div
-          className="border border-purple-900/40 rounded-2xl p-8 mb-8"
+          className="border rounded-2xl p-8 mb-8"
           style={{
-            background:
-              "linear-gradient(135deg,#0d0020 0%,#000 100%)",
-            boxShadow: "0 0 80px -30px rgba(168,85,247,0.3)",
+            borderColor: "var(--border-color-strong)",
+            background: "var(--card-bg)",
+            boxShadow: "0 0 80px -30px rgba(var(--accent-rgb), 0.3)",
           }}
         >
           {sent ? (
@@ -106,13 +104,13 @@ export function Contact() {
                 <AOTLogo size={56} />
               </div>
               <p
-                className="text-white font-black text-xl mb-2"
-                style={{ fontFamily: "'Exo 2', sans-serif" }}
+                className="font-black text-xl mb-2"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
               >
                 Email client opened.
               </p>
-              <p className="text-zinc-500 text-sm">
-                We typically respond within 24 hours.
+              <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+                I typically respond within 24 hours.
               </p>
             </div>
           ) : (
@@ -120,9 +118,11 @@ export function Contact() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label
-                    className="text-[10px] text-purple-500/50 uppercase tracking-widest block mb-2"
+                    className="text-[10px] uppercase tracking-widest block mb-2"
                     style={{
-                      fontFamily: "'Share Tech Mono', monospace",
+                      fontFamily: "'JetBrains Mono', monospace",
+                      color: "var(--accent-primary)",
+                      opacity: 0.7,
                     }}
                   >
                     Name *
@@ -134,14 +134,21 @@ export function Contact() {
                     onChange={(e) =>
                       setForm({ ...form, name: e.target.value })
                     }
-                    className="w-full bg-white/5 border border-purple-900/30 rounded-xl px-4 py-3 text-white placeholder-zinc-700 focus:outline-none focus:border-purple-500/50 text-sm transition-colors"
+                    className="w-full border rounded-xl px-4 py-3 text-sm transition-colors"
+                    style={{
+                      background: "var(--bg-input)",
+                      borderColor: "var(--border-color)",
+                      color: "var(--text-primary)",
+                    }}
                   />
                 </div>
                 <div>
                   <label
-                    className="text-[10px] text-purple-500/50 uppercase tracking-widest block mb-2"
+                    className="text-[10px] uppercase tracking-widest block mb-2"
                     style={{
-                      fontFamily: "'Share Tech Mono', monospace",
+                      fontFamily: "'JetBrains Mono', monospace",
+                      color: "var(--accent-primary)",
+                      opacity: 0.7,
                     }}
                   >
                     Email *
@@ -153,15 +160,22 @@ export function Contact() {
                     onChange={(e) =>
                       setForm({ ...form, email: e.target.value })
                     }
-                    className="w-full bg-white/5 border border-purple-900/30 rounded-xl px-4 py-3 text-white placeholder-zinc-700 focus:outline-none focus:border-purple-500/50 text-sm transition-colors"
+                    className="w-full border rounded-xl px-4 py-3 text-sm transition-colors"
+                    style={{
+                      background: "var(--bg-input)",
+                      borderColor: "var(--border-color)",
+                      color: "var(--text-primary)",
+                    }}
                   />
                 </div>
               </div>
               <div>
                 <label
-                  className="text-[10px] text-purple-500/50 uppercase tracking-widest block mb-2"
+                  className="text-[10px] uppercase tracking-widest block mb-2"
                   style={{
-                    fontFamily: "'Share Tech Mono', monospace",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: "var(--accent-primary)",
+                    opacity: 0.7,
                   }}
                 >
                   Project Idea *
@@ -173,14 +187,21 @@ export function Contact() {
                     setForm({ ...form, idea: e.target.value })
                   }
                   rows={4}
-                  className="w-full bg-white/5 border border-purple-900/30 rounded-xl px-4 py-3 text-white placeholder-zinc-700 focus:outline-none focus:border-purple-500/50 text-sm transition-colors resize-none"
+                  className="w-full border rounded-xl px-4 py-3 text-sm transition-colors resize-none"
+                  style={{
+                    background: "var(--bg-input)",
+                    borderColor: "var(--border-color)",
+                    color: "var(--text-primary)",
+                  }}
                 />
               </div>
               <div>
                 <label
-                  className="text-[10px] text-purple-500/50 uppercase tracking-widest block mb-2"
+                  className="text-[10px] uppercase tracking-widest block mb-2"
                   style={{
-                    fontFamily: "'Share Tech Mono', monospace",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: "var(--accent-primary)",
+                    opacity: 0.7,
                   }}
                 >
                   Budget Range
@@ -190,7 +211,12 @@ export function Contact() {
                   onChange={(e) =>
                     setForm({ ...form, budget: e.target.value })
                   }
-                  className="w-full bg-[#0d0020] border border-purple-900/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 text-sm transition-colors"
+                  className="w-full border rounded-xl px-4 py-3 text-sm transition-colors"
+                  style={{
+                    background: "var(--bg-card)",
+                    borderColor: "var(--border-color)",
+                    color: "var(--text-primary)",
+                  }}
                 >
                   <option value="">Select range (optional)</option>
                   <option value="Flexible — Let's discuss on a call">
@@ -208,13 +234,14 @@ export function Contact() {
               <button
                 onClick={handleSend}
                 disabled={!form.name || !form.email || !form.idea}
-                className="w-full font-black py-4 rounded-xl text-white text-sm tracking-widest mt-2 transition-all hover:opacity-90 disabled:opacity-40"
+                className="w-full font-black py-4 rounded-xl text-sm tracking-widest mt-2 transition-all hover:opacity-90 disabled:opacity-40"
                 style={{
-                  fontFamily: "'Rajdhani', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                   background:
-                    "linear-gradient(135deg,#7c3aed,#a855f7,#c084fc)",
-                  boxShadow: "0 0 40px rgba(168,85,247,0.4)",
+                    "linear-gradient(135deg,var(--accent-primary),var(--accent-secondary),var(--accent-tertiary))",
+                  boxShadow: "0 0 40px rgba(var(--accent-rgb), 0.4)",
                   letterSpacing: "0.18em",
+                  color: "#fff",
                 }}
               >
                 SEND REQUEST →
@@ -226,12 +253,13 @@ export function Contact() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
-            className="inline-flex items-center justify-center gap-3 font-black px-8 py-4 rounded-full text-white transition-all text-sm hover:opacity-90"
+            className="inline-flex items-center justify-center gap-3 font-black px-8 py-4 rounded-full text-sm transition-all hover:opacity-90"
             style={{
-              fontFamily: "'Rajdhani', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               background: "#128C7E",
               letterSpacing: "0.08em",
               boxShadow: "0 0 25px rgba(18,140,126,0.3)",
+              color: "#fff",
             }}
           >
             <svg
@@ -245,12 +273,13 @@ export function Contact() {
           </a>
           <a
             href={`https://t.me/${TELEGRAM_HANDLE}`}
-            className="inline-flex items-center justify-center gap-3 font-black px-8 py-4 rounded-full text-white transition-all text-sm hover:opacity-90"
+            className="inline-flex items-center justify-center gap-3 font-black px-8 py-4 rounded-full text-sm transition-all hover:opacity-90"
             style={{
-              fontFamily: "'Rajdhani', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               background: "#2AABEE",
               letterSpacing: "0.08em",
               boxShadow: "0 0 25px rgba(42,171,238,0.3)",
+              color: "#fff",
             }}
           >
             <svg
@@ -264,10 +293,20 @@ export function Contact() {
           </a>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="inline-flex items-center justify-center gap-3 border border-purple-500/40 hover:border-purple-400/70 hover:bg-purple-500/10 text-purple-300 font-black px-8 py-4 rounded-full transition-all text-sm"
+            className="inline-flex items-center justify-center gap-3 font-black px-8 py-4 rounded-full transition-all text-sm"
             style={{
-              fontFamily: "'Rajdhani', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               letterSpacing: "0.08em",
+              border: "1px solid var(--border-color-strong)",
+              color: "var(--accent-primary)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(var(--accent-rgb), 0.1)";
+              e.currentTarget.style.borderColor = "var(--accent-secondary)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.borderColor = "var(--border-color-strong)";
             }}
           >
             <svg
@@ -283,7 +322,7 @@ export function Contact() {
                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
               />
             </svg>
-            Email Us
+            Email Me
           </a>
         </div>
       </div>

@@ -20,25 +20,21 @@ export function Hero() {
     >
       <div
         className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 110% 70% at 50% -10%, #1e0540 0%, #0a0015 45%, #000 100%)",
-        }}
+        style={{ background: "var(--hero-glow)" }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: "var(--hero-glow-bottom)" }}
       />
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "radial-gradient(ellipse 50% 30% at 50% 100%, #0d0022 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute inset-0 opacity-[0.055]"
-        style={{
           backgroundImage:
-            "linear-gradient(rgba(168,85,247,1) 1px, transparent 1px), linear-gradient(90deg, rgba(168,85,247,1) 1px, transparent 1px)",
+            "linear-gradient(rgba(var(--accent-rgb), 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--accent-rgb), 0.06) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
           maskImage:
+            "radial-gradient(ellipse 90% 90% at 50% 50%, black 10%, transparent 100%)",
+          WebkitMaskImage:
             "radial-gradient(ellipse 90% 90% at 50% 50%, black 10%, transparent 100%)",
         }}
       />
@@ -46,7 +42,7 @@ export function Hero() {
       <Particles />
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px"
-        style={{ boxShadow: "0 0 150px 50px rgba(168,85,247,0.35)" }}
+        style={{ boxShadow: "0 0 150px 50px rgba(var(--accent-rgb), 0.35)" }}
       />
 
       <div className="relative z-10 max-w-5xl mx-auto w-full">
@@ -59,7 +55,7 @@ export function Hero() {
               className="absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(168,85,247,0.25) 0%, transparent 70%)",
+                  "radial-gradient(circle, rgba(var(--accent-rgb), 0.25) 0%, transparent 70%)",
                 filter: "blur(40px)",
                 transform: "scale(2.2)",
               }}
@@ -69,42 +65,54 @@ export function Hero() {
         </div>
 
         <div
-          className="text-[11px] tracking-[0.6em] text-purple-400/80 mb-6 uppercase"
-          style={{ fontFamily: "'Share Tech Mono', monospace" }}
+          className="text-[11px] tracking-[0.6em] mb-6 uppercase"
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            color: "var(--accent-primary)",
+            opacity: 0.8,
+          }}
         >
           ── AOT NETWORK ──
         </div>
 
         <h1
-          className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-tight mb-4"
+          className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4"
           style={{
-            fontFamily: "'Exo 2', sans-serif",
-            textShadow: "0 0 80px rgba(168,85,247,0.25)",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            color: "var(--text-primary)",
+            textShadow: "0 0 80px rgba(var(--accent-rgb), 0.25)",
           }}
         >
-          We build scalable
+          I build scalable
         </h1>
 
         <div
           className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 min-h-[1.25em] flex items-center justify-center gap-2"
-          style={{ fontFamily: "'Exo 2', sans-serif" }}
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
           <span
             style={{
               background:
-                "linear-gradient(135deg,#e879f9 0%,#a855f7 50%,#7c3aed 100%)",
+                "linear-gradient(135deg,var(--accent-soft) 0%,var(--accent-primary) 50%,var(--accent-secondary) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
           >
             {typed}
           </span>
-          <span className="inline-block w-1 h-16 md:h-20 lg:h-24 bg-purple-400 animate-pulse rounded-sm" />
+          <span
+            className="inline-block w-1 h-16 md:h-20 lg:h-24 animate-pulse rounded-sm"
+            style={{ background: "var(--accent-primary)" }}
+          />
         </div>
 
         <p
-          className="text-lg text-zinc-400 mb-12 max-w-xl mx-auto leading-relaxed"
-          style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: "17px" }}
+          className="text-lg mb-12 max-w-xl mx-auto leading-relaxed"
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: "17px",
+            color: "var(--text-muted)",
+          }}
         >
           From MVP to production—fast, structured, and reliable.
           <br />
@@ -114,15 +122,18 @@ export function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
           <a
             href="#contact"
-            className="inline-flex items-center justify-center gap-3 font-black px-10 py-4 rounded-full text-white transition-all"
+            className="inline-flex items-center justify-center gap-3 font-black px-10 py-4 rounded-full transition-all"
             style={{
-              fontFamily: "'Rajdhani', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               letterSpacing: "0.12em",
               background:
-                "linear-gradient(135deg,#7c3aed,#a855f7,#c084fc)",
-              boxShadow: "0 0 50px rgba(168,85,247,0.55)",
+                "linear-gradient(135deg,var(--accent-primary),var(--accent-secondary),var(--accent-tertiary))",
+              boxShadow: "0 0 50px rgba(var(--accent-rgb), 0.55)",
               fontSize: "15px",
+              color: "#ffffff",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
             Start a Project
             <svg
@@ -142,32 +153,49 @@ export function Hero() {
           </a>
           <a
             href="#work"
-            className="inline-flex items-center justify-center gap-2 border border-purple-500/40 text-purple-300 hover:border-purple-400/80 hover:bg-purple-500/10 px-10 py-4 rounded-full font-bold transition-all"
+            className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full font-bold transition-all"
             style={{
-              fontFamily: "'Rajdhani', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               letterSpacing: "0.12em",
               fontSize: "15px",
+              border: "1px solid var(--border-color-strong)",
+              color: "var(--accent-primary)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(var(--accent-rgb), 0.08)";
+              e.currentTarget.style.borderColor = "var(--accent-secondary)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.borderColor = "var(--border-color-strong)";
             }}
           >
             View Work
           </a>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-12 border-t border-purple-900/25 pt-10">
+        <div
+          className="flex flex-wrap justify-center gap-12 pt-10"
+          style={{ borderTop: "1px solid var(--border-color)" }}
+        >
           {STATS.map((s) => (
             <div key={s.label} className="text-center">
               <div
-                className="text-3xl font-black text-white"
+                className="text-3xl font-black"
                 style={{
-                  fontFamily: "'Exo 2', sans-serif",
-                  textShadow: "0 0 25px rgba(168,85,247,0.5)",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  color: "var(--text-primary)",
+                  textShadow: "0 0 25px rgba(var(--accent-rgb), 0.5)",
                 }}
               >
                 {s.value}
               </div>
               <div
-                className="text-[10px] text-zinc-600 tracking-widest uppercase mt-1"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                className="text-[10px] tracking-widest uppercase mt-1"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: "var(--text-dim)",
+                }}
               >
                 {s.label}
               </div>

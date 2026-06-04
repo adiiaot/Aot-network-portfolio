@@ -55,13 +55,13 @@ export const processSteps = [
     number: "01",
     title: "Discovery",
     description:
-      "We understand your product, users, and goals. No assumptions, no guessing.",
+      "I understand your product, users, and goals. No assumptions, no guessing.",
   },
   {
     number: "02",
     title: "Planning",
     description:
-      "Scope, tech stack, timeline, and milestones locked before we write a line of code.",
+      "Scope, tech stack, timeline, and milestones locked before I write a line of code.",
   },
   {
     number: "03",
@@ -73,6 +73,6 @@ export const processSteps = [
     number: "04",
     title: "Launch",
     description:
-      "Deployment, QA, handoff. We ship\u2014and we stay until it's live and stable.",
+      "Deployment, QA, handoff. I ship\u2014and I stay until it's live and stable.",
   },
 ];

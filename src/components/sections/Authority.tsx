@@ -3,7 +3,10 @@ import { testimonials } from "@/data/testimonials";
 
 export function Authority() {
   return (
-    <section className="py-24 px-6 bg-black">
+    <section
+      className="py-24 px-6"
+      style={{ background: "var(--bg-primary)" }}
+    >
       <div className="max-w-4xl mx-auto text-center">
         <div
           className="flex justify-center mb-8"
@@ -12,14 +15,14 @@ export function Authority() {
           <AOTLogo size={60} />
         </div>
         <h2
-          className="text-3xl md:text-5xl font-black text-white mb-4"
-          style={{ fontFamily: "'Exo 2', sans-serif" }}
+          className="text-3xl md:text-5xl font-black mb-4"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
         >
           Trusted by{" "}
           <span
             style={{
               background:
-                "linear-gradient(135deg,#e879f9,#a855f7)",
+                "linear-gradient(135deg,var(--accent-soft),var(--accent-primary))",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
@@ -28,11 +31,11 @@ export function Authority() {
           </span>{" "}
           professionals
           <br />
-          following our work on LinkedIn.
+          following my work on LinkedIn.
         </h2>
         <p
-          className="text-zinc-500 mb-12 text-sm"
-          style={{ fontFamily: "'Rajdhani', sans-serif" }}
+          className="mb-12 text-sm"
+          style={{ fontFamily: "'Inter', sans-serif", color: "var(--text-muted)" }}
         >
           Real builders. Real products. Documented in public.
         </p>
@@ -41,21 +44,29 @@ export function Authority() {
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="w-10 h-10 rounded-full border-2 border-black -ml-2 first:ml-0 flex items-center justify-center"
+              className="w-10 h-10 rounded-full border-2 -ml-2 first:ml-0 flex items-center justify-center"
               style={{
+                borderColor: "var(--bg-primary)",
                 background: `hsl(${265 + i * 10},${45 + i * 3}%,${
                   14 + i * 2
                 }%)`,
               }}
             >
-              <div className="text-[7px] text-purple-400/40">◆</div>
+              <div
+                className="text-[7px]"
+                style={{ color: "var(--accent-primary)", opacity: 0.4 }}
+              >
+                ◆
+              </div>
             </div>
           ))}
           <div
-            className="w-11 h-11 rounded-full border-2 border-black -ml-2 flex items-center justify-center text-[8px] text-purple-300 font-black"
+            className="w-11 h-11 rounded-full border-2 -ml-2 flex items-center justify-center text-[8px] font-black"
             style={{
+              borderColor: "var(--bg-primary)",
               background: "linear-gradient(135deg,#3b0764,#1e1b4b)",
-              fontFamily: "'Share Tech Mono', monospace",
+              fontFamily: "'JetBrains Mono', monospace",
+              color: "var(--accent-primary)",
             }}
           >
             12k+
@@ -66,27 +77,33 @@ export function Authority() {
           {testimonials.map((t) => (
             <div
               key={t.author}
-              className="border border-purple-900/30 rounded-2xl p-5"
+              className="border rounded-2xl p-5"
               style={{
-                background:
-                  "linear-gradient(135deg,#0d0020 0%,#000 100%)",
+                borderColor: "var(--border-color)",
+                background: "var(--card-bg)",
               }}
             >
               <div
-                className="text-purple-400 text-xl mb-3"
+                className="text-xl mb-3"
                 style={{
-                  filter:
-                    "drop-shadow(0 0 8px rgba(168,85,247,0.5))",
+                  color: "var(--accent-primary)",
+                  filter: "drop-shadow(0 0 8px rgba(var(--accent-rgb), 0.5))",
                 }}
               >
                 ❝
               </div>
-              <p className="text-sm text-zinc-400 leading-relaxed mb-4">
+              <p
+                className="text-sm leading-relaxed mb-4"
+                style={{ color: "var(--text-muted)" }}
+              >
                 {t.quote}
               </p>
               <p
-                className="text-[10px] text-zinc-600 tracking-widest uppercase"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                className="text-[10px] tracking-widest uppercase"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: "var(--text-dim)",
+                }}
               >
                 — {t.author}
               </p>

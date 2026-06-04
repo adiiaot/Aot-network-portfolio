@@ -7,9 +7,7 @@ export interface Project {
   status: "Live" | "In Progress" | "Open";
   accent: string;
   year: number;
-  appStoreUrl?: string;
-  playStoreUrl?: string;
-  caseStudyUrl?: string;
+  apkUrl?: string;
   liveUrl?: string;
   githubUrl?: string;
   technologies: string[];

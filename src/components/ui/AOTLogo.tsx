@@ -11,6 +11,7 @@ export function AOTLogo({ size = 48 }: AOTLogoProps) {
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      style={{ display: "block" }}
     >
       <defs>
         <filter id={`glow-${id}`}>
@@ -28,9 +29,9 @@ export function AOTLogo({ size = 48 }: AOTLogoProps) {
           y2="95"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%" stopColor="#e879f9" />
-          <stop offset="50%" stopColor="#a855f7" />
-          <stop offset="100%" stopColor="#7c3aed" />
+          <stop offset="0%" stopColor="var(--accent-soft, #e879f9)" />
+          <stop offset="50%" stopColor="var(--accent-primary, #a855f7)" />
+          <stop offset="100%" stopColor="var(--accent-secondary, #7c3aed)" />
         </linearGradient>
       </defs>
       <polygon

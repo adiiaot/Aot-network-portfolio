@@ -3,17 +3,21 @@ import { services } from "@/data/services";
 
 export function Services() {
   return (
-    <section id="services" className="py-32 px-6 bg-black">
+    <section
+      id="services"
+      className="py-32 px-6"
+      style={{ background: "var(--bg-primary)" }}
+    >
       <div className="max-w-6xl mx-auto">
         <SectionLabel>Services</SectionLabel>
         <h2
-          className="text-4xl md:text-6xl font-black text-white mb-4 mt-4"
-          style={{ fontFamily: "'Exo 2', sans-serif" }}
+          className="text-4xl md:text-6xl font-black mb-4 mt-4"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
         >
-          What we{" "}
+          What I{" "}
           <span
             style={{
-              background: "linear-gradient(135deg,#e879f9,#7c3aed)",
+              background: "linear-gradient(135deg,var(--accent-soft),var(--accent-primary))",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
@@ -22,43 +26,53 @@ export function Services() {
           </span>
         </h2>
         <p
-          className="text-zinc-500 mb-16 max-w-md text-sm"
-          style={{ fontFamily: "'Rajdhani', sans-serif" }}
+          className="mb-16 max-w-md text-sm"
+          style={{ fontFamily: "'Inter', sans-serif", color: "var(--text-muted)" }}
         >
-          Three focused service lines. All done in-house. No subcontractors.
+          Three focused service lines. All done by me. No subcontractors.
         </p>
         <div className="grid md:grid-cols-3 gap-5">
           {services.map((s) => (
             <div
               key={s.title}
-              className="border border-purple-900/30 rounded-2xl p-7 hover:border-purple-500/40 transition-all duration-500 group hover:-translate-y-2"
+              className="border rounded-2xl p-7 transition-all duration-500 group hover:-translate-y-2 hover:border-[var(--card-hover-border)]"
               style={{
-                background: "linear-gradient(135deg,#0d0020 0%,#000 100%)",
+                borderColor: "var(--border-color)",
+                background: "var(--card-bg)",
               }}
             >
               <div
-                className="text-4xl text-purple-400 mb-5 group-hover:scale-110 transition-transform duration-300"
+                className="text-4xl mb-5 group-hover:scale-110 transition-transform duration-300"
                 style={{
-                  filter: "drop-shadow(0 0 12px rgba(168,85,247,0.6))",
+                  color: "var(--accent-primary)",
+                  filter: "drop-shadow(0 0 12px rgba(var(--accent-rgb), 0.6))",
                 }}
               >
                 {s.icon}
               </div>
               <h3
-                className="text-xl font-black text-white mb-3"
-                style={{ fontFamily: "'Exo 2', sans-serif" }}
+                className="text-xl font-black mb-3"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
               >
                 {s.title}
               </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed mb-5">
+              <p
+                className="text-sm leading-relaxed mb-5"
+                style={{ color: "var(--text-muted)" }}
+              >
                 {s.description}
               </p>
               <div className="flex flex-wrap gap-2">
                 {s.tags.map((t) => (
                   <span
                     key={t}
-                    className="text-[10px] px-2.5 py-1 rounded-md bg-purple-900/20 text-purple-400/70 border border-purple-900/40"
-                    style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                    className="text-[10px] px-2.5 py-1 rounded-md"
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      background: "var(--bg-code-tag)",
+                      color: "var(--accent-primary)",
+                      border: "1px solid var(--border-color)",
+                    }}
                   >
                     {t}
                   </span>

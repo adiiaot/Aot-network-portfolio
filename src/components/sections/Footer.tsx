@@ -3,21 +3,31 @@ import { SOCIAL_LINKS } from "@/data/social";
 
 export function Footer() {
   return (
-    <footer className="border-t border-purple-900/20 bg-black py-12 px-6">
+    <footer
+      className="py-12 px-6"
+      style={{
+        borderTop: "1px solid var(--border-color)",
+        background: "var(--bg-primary)",
+      }}
+    >
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
           <div className="flex items-center gap-4">
             <AOTLogo size={38} />
             <div>
               <div
-                className="text-white font-black text-xl tracking-wider"
-                style={{ fontFamily: "'Exo 2', sans-serif" }}
+                className="font-black text-xl tracking-wider"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
               >
                 AOT Network
               </div>
               <div
-                className="text-purple-400/50 text-[9px] tracking-[0.35em]"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                className="text-[9px] tracking-[0.35em]"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: "var(--accent-primary)",
+                  opacity: 0.5,
+                }}
               >
                 Build. Ship. Scale.
               </div>
@@ -28,18 +38,27 @@ export function Footer() {
               <a
                 key={s.name}
                 href={s.url}
-                className="text-[10px] text-zinc-700 hover:text-purple-400 transition-colors"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                className="text-[10px] transition-colors hover:text-[var(--accent-primary)]"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: "var(--text-dim)",
+                }}
               >
                 {s.name}
               </a>
             ))}
           </div>
         </div>
-        <div className="border-t border-purple-900/15 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div
+          className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3"
+          style={{ borderTop: "1px solid var(--border-color-light)" }}
+        >
           <p
-            className="text-[10px] text-zinc-800"
-            style={{ fontFamily: "'Share Tech Mono', monospace" }}
+            className="text-[10px]"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              color: "var(--text-very-dim)",
+            }}
           >
             © {new Date().getFullYear()} AOT Network. All rights reserved.
           </p>
@@ -48,8 +67,11 @@ export function Footer() {
               <a
                 key={l}
                 href="#"
-                className="text-[10px] text-zinc-800 hover:text-zinc-600 transition-colors"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                className="text-[10px] transition-colors hover:text-[var(--text-dim)]"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: "var(--text-very-dim)",
+                }}
               >
                 {l}
               </a>

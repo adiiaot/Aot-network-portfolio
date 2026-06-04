@@ -13,24 +13,31 @@ export function FlexPricing() {
   };
 
   return (
-    <section className="py-20 px-6 bg-black">
+    <section
+      className="py-20 px-6"
+      style={{ background: "var(--bg-primary)" }}
+    >
       <div className="max-w-2xl mx-auto">
         <div
-          className="rounded-2xl p-8 md:p-10 border border-purple-900/30"
+          className="rounded-2xl p-8 md:p-10 border"
           style={{
-            background: "linear-gradient(135deg,#0d0020 0%,#000 100%)",
+            borderColor: "var(--border-color)",
+            background: "var(--card-bg)",
           }}
         >
           <SectionLabel>Custom Scope</SectionLabel>
           <h2
-            className="text-3xl font-black text-white mt-4 mb-3"
-            style={{ fontFamily: "'Exo 2', sans-serif" }}
+            className="text-3xl font-black mt-4 mb-3"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
           >
             Have a different budget?
           </h2>
-          <p className="text-zinc-400 mb-8 text-sm leading-relaxed">
-            We work with selected clients on flexible budgets depending on scope
-            and long-term potential. Tell us about your project—we&apos;ll find a
+          <p
+            className="mb-8 text-sm leading-relaxed"
+            style={{ color: "var(--text-muted)" }}
+          >
+            I work with selected clients on flexible budgets depending on scope
+            and long-term potential. Tell me about your project—I&apos;ll find a
             structure that works.
           </p>
           {submitted ? (
@@ -39,21 +46,25 @@ export function FlexPricing() {
                 <AOTLogo size={52} />
               </div>
               <p
-                className="text-white font-black text-xl mb-2"
-                style={{ fontFamily: "'Exo 2', sans-serif" }}
+                className="font-black text-xl mb-2"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
               >
                 Request Received.
               </p>
-              <p className="text-zinc-500 text-sm">
-                We&apos;ll reach out within 24 hours to discuss your project.
+              <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+                I&apos;ll reach out within 24 hours to discuss your project.
               </p>
             </div>
           ) : (
             <div className="space-y-4">
               <div>
                 <label
-                  className="text-[10px] text-purple-500/50 uppercase tracking-widest block mb-2"
-                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                  className="text-[10px] uppercase tracking-widest block mb-2"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: "var(--accent-primary)",
+                    opacity: 0.7,
+                  }}
                 >
                   Name
                 </label>
@@ -64,13 +75,22 @@ export function FlexPricing() {
                   onChange={(e) =>
                     setForm({ ...form, name: e.target.value })
                   }
-                  className="w-full bg-white/5 border border-purple-900/30 rounded-xl px-4 py-3 text-white placeholder-zinc-700 focus:outline-none focus:border-purple-500/50 text-sm transition-colors"
+                  className="w-full border rounded-xl px-4 py-3 text-sm transition-colors"
+                  style={{
+                    background: "var(--bg-input)",
+                    borderColor: "var(--border-color)",
+                    color: "var(--text-primary)",
+                  }}
                 />
               </div>
               <div>
                 <label
-                  className="text-[10px] text-purple-500/50 uppercase tracking-widest block mb-2"
-                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                  className="text-[10px] uppercase tracking-widest block mb-2"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: "var(--accent-primary)",
+                    opacity: 0.7,
+                  }}
                 >
                   Project Idea
                 </label>
@@ -81,13 +101,22 @@ export function FlexPricing() {
                     setForm({ ...form, idea: e.target.value })
                   }
                   rows={3}
-                  className="w-full bg-white/5 border border-purple-900/30 rounded-xl px-4 py-3 text-white placeholder-zinc-700 focus:outline-none focus:border-purple-500/50 text-sm transition-colors resize-none"
+                  className="w-full border rounded-xl px-4 py-3 text-sm transition-colors resize-none"
+                  style={{
+                    background: "var(--bg-input)",
+                    borderColor: "var(--border-color)",
+                    color: "var(--text-primary)",
+                  }}
                 />
               </div>
               <div>
                 <label
-                  className="text-[10px] text-purple-500/50 uppercase tracking-widest block mb-2"
-                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                  className="text-[10px] uppercase tracking-widest block mb-2"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: "var(--accent-primary)",
+                    opacity: 0.7,
+                  }}
                 >
                   Budget Range
                 </label>
@@ -96,7 +125,12 @@ export function FlexPricing() {
                   onChange={(e) =>
                     setForm({ ...form, budget: e.target.value })
                   }
-                  className="w-full bg-[#0d0020] border border-purple-900/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 text-sm transition-colors"
+                  className="w-full border rounded-xl px-4 py-3 text-sm transition-colors"
+                  style={{
+                    background: "var(--bg-card)",
+                    borderColor: "var(--border-color)",
+                    color: "var(--text-primary)",
+                  }}
                 >
                   <option value="" disabled>
                     Select your range
@@ -111,13 +145,14 @@ export function FlexPricing() {
               </div>
               <button
                 onClick={handleSubmit}
-                className="w-full font-black py-4 rounded-xl text-white text-sm tracking-widest mt-2 transition-all hover:opacity-90"
+                className="w-full font-black py-4 rounded-xl text-sm tracking-widest mt-2 transition-all hover:opacity-90"
                 style={{
-                  fontFamily: "'Rajdhani', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                   background:
-                    "linear-gradient(135deg,#7c3aed,#a855f7)",
-                  boxShadow: "0 0 35px rgba(168,85,247,0.35)",
+                    "linear-gradient(135deg,var(--accent-primary),var(--accent-secondary))",
+                  boxShadow: "0 0 35px rgba(var(--accent-rgb), 0.35)",
                   letterSpacing: "0.18em",
+                  color: "#fff",
                 }}
               >
                 SUBMIT REQUEST
