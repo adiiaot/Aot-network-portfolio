@@ -182,9 +182,8 @@ export function FlexPricing() {
                   <option value="flexible">
                     Flexible — Let&apos;s talk on a call
                   </option>
-                  <option value="1k-3k">$1,000 – $3,000</option>
-                  <option value="3k-10k">$3,000 – $10,000</option>
-                  <option value="10k+">$10,000+</option>
+                  <option value="1k-5k">$1,000 – $5,000</option>
+                  <option value="5k-10k+">$5,000 – $10,000+</option>
                 </select>
               </div>
               <button

@@ -21,10 +21,11 @@ export const TELEGRAM_HANDLE = process.env.NEXT_PUBLIC_TELEGRAM_HANDLE || "#";
 
 export const GITHUB_URL = process.env.NEXT_PUBLIC_GITHUB_URL || "#";
 
+export const UPWORK_URL = "https://www.upwork.com/freelancers/~012db4b0d78f573b8c";
+
 export const SOCIAL_LINKS = [
   { name: "GitHub", url: GITHUB_URL },
+  { name: "Upwork", url: UPWORK_URL },
   { name: "LinkedIn", url: process.env.NEXT_PUBLIC_LINKEDIN_URL || "#" },
   { name: "X / Twitter", url: process.env.NEXT_PUBLIC_TWITTER_URL || "#" },
-  { name: "TikTok", url: process.env.NEXT_PUBLIC_TIKTOK_URL || "#" },
-  { name: "Instagram", url: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "#" },
 ];
