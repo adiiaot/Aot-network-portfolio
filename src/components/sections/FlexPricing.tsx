@@ -5,11 +5,29 @@ import { AOTLogo } from "@/components/ui/AOTLogo";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 
 export function FlexPricing() {
-  const [form, setForm] = useState({ name: "", idea: "", budget: "" });
+  const [form, setForm] = useState({ name: "", email: "", idea: "", budget: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = () => {
-    if (form.name && form.idea && form.budget) setSubmitted(true);
+  const handleSubmit = async () => {
+    if (!form.name || !form.email || !form.idea || !form.budget) return;
+    setSending(true);
+    setError("");
+    try {
+      const res = await fetch("/api/custom-scope", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send");
+      setSubmitted(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -92,7 +110,33 @@ export function FlexPricing() {
                     opacity: 0.7,
                   }}
                 >
-                  Project Idea
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={(e) =>
+                    setForm({ ...form, email: e.target.value })
+                  }
+                  className="w-full border rounded-xl px-4 py-3 text-sm transition-colors"
+                  style={{
+                    background: "var(--bg-input)",
+                    borderColor: "var(--border-color)",
+                    color: "var(--text-primary)",
+                  }}
+                />
+              </div>
+              <div>
+                <label
+                  className="text-[10px] uppercase tracking-widest block mb-2"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: "var(--accent-primary)",
+                    opacity: 0.7,
+                  }}
+                >
+                  Project Idea *
                 </label>
                 <textarea
                   placeholder="Describe what you're building..."
@@ -145,7 +189,8 @@ export function FlexPricing() {
               </div>
               <button
                 onClick={handleSubmit}
-                className="w-full font-black py-4 rounded-xl text-sm tracking-widest mt-2 transition-all hover:opacity-90"
+                disabled={!form.name || !form.email || !form.idea || !form.budget || sending}
+                className="w-full font-black py-4 rounded-xl text-sm tracking-widest mt-2 transition-all hover:opacity-90 disabled:opacity-40"
                 style={{
                   fontFamily: "'Inter', sans-serif",
                   background:
@@ -155,8 +200,13 @@ export function FlexPricing() {
                   color: "#fff",
                 }}
               >
-                SUBMIT REQUEST
+                {sending ? "SENDING..." : "SUBMIT REQUEST"}
               </button>
+              {error && (
+                <p className="text-xs text-center" style={{ color: "var(--accent-primary)" }}>
+                  {error}
+                </p>
+              )}
             </div>
           )}
         </div>

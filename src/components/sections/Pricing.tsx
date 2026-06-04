@@ -184,7 +184,7 @@ export function Pricing() {
               color: "var(--accent-primary)",
             }}
           >
-            Schedule a Discovery Call
+            Contact Me About Your Project
           </a>
         </div>
       </div>

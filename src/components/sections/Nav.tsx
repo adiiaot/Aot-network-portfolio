@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { AOTLogo } from "@/components/ui/AOTLogo";
 import { useTheme } from "@/components/ThemeProvider";
-import { NAV_LINKS } from "@/data/social";
+import { NAV_LINKS, GITHUB_URL } from "@/data/social";
 
 export function Nav() {
   const { theme, toggle } = useTheme();
@@ -67,7 +67,7 @@ export function Nav() {
 
         <div className="hidden lg:flex items-center gap-4">
           <a
-            href={process.env.NEXT_PUBLIC_GITHUB_URL || "#"}
+            href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 rounded-full transition-all hover:scale-110"
@@ -199,7 +199,7 @@ export function Nav() {
             </a>
           ))}
           <a
-            href={process.env.NEXT_PUBLIC_GITHUB_URL || "#"}
+            href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 py-2 text-sm tracking-widest transition-colors"

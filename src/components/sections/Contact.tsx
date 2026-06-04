@@ -16,22 +16,27 @@ export function Contact() {
     budget: "",
   });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!form.name || !form.email || !form.idea) return;
-    const subject = encodeURIComponent(
-      `Project Request from ${form.name}`
-    );
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nBudget: ${
-        form.budget || "Not specified"
-      }\n\nProject Idea:\n${form.idea}`
-    );
-    window.open(
-      `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`,
-      "_blank"
-    );
-    setSent(true);
+    setSending(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send");
+      setSent(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -107,7 +112,7 @@ export function Contact() {
                 className="font-black text-xl mb-2"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
               >
-                Email client opened.
+                Message sent!
               </p>
               <p className="text-sm" style={{ color: "var(--text-muted)" }}>
                 I typically respond within 24 hours.
@@ -233,7 +238,7 @@ export function Contact() {
               </div>
               <button
                 onClick={handleSend}
-                disabled={!form.name || !form.email || !form.idea}
+                disabled={!form.name || !form.email || !form.idea || sending}
                 className="w-full font-black py-4 rounded-xl text-sm tracking-widest mt-2 transition-all hover:opacity-90 disabled:opacity-40"
                 style={{
                   fontFamily: "'Inter', sans-serif",
@@ -244,8 +249,13 @@ export function Contact() {
                   color: "#fff",
                 }}
               >
-                SEND REQUEST →
+                {sending ? "SENDING..." : "SEND REQUEST →"}
               </button>
+              {error && (
+                <p className="text-xs text-center" style={{ color: "var(--accent-primary)" }}>
+                  {error}
+                </p>
+              )}
             </div>
           )}
         </div>
