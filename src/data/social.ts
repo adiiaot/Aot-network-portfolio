@@ -6,13 +6,13 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Services", href: "#services" },
   { label: "Packages", href: "#pricing" },
   { label: "Process", href: "#process" },
+  { label: "Upwork", href: "#upwork" },
 ];
 
 export const STATS: Stat[] = [
-  { value: "12K+", label: "LinkedIn Following" },
-  { value: "3+", label: "Years Building" },
+  { value: "13K+", label: "LinkedIn Following" },
+  { value: "5+", label: "Years Building" },
   { value: "Fast", label: "MVP Delivery" },
-  { value: "100%", label: "In-House Team" },
 ];
 
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "aotayom34@gmail.com";

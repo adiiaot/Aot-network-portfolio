@@ -1,6 +1,7 @@
 import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { Work } from "@/components/sections/Work";
+import { Upwork } from "@/components/sections/Upwork";
 import { Services } from "@/components/sections/Services";
 import { Pricing } from "@/components/sections/Pricing";
 import { FlexPricing } from "@/components/sections/FlexPricing";
@@ -15,6 +16,7 @@ export default function Home() {
       <Nav />
       <Hero />
       <Work />
+      <Upwork />
       <Services />
       <Pricing />
       <FlexPricing />
