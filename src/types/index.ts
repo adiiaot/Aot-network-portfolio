@@ -43,9 +43,11 @@ export interface Stat {
 }
 
 export interface Testimonial {
-  quote: string;
-  author: string;
-  role?: string;
+  name: string;
+  title: string;
+  relationship: string;
+  recommendation: string;
+  source: string;
 }
 
 export interface SocialLink {
