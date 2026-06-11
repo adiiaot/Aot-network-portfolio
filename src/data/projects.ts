@@ -3,7 +3,7 @@ import { Project } from "@/types";
 export const projects: Project[] = [
   {
     id: "trivian-technologies",
-    name: "Trivian Technologies",
+    name: "AI Native Company Website",
     tag: "Web Platform · AI & Technology",
     description:
       "A modern technology company website built to showcase AI consulting, software development services, company capabilities, and technical documentation. Designed with a strong focus on performance, SEO, responsive design, and conversion-focused user experience. The platform includes a dedicated documentation system, structured service pages, and scalable architecture for future expansion.",
@@ -24,28 +24,32 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: "burn-tracker",
-    name: "Burn Tracker",
-    tag: "Mobile App · Fitness & Health",
+    id: "calfit",
+    name: "CalFit - Personal Fitness & Nutrition AI Coach",
+    tag: "Mobile App · Fitness & Nutrition AI",
     description:
-      "A calorie and fitness tracking mobile application focused on helping users monitor daily energy expenditure, activity levels, workouts, and health goals. Built as a modern cross-platform experience with a clean user interface, real-time tracking capabilities, and a scalable architecture that supports future AI-powered health insights and personalized recommendations.",
+      "A full-featured fitness and nutrition app powered by AI. Generate personalized workouts and meal plans, track calories and macros, log sleep and body measurements, manage intermittent fasting, chat with an AI coach, scan food with the camera, and monitor progress with detailed analytics.",
     role: "Product Designer, Mobile Developer & AI Systems Engineer",
-    status: "In Progress",
-    accent: "#c084fc",
+    status: "Live",
+    accent: "#34D98A",
     year: 2026,
-    githubUrl: "",
+    liveUrl: "https://dist-seven-woad-33.vercel.app/",
+    githubUrl: "https://github.com/adiiaot/calfit",
+    selarUrl: "https://selar.com/39m7437811",
     technologies: [
       "React Native",
-      "Expo",
+      "Expo SDK 54",
       "TypeScript",
       "Supabase",
-      "NativeWind",
-      "AI Integration",
+      "NVIDIA Llama 3.1",
+      "AI Coach",
+      "Deepgram STT",
+      "Food Scanner",
     ],
-    imageUrl: "/images/projects/burn-tracker-thumbnail.png",
+    imageUrl: "/images/projects/calfitthumbnail.png",
     featured: true,
   },
-  {
+  /*{
     id: "ai-agent",
     name: "AI Agent",
     tag: "AI · Automation",
@@ -109,5 +113,5 @@ export const projects: Project[] = [
     year: 2026,
     technologies: ["React Native", "Expo", "TypeScript", "Supabase", "NativeWind"],
     featured: false,
-  },
+  },*/
 ];

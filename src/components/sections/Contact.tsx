@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AOTLogo } from "@/components/ui/AOTLogo";
 import {
   WHATSAPP_NUMBER,
@@ -18,6 +18,19 @@ export function Contact() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.hash.split("?")[1] || "");
+    const pkg = params.get("package");
+    if (pkg) {
+      setForm((prev) => ({
+        ...prev,
+        idea: prev.idea
+          ? prev.idea
+          : `I'm interested in the ${pkg} package. `,
+      }));
+    }
+  }, []);
 
   const handleSend = async () => {
     if (!form.name || !form.email || !form.idea) return;
@@ -93,6 +106,40 @@ export function Contact() {
           >
             Fill in the form or reach me directly. I respond fast.
           </p>
+        </div>
+
+        <div
+          className="mb-6 p-5 rounded-xl text-sm leading-relaxed"
+          style={{
+            background: "rgba(var(--accent-rgb), 0.06)",
+            border: "1px solid var(--border-color)",
+            color: "var(--text-muted)",
+            fontFamily: "'JetBrains Mono', monospace",
+          }}
+        >
+          <strong style={{ color: "var(--text-primary)" }}>
+            Want a faster response?
+          </strong>{" "}
+          Shoot me a DM on{" "}
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#128C7E", fontWeight: 700 }}
+          >
+            WhatsApp
+          </a>{" "}
+          or{" "}
+          <a
+            href={`https://t.me/${TELEGRAM_HANDLE}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#2AABEE", fontWeight: 700 }}
+          >
+            Telegram
+          </a>{" "}
+          — I respond much faster there. Include your project idea and budget
+          and I&apos;ll get back to you ASAP.
         </div>
 
         <div

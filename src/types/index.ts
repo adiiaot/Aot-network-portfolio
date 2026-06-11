@@ -10,6 +10,7 @@ export interface Project {
   apkUrl?: string;
   liveUrl?: string;
   githubUrl?: string;
+  selarUrl?: string;
   technologies: string[];
   imageUrl?: string;
   featured: boolean;

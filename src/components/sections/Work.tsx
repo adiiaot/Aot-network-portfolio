@@ -6,6 +6,8 @@ import { AOTLogo } from "@/components/ui/AOTLogo";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { projects } from "@/data/projects";
 
+import Link from "next/link";
+
 export function Work() {
   const [showAll, setShowAll] = useState(false);
   const featured = projects.filter((p) => p.featured);
@@ -173,9 +175,9 @@ export function Work() {
                 </div>
               )}
               <div className="flex gap-3 mt-auto">
-                {p.liveUrl && (
-                  <a
-                    href={p.liveUrl}
+                {p.id !== "trivian-technologies" && (
+                  <Link
+                    href={`/projects/${p.id}`}
                     className="flex-1 text-center text-xs font-bold py-2.5 rounded-xl transition-all"
                     style={{
                       fontFamily: "'Inter', sans-serif",
@@ -192,7 +194,34 @@ export function Work() {
                       e.currentTarget.style.color = "var(--text-muted)";
                     }}
                   >
-                    Live Demo
+                    View Details
+                  </Link>
+                )}
+                {p.liveUrl && (
+                  <a
+                    href={p.liveUrl}
+                    className="flex-1 text-center text-xs font-bold py-2.5 rounded-xl transition-all"
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      letterSpacing: "0.05em",
+                      border: p.id === "trivian-technologies" ? "1px solid var(--accent-primary)" : "1px solid var(--border-color-light)",
+                      color: p.id === "trivian-technologies" ? "#fff" : "var(--text-muted)",
+                      background: p.id === "trivian-technologies" ? "var(--accent-primary)" : "transparent",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (p.id !== "trivian-technologies") {
+                        e.currentTarget.style.borderColor = "var(--accent-secondary)";
+                        e.currentTarget.style.color = "var(--accent-primary)";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (p.id !== "trivian-technologies") {
+                        e.currentTarget.style.borderColor = "var(--border-color-light)";
+                        e.currentTarget.style.color = "var(--text-muted)";
+                      }
+                    }}
+                  >
+                    {p.id === "trivian-technologies" ? "View Website" : "Live Demo"}
                   </a>
                 )}
                 {p.apkUrl && (

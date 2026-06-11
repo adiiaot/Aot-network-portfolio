@@ -79,22 +79,13 @@ export function Pricing() {
                 {plan.description}
               </p>
               <div
-                className="text-3xl font-black mb-1"
+                className="text-lg font-black mb-8"
                 style={{
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  color: "var(--text-primary)",
-                  textShadow: plan.highlight
-                    ? "0 0 30px rgba(var(--accent-rgb), 0.5)"
-                    : "none",
+                  color: "var(--accent-primary)",
                 }}
               >
                 {plan.price}
-              </div>
-              <div
-                className="text-[10px] mb-8"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}
-              >
-                Timeline: {plan.timeline}
               </div>
               <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((f) => (
@@ -114,7 +105,7 @@ export function Pricing() {
                 ))}
               </ul>
               <a
-                href="#contact"
+                href={`#contact?package=${encodeURIComponent(plan.name)}`}
                 className={`text-center font-black py-3.5 rounded-xl transition-all text-sm tracking-widest ${
                   plan.highlight
                     ? "text-white hover:opacity-90"
@@ -175,7 +166,7 @@ export function Pricing() {
             your build.
           </p>
           <a
-            href="#contact"
+            href="#contact?package=Custom+Scope"
             className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-bold transition-all hover:bg-[rgba(var(--accent-rgb),0.1)] hover:border-[var(--accent-secondary)]"
             style={{
               fontFamily: "'Inter', sans-serif",
