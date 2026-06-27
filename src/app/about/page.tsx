@@ -25,7 +25,7 @@ function Avatar({ name }: { name: string }) {
 }
 
 export default function AboutPage() {
-  const RESUME_PATH = "/resume/Oluwadare_Taye_Ayo_Full_Stack_Product_Engineer_ATS_CV.pdf";
+  const RESUME_PATH = "/resume/Oluwadare_Taye_Ayo_Full_Stack_Product_Engineer_CV.pdf";
 
   const SKILLS = [
     {
