@@ -285,11 +285,6 @@ export default function TermsPage() {
                 aotnetworklabs@gmail.com
               </p>
               <p>
-                <strong style={{ color: "var(--text-secondary)" }}>
-                  Website:
-                </strong>{" "}
-                aotnetworklabs.com
-              </p>
             </div>
           </Section>
         </div>
