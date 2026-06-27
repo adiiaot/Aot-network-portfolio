@@ -27,5 +27,5 @@ export const SOCIAL_LINKS = [
   { name: "GitHub", url: GITHUB_URL },
   { name: "Upwork", url: UPWORK_URL },
   { name: "LinkedIn", url: process.env.NEXT_PUBLIC_LINKEDIN_URL || "#" },
-  { name: "X / Twitter", url: process.env.NEXT_PUBLIC_TWITTER_URL || "#" },
+  { name: "X / Twitter", url: "https://x.com/Aot_ayo" },
 ];
