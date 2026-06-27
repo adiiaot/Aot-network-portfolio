@@ -63,17 +63,20 @@ export function Footer() {
             © {new Date().getFullYear()} AOT Network. All rights reserved.
           </p>
           <div className="flex gap-6">
-            {["Privacy", "Terms"].map((l) => (
+            {[
+              { label: "Privacy", href: "/privacy" },
+              { label: "Terms", href: "/terms" },
+            ].map((l) => (
               <a
-                key={l}
-                href="#"
+                key={l.label}
+                href={l.href}
                 className="text-[10px] transition-colors hover:text-[var(--text-dim)]"
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   color: "var(--text-very-dim)",
                 }}
               >
-                {l}
+                {l.label}
               </a>
             ))}
           </div>
