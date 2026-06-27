@@ -5,15 +5,12 @@ export const NAV_LINKS: NavLink[] = [
   { label: "About", href: "/about" },
   { label: "Work", href: "#work" },
   { label: "Services", href: "#services" },
-  { label: "Packages", href: "#pricing" },
-  { label: "Process", href: "#process" },
   { label: "AOT AI", href: "/aot-ai" },
-  { label: "Upwork", href: "#upwork" },
 ];
 
 export const STATS: Stat[] = [
-  { value: "13K+", label: "LinkedIn Following" },
-  { value: "5+", label: "Years Building" },
+  { value: "14.5K+", label: "Across LinkedIn & X" },
+  { value: "4+", label: "Years Building" },
   { value: "Fast", label: "MVP Delivery" },
 ];
 
