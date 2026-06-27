@@ -64,6 +64,7 @@ export function Footer() {
           </p>
           <div className="flex gap-6">
             {[
+              { label: "About", href: "/about" },
               { label: "AOT AI", href: "/aot-ai" },
               { label: "Privacy", href: "/privacy" },
               { label: "Terms", href: "/terms" },

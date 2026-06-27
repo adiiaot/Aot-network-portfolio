@@ -2,6 +2,7 @@ import { NavLink, Stat } from "@/types";
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "#hero" },
+  { label: "About", href: "/about" },
   { label: "Work", href: "#work" },
   { label: "Services", href: "#services" },
   { label: "Packages", href: "#pricing" },
