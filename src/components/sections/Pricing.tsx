@@ -105,7 +105,7 @@ export function Pricing() {
                 ))}
               </ul>
               <a
-                href={`#contact?package=${encodeURIComponent(plan.name)}`}
+                href={`#aot-ai?package=${encodeURIComponent(plan.name)}`}
                 className={`text-center font-black py-3.5 rounded-xl transition-all text-sm tracking-widest ${
                   plan.highlight
                     ? "text-white hover:opacity-90"
