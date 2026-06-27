@@ -12,14 +12,14 @@ interface ChatMessage {
 const WELCOME: ChatMessage = {
   role: "assistant",
   content:
-    "Hi, I'm AOT AI. Ask me anything about my projects, services, or pricing. For example:\n\n• \"Tell me about your projects\"\n• \"How much for a website like CalFit?\"\n• \"What tech stack do you use?\"\n• \"What's your development process?\"",
+    "Hi, I'm AOT AI. I can tell you about past projects, explain how things are built, and help you figure out the best approach for yours.\n\nTry asking:\n\n• \"How much to build a site like Trivian Technologies?\"\n• \"I want to build a fitness app like CalFit\"\n• \"What do you build and how much does it cost?\"\n• \"Break down how you'd build a dashboard for me\"",
 };
 
 const SUGGESTIONS = [
-  "Tell me about your projects",
-  "How much for a website?",
-  "What's your development process?",
-  "What services do you offer?",
+  "I want to build a site like Trivian Technologies",
+  "How much for a fitness app like CalFit?",
+  "What tech stack do you use and how much?",
+  "Break down how you'd build a dashboard for me",
 ];
 
 export default function AotAIPage() {

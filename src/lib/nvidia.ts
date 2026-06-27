@@ -15,8 +15,8 @@ export async function chatComplete(messages: Message[], signal?: AbortSignal) {
     body: JSON.stringify({
       model: "meta/llama-3.3-70b-instruct",
       messages,
-      temperature: 0.3,
-      max_tokens: 1024,
+      temperature: 0.65,
+      max_tokens: 2048,
       top_p: 0.9,
     }),
     signal,
