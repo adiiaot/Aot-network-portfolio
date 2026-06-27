@@ -6,6 +6,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Work", href: "#work" },
   { label: "Services", href: "#services" },
   { label: "AOT AI", href: "/aot-ai" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export const STATS: Stat[] = [

@@ -3,8 +3,8 @@ import { PricingPlan } from "@/types";
 export const pricingPlans: PricingPlan[] = [
   {
     name: "Starter MVP",
-    price: "Contact for Pricing",
-    timeline: "",
+    price: "From $1,500",
+    timeline: "2–3 weeks",
     tag: "Early-stage",
     description: "Validate your idea fast with a clean, functional product.",
     features: [
@@ -18,8 +18,8 @@ export const pricingPlans: PricingPlan[] = [
   },
   {
     name: "Growth Build",
-    price: "Contact for Pricing",
-    timeline: "",
+    price: "From $4,000",
+    timeline: "~160 hrs · 5 weeks",
     tag: "Most Popular",
     description: "Full product build for startups ready to scale.",
     features: [
@@ -34,8 +34,8 @@ export const pricingPlans: PricingPlan[] = [
   },
   {
     name: "AI Systems",
-    price: "Contact for Pricing",
-    timeline: "",
+    price: "From $7,500",
+    timeline: "~300 hrs · custom",
     tag: "Advanced",
     description: "AI-first products, automation systems, and complex logic.",
     features: [
