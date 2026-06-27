@@ -10,11 +10,11 @@ interface ChatMessage {
 const WELCOME: ChatMessage = {
   role: "assistant",
   content:
-    "Hi, I'm AOT AI. I can tell you about past projects, explain how things are built, and help you figure out the best approach for yours.\n\nTry asking:\n\n• \"How much to build a site like Trivian Technologies?\"\n• \"I want to build a fitness app like CalFit\"\n• \"What do you build and how much does it cost?\"\n• \"Break down how you'd build a dashboard for me\"",
+    "Hi, I'm AOT AI. I can tell you about past projects, explain how things are built, and help you figure out the best approach for yours.\n\nTry asking:\n\n• \"How much to build an AI Native Business Website?\"\n• \"I want to build a fitness app like CalFit\"\n• \"What do you build and how much does it cost?\"\n• \"Break down how you'd build a dashboard for me\"",
 };
 
 const SUGGESTIONS = [
-  "I want to build a site like Trivian Technologies",
+  "I want to build an AI Native Business Website",
   "How much for a fitness app like CalFit?",
   "What tech stack do you use and how much?",
   "Break down how you'd build a dashboard for me",

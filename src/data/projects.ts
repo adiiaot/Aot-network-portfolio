@@ -2,11 +2,11 @@ import { Project } from "@/types";
 
 export const projects: Project[] = [
   {
-    id: "trivian-technologies",
-    name: "AI Native Company Website",
+    id: "ai-native-website",
+    name: "AI Native Business Website",
     tag: "Web Platform · AI & Technology",
     description:
-      "A modern technology company website built to showcase AI consulting, software development services, company capabilities, and technical documentation. Designed with a strong focus on performance, SEO, responsive design, and conversion-focused user experience. The platform includes a dedicated documentation system, structured service pages, and scalable architecture for future expansion.",
+      "A modern AI-native business website built to showcase AI consulting, software development services, company capabilities, and technical documentation. Designed with a strong focus on performance, SEO, responsive design, and conversion-focused user experience. The platform includes a dedicated documentation system, structured service pages, and scalable architecture for future expansion.",
     role: "Lead Developer & Product Engineer",
     status: "Live",
     accent: "#a855f7",
@@ -20,7 +20,7 @@ export const projects: Project[] = [
       "Vercel",
       "SEO",
     ],
-    imageUrl: "/images/projects/Triviantechthumbnail.png",
+    imageUrl: "/images/projects/ai-native-website-thumbnail.png",
     featured: true,
   },
   {
@@ -76,7 +76,7 @@ export const projects: Project[] = [
       "Railway",
       "Vercel",
     ],
-    imageUrl: "/images/projects/analyzer-thumbnail.png",
+    imageUrl: "/images/projects/Analyzer-thumbnail.png",
     featured: true,
   },
   /*{

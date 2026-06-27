@@ -175,7 +175,7 @@ export function Work() {
                 </div>
               )}
               <div className="flex gap-3 mt-auto">
-                {p.id !== "trivian-technologies" && (
+                {p.id !== "ai-native-website" && (
                   <Link
                     href={`/projects/${p.id}`}
                     className="flex-1 text-center text-xs font-bold py-2.5 rounded-xl transition-all"
@@ -204,24 +204,24 @@ export function Work() {
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       letterSpacing: "0.05em",
-                      border: p.id === "trivian-technologies" ? "1px solid var(--accent-primary)" : "1px solid var(--border-color-light)",
-                      color: p.id === "trivian-technologies" ? "#fff" : "var(--text-muted)",
-                      background: p.id === "trivian-technologies" ? "var(--accent-primary)" : "transparent",
+                      border: p.id === "ai-native-website" ? "1px solid var(--accent-primary)" : "1px solid var(--border-color-light)",
+                      color: p.id === "ai-native-website" ? "#fff" : "var(--text-muted)",
+                      background: p.id === "ai-native-website" ? "var(--accent-primary)" : "transparent",
                     }}
                     onMouseEnter={(e) => {
-                      if (p.id !== "trivian-technologies") {
+                      if (p.id !== "ai-native-website") {
                         e.currentTarget.style.borderColor = "var(--accent-secondary)";
                         e.currentTarget.style.color = "var(--accent-primary)";
                       }
                     }}
                     onMouseLeave={(e) => {
-                      if (p.id !== "trivian-technologies") {
+                      if (p.id !== "ai-native-website") {
                         e.currentTarget.style.borderColor = "var(--border-color-light)";
                         e.currentTarget.style.color = "var(--text-muted)";
                       }
                     }}
                   >
-                    {p.id === "trivian-technologies" ? "View Website" : "Live Demo"}
+                    {p.id === "ai-native-website" ? "View Website" : "Live Demo"}
                   </a>
                 )}
                 {p.apkUrl && (
