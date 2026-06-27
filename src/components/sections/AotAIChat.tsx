@@ -32,7 +32,7 @@ export function AotAIChat({ id }: { id?: string }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.hash.split("?")[1] || "");
+      const params = new URLSearchParams(window.location.search);
       const pkg = params.get("package");
       if (pkg) {
         const msg = `I'm interested in the ${pkg} package. Can you help me figure out what I need and what it would cost?`;
@@ -70,12 +70,13 @@ export function AotAIChat({ id }: { id?: string }) {
         ...prev,
         { role: "assistant", content: data.reply },
       ]);
-    } catch {
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Something went wrong.";
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Sorry, I hit an error. Please try again.",
+          content: `Sorry, I hit an error: ${msg}`,
         },
       ]);
     } finally {

@@ -6,11 +6,19 @@ interface Message {
 }
 
 export async function chatComplete(messages: Message[], signal?: AbortSignal) {
+  const apiKey = process.env.NVIDIA_API_KEY;
+
+  if (!apiKey) {
+    throw new Error(
+      "NVIDIA_API_KEY is not set. Add it to your Vercel environment variables."
+    );
+  }
+
   const res = await fetch(NVIDIA_API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.NVIDIA_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
       model: "meta/llama-3.3-70b-instruct",
