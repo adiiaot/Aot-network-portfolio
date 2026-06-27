@@ -284,7 +284,6 @@ export default function TermsPage() {
                 </strong>{" "}
                 aotnetworklabs@gmail.com
               </p>
-              <p>
             </div>
           </Section>
         </div>
