@@ -1,79 +1,68 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 
-export const metadata: Metadata = {
-  title: "About — AOT Network",
-  description:
-    "Full Stack Product Engineer building mobile apps, backend systems, and AI-powered products with React Native, TypeScript, Node.js, and cloud services.",
-  openGraph: {
-    title: "About — AOT Network",
-    description:
-      "Full Stack Product Engineer building mobile apps, backend systems, and AI-powered products.",
-  },
-};
-
-const RESUME_PATH = "/resume/Oluwadare_Taye_Ayo_Full_Stack_Product_Engineer_ATS_CV.pdf";
-
-const SKILLS = [
-  {
-    category: "Mobile",
-    items: ["React Native", "Expo", "React.js", "Next.js", "TypeScript"],
-  },
-  {
-    category: "Backend",
-    items: ["Node.js", "Express.js", "REST APIs", "API Design", "Authentication"],
-  },
-  {
-    category: "Database",
-    items: ["PostgreSQL", "Prisma", "Supabase", "Firebase"],
-  },
-  {
-    category: "AI",
-    items: ["OpenAI API", "Claude API", "AI Integrations", "AI Workflows"],
-  },
-  {
-    category: "Tools",
-    items: ["Git", "GitHub", "AWS", "Google Cloud"],
-  },
-];
-
-const EXPERIENCE = [
-  {
-    role: "Product Engineer / AI Systems Lead",
-    company: "Trivian Technologies",
-    items: [
-      "Building AI-powered backend systems",
-      "Designing APIs and system architecture",
-      "Working on production-ready software",
-    ],
-  },
-  {
-    role: "Contract Mobile Developer",
-    company: "BigCut LLC",
-    items: [
-      "Building React Native applications",
-      "Integrating AI features, payments, analytics, and backend services",
-    ],
-  },
-  {
-    role: "Founder / Product Engineer",
-    company: "AOT Network",
-    items: [
-      "Building software products and developer-focused systems",
-    ],
-  },
-];
-
-const SOCIALS = [
-  { label: "GitHub", href: "https://github.com/adiiaot" },
-  { label: "Portfolio", href: "https://aot-network-portfolio.vercel.app/" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/aotayo" },
-  { label: "X (Twitter)", href: "https://x.com/Aot_ayo" },
-  { label: "Email", href: "mailto:aotayom34@gmail.com" },
-];
-
 export default function AboutPage() {
+  const RESUME_PATH = "/resume/Oluwadare_Taye_Ayo_Full_Stack_Product_Engineer_ATS_CV.pdf";
+
+  const SKILLS = [
+    {
+      category: "Mobile",
+      items: ["React Native", "Expo", "React.js", "Next.js", "TypeScript"],
+    },
+    {
+      category: "Backend",
+      items: ["Node.js", "Express.js", "REST APIs", "API Design", "Authentication"],
+    },
+    {
+      category: "Database",
+      items: ["PostgreSQL", "Prisma", "Supabase", "Firebase"],
+    },
+    {
+      category: "AI",
+      items: ["OpenAI API", "Claude API", "AI Integrations", "AI Workflows"],
+    },
+    {
+      category: "Tools",
+      items: ["Git", "GitHub", "AWS", "Google Cloud"],
+    },
+  ];
+
+  const EXPERIENCE = [
+    {
+      role: "Product Engineer / AI Systems Lead",
+      company: "Trivian Technologies",
+      items: [
+        "Building AI-powered backend systems",
+        "Designing APIs and system architecture",
+        "Working on production-ready software",
+      ],
+    },
+    {
+      role: "Contract Mobile Developer",
+      company: "BigCut LLC",
+      items: [
+        "Building React Native applications",
+        "Integrating AI features, payments, analytics, and backend services",
+      ],
+    },
+    {
+      role: "Founder / Product Engineer",
+      company: "AOT Network",
+      items: [
+        "Building software products and developer-focused systems",
+      ],
+    },
+  ];
+
+  const SOCIALS = [
+    { label: "GitHub", href: "https://github.com/adiiaot" },
+    { label: "Portfolio", href: "https://aot-network-portfolio.vercel.app/" },
+    { label: "LinkedIn", href: "https://linkedin.com/in/aotayo" },
+    { label: "X (Twitter)", href: "https://x.com/Aot_ayo" },
+    { label: "Email", href: "mailto:aotayom34@gmail.com" },
+  ];
   return (
     <main className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
       {/* ── Hero ── */}
@@ -111,7 +100,7 @@ export default function AboutPage() {
             className="text-base md:text-lg max-w-2xl mb-10 leading-relaxed"
             style={{ color: "var(--text-muted)" }}
           >
-            I&apos;m AOT, a Full Stack Product Engineer building cross-platform
+            I&apos;m Oluwadare Taye Ayo (<strong style={{ fontWeight: 700, color: "var(--text-secondary)" }}>AOT Ayo</strong>), a Full Stack Product Engineer building cross-platform
             applications, backend systems, and intelligent software experiences.
           </p>
           <div className="flex flex-wrap gap-4">
