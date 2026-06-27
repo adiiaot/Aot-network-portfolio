@@ -10,7 +10,7 @@ export async function chatComplete(messages: Message[], signal?: AbortSignal) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_NVIDIA_API_KEY}`,
+      Authorization: `Bearer ${process.env.NVIDIA_API_KEY}`,
     },
     body: JSON.stringify({
       model: "meta/llama-3.3-70b-instruct",
