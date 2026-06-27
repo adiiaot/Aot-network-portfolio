@@ -713,6 +713,345 @@ function CalFitDetails() {
   );
 }
 
+function AnalyzerBotDetails() {
+  const sections = [
+    {
+      title: "1. Architecture Overview",
+      content: (
+        <>
+          <p>
+            The Analyzer Bot is a dual-component system: a <strong style={{ color: "var(--accent-primary)" }}>FastAPI Python backend</strong> (bot) and a <strong style={{ color: "var(--accent-primary)" }}>Next.js 14 dashboard</strong> (web), connected through Firebase Firestore and NVIDIA NIM AI APIs.
+          </p>
+          <div
+            className="p-4 rounded-xl text-xs font-mono whitespace-pre leading-relaxed mb-4"
+            style={{ background: "var(--bg-code-tag)", color: "var(--text-muted)" }}
+          >
+{`Telegram User → Telegram Bot Handler
+       → SignalGenerator (4-TF Engine)
+       → TradingViewClient (RapidAPI OHLCV)
+       → Firebase Firestore → Telegram response
+
+User sends screenshot → MultiModelPipeline
+       → SignalGenerator (API data, parallel)
+       → NvidiaVisionAnalyzer (Llama 3.2 11B Vision)
+       → _verify_alignment() → score + adjusted confidence`}
+          </div>
+        </>
+      ),
+    },
+    {
+      title: "2. 4-Timeframe Signal Engine",
+      content: (
+        <>
+          <p>
+            The <strong style={{ color: "var(--accent-primary)" }}>SignalGenerator</strong> implements a four-level scalping framework for XAU/USD:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong style={{ color: "var(--text-secondary)" }}>Level 1 — Trend (1H + 4H):</strong> Counts HH/HL vs LH/LL across 10 candles. Both timeframes must agree on UP/DOWN/NEUTRAL.</li>
+            <li><strong style={{ color: "var(--text-secondary)" }}>Level 2 — S/R (15M):</strong> Scans 20 candles for swing lows (support) and highs (resistance).</li>
+            <li><strong style={{ color: "var(--text-secondary)" }}>Level 3 — Pullback (5M):</strong> Checks price within 10 pips of key level with low volatility (ATR ratio &lt; 5%).</li>
+            <li><strong style={{ color: "var(--text-secondary)" }}>Level 4 — Entry (1M):</strong> Detects reversal candle (pin bar or engulfing pattern) for final entry trigger.</li>
+          </ul>
+          <p className="mt-3">
+            Each signal builds 4 stacked entries with pyramiding: Entry 1 at market price with +20 pip TP (auto-close), then entries at -5/-10/-15 pips with TPs at +40/+60/+80 pips (manual). Base confidence starts at 0.75.
+          </p>
+        </>
+      ),
+    },
+    {
+      title: "3. Dual-Model AI Verification Pipeline",
+      content: (
+        <>
+          <p>
+            The <strong style={{ color: "var(--accent-primary)" }}>MultiModelPipeline</strong> coordinates dual-verification between algorithmic API data and AI vision analysis:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong style={{ color: "var(--text-secondary)" }}>API-Only Mode:</strong> Runs SignalGenerator alone, returns signal with <code style={{ color: "var(--accent-primary)" }}>verified: false</code>.</li>
+            <li><strong style={{ color: "var(--text-secondary)" }}>API + Screenshot Mode:</strong> Runs both in parallel, then computes an alignment score.</li>
+          </ul>
+          <p className="mt-3">
+            <strong style={{ color: "var(--text-secondary)" }}>Alignment Scoring:</strong> Support mismatch &gt; 0.5% (-15), resistance mismatch &gt; 0.5% (-15), trend mismatch (-20), trend match (+10), low vision confidence &lt; 50% (-20). Score clamped to 0-100, then mapped: ≥ 80 → +15% confidence boost, ≥ 60 → +5%, &lt; 40 → -10% penalty.
+          </p>
+        </>
+      ),
+    },
+    {
+      title: "4. Telegram Bot Commands",
+      content: (
+        <>
+          <p>Seven commands implemented with <strong style={{ color: "var(--accent-primary)" }}>python-telegram-bot</strong> v20+:</p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
+                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Command</th>
+                  <th className="py-2 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["/signal", "Generate API-based signal via 4-TF engine, save to Firestore"],
+                  ["/log_trade", "4-step conversation: entry → exit → result → confirm with PnL"],
+                  ["/journal", "Free-text trading journal entry saved to Firestore"],
+                  ["/stats", "Display win rate, P&L, total signals from Firestore"],
+                  ["/dashboard", "Inline button linking to the web dashboard"],
+                  ["/analyze", "Upload a chart screenshot for dual-model verification"],
+                  ["/clear", "Reset chat history"],
+                  ["/help", "List all commands with usage examples"],
+                ].map(([cmd, desc]) => (
+                  <tr key={cmd} style={{ borderBottom: "1px solid var(--border-color)" }}>
+                    <td className="py-2 pr-4 font-mono whitespace-nowrap" style={{ color: "var(--accent-primary)" }}>{cmd}</td>
+                    <td className="py-2">{desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      ),
+    },
+    {
+      title: "5. Dashboard — Analytics & Learning Hub",
+      content: (
+        <>
+          <p>
+            The <strong style={{ color: "var(--accent-primary)" }}>Next.js 14 dashboard</strong> provides real-time trading intelligence with five main pages:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong style={{ color: "var(--text-secondary)" }}>Dashboard Overview:</strong> KPI cards, cumulative P&L chart (Recharts), recent trades (auto-refresh 30s).</li>
+            <li><strong style={{ color: "var(--text-secondary)" }}>Trades:</strong> Full trade log with result and date range filters.</li>
+            <li><strong style={{ color: "var(--text-secondary)" }}>Analytics:</strong> 4-tab view — Performance, Screenshot, Verification, Trade Insights.</li>
+            <li><strong style={{ color: "var(--text-secondary)" }}>Signals & Journal:</strong> Active signals table and journal entries with tag filters.</li>
+            <li><strong style={{ color: "var(--accent-primary)" }}>Learning Hub:</strong> Nvidia-powered Q&A chatbot + chart upload for AI analysis.</li>
+          </ul>
+          <p className="mt-3">
+            API routes proxy to the bot backend and NVIDIA NIM directly. Firebase Web SDK reads from the same Firestore collections the bot writes to, ensuring real-time sync between Telegram and the web interface.
+          </p>
+        </>
+      ),
+    },
+    {
+      title: "6. Tech Stack & Infrastructure",
+      content: (
+        <>
+          <p>
+            <strong style={{ color: "var(--accent-primary)" }}>Backend:</strong> FastAPI (Python) with per-collection Firestore data layer (signals, trades, journal, logs), TradingView RapidAPI client, NVIDIA NIM vision/LLM integration.
+          </p>
+          <p>
+            <strong style={{ color: "var(--accent-primary)" }}>Frontend:</strong> Next.js 14 App Router, Tailwind CSS, Recharts, Firebase Web SDK, TypeScript.
+          </p>
+          <p>
+            <strong style={{ color: "var(--accent-primary)" }}>AI Models:</strong> Llama 3.2 11B Vision (chart analysis), Llama 3.3 70B Instruct (trade strategy), Llama 3.1 8B Instruct (fallback processor) — all via NVIDIA NIM free tier.
+          </p>
+          <p>
+            <strong style={{ color: "var(--accent-primary)" }}>Database:</strong> Firebase Firestore with camelCase fields matching TypeScript types across Python, seed scripts, and frontend.
+          </p>
+          <p>
+            <strong style={{ color: "var(--accent-primary)" }}>Deployment:</strong> Backend on Railway (Nixpacks, polling mode), frontend on Vercel. Health check at <code style={{ color: "var(--accent-primary)" }}>/health</code>.
+          </p>
+        </>
+      ),
+    },
+    {
+      title: "7. Trading Strategy — XAU/USD Scalping",
+      content: (
+        <>
+          <div className="grid md:grid-cols-2 gap-4 mb-4">
+            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Instrument</div>
+              <p className="text-sm font-bold" style={{ color: "var(--accent-primary)" }}>XAU/USD (Gold)</p>
+            </div>
+            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Approach</div>
+              <p className="text-sm font-bold" style={{ color: "var(--text-secondary)" }}>Scalping — 4-leg pyramiding</p>
+            </div>
+            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Entry 1</div>
+              <p className="text-sm" style={{ color: "var(--text-muted)" }}>Market price, TP +20 pips, <strong style={{ color: "#22c55e" }}>Auto-close</strong></p>
+            </div>
+            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Entry 2-4</div>
+              <p className="text-sm" style={{ color: "var(--text-muted)" }}>Price -5/-10/-15 pips, TP +40/+60/+80 pips, <strong style={{ color: "var(--accent-primary)" }}>Manual</strong></p>
+            </div>
+            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Risk</div>
+              <p className="text-sm" style={{ color: "var(--text-muted)" }}>Max hold 5 min, lot size 0.01, signal valid 3h</p>
+            </div>
+            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Rate Limit</div>
+              <p className="text-sm" style={{ color: "var(--text-muted)" }}>150 requests/month (free tier cap)</p>
+            </div>
+          </div>
+          <p>
+            All four entry conditions must be true: 1H/4H trend agreement, price at 15M S/R level, 5M pullback in progress within 10 pips, and a 1M reversal candle. One signal per candle cycle.
+          </p>
+        </>
+      ),
+    },
+    {
+      title: "8. Firestore Data Layer",
+      content: (
+        <>
+          <p>Per-collection wrapper classes ensure consistent camelCase fields across backend, seed scripts, and frontend:</p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
+                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Collection</th>
+                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Class</th>
+                  <th className="py-2 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["signals", "SignalsDB", "Save/query/update trading signals"],
+                  ["trades", "TradesDB", "Persist trades with PnL"],
+                  ["journal", "JournalDB", "Free-text trading journal"],
+                  ["signals_sent_log", "LogsDB", "Audit trail for all bot commands"],
+                ].map(([col, cls, purpose]) => (
+                  <tr key={col} style={{ borderBottom: "1px solid var(--border-color)" }}>
+                    <td className="py-2 pr-4 font-mono" style={{ color: "var(--accent-primary)" }}>{col}</td>
+                    <td className="py-2 pr-4 font-mono" style={{ color: "var(--text-secondary)" }}>{cls}</td>
+                    <td className="py-2">{purpose}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <>
+      <div className="mb-8">
+        <div
+          className="rounded-2xl p-6"
+          style={{
+            background: "var(--card-bg)",
+            border: "1px solid var(--border-color)",
+          }}
+        >
+          <div className="grid md:grid-cols-2 gap-6 text-sm">
+            <div>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
+                Tagline
+              </div>
+              <p style={{ color: "var(--accent-primary)", fontWeight: 700 }}>
+                XAU/USD scalp bot — dual-model Nvidia AI verification
+              </p>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
+                Platform
+              </div>
+              <p style={{ color: "var(--text-secondary)" }}>Telegram + Web Dashboard</p>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
+                Backend
+              </div>
+              <p style={{ color: "var(--text-secondary)" }}>FastAPI (Python) + Firebase Firestore</p>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
+                Frontend
+              </div>
+              <p style={{ color: "var(--text-secondary)" }}>Next.js 14 + Tailwind CSS + Recharts</p>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
+                AI Models
+              </div>
+              <p style={{ color: "var(--text-secondary)" }}>Llama 3.2 11B Vision + Llama 3.3 70B (NVIDIA NIM)</p>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
+                Live Links
+              </div>
+              <p style={{ color: "var(--text-secondary)" }}>
+                <a href="https://analyzer-dashboard-kohl.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-primary)" }}>Dashboard</a>
+                {" · "}
+                <a href="https://t.me/aot_analyzer_bot" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-primary)" }}>Telegram Bot</a>
+              </p>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
+                Developer
+              </div>
+              <p style={{ color: "var(--text-secondary)" }}>AOT (aotnetworklabs@gmail.com)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="rounded-2xl p-6 mb-8"
+        style={{
+          background: "linear-gradient(135deg, rgba(245,158,11,0.08) 0%, var(--bg-primary) 100%)",
+          border: "1px solid rgba(245,158,11,0.25)",
+        }}
+      >
+        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
+          Key Differentiators
+        </div>
+        <div className="grid md:grid-cols-2 gap-3">
+          {[
+            "Dual-Model AI Verification — Algorithmic + Vision AI in one pipeline",
+            "4-Timeframe Scalping Engine — 1H/4H trend, 15M S/R, 5M pullback, 1M entry",
+            "Telegram-Native Interface — Commands, inline keyboards, conversation flows",
+            "Real-Time Dashboard — Live Firestore sync between Telegram and web",
+            "Fully Zero-Cost AI — All models run on NVIDIA NIM free tier",
+            "Self-Contained Architecture — No dependencies on paid APIs or services",
+            "Comprehensive Audit Trail — Every command logged to Firestore",
+          ].map((item) => (
+            <div
+              key={item}
+              className="flex items-start gap-2 text-sm"
+              style={{ color: "var(--text-muted)" }}
+            >
+              <span style={{ color: "#f59e0b" }}>✦</span>
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {sections.map((s) => (
+          <SectionCard key={s.title} title={s.title}>
+            {s.content}
+          </SectionCard>
+        ))}
+      </div>
+
+      <a
+        href="https://t.me/aot_analyzer_bot"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block text-center text-sm font-bold py-4 px-6 rounded-xl transition-all"
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          letterSpacing: "0.05em",
+          border: "1px solid var(--border-color)",
+          color: "var(--text-muted)",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "var(--accent-secondary)";
+          e.currentTarget.style.color = "var(--accent-primary)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "var(--border-color)";
+          e.currentTarget.style.color = "var(--text-muted)";
+        }}
+      >
+        Try the Bot on Telegram → @aot_analyzer_bot
+      </a>
+    </>
+  );
+}
+
 export function ProjectDetail({ project }: { project: Project }) {
   const p = project;
 
@@ -817,7 +1156,9 @@ export function ProjectDetail({ project }: { project: Project }) {
         >
           {p.id === "calfit"
             ? "A full-featured fitness and nutrition app powered by AI — personalized workouts, meal plans, calorie tracking, AI coach, food scanner, sleep/fasting/measurement tracking, accountability partners, and detailed analytics. One codebase ships to iOS, Android, and Web."
-            : p.description}
+            : p.id === "analyzer-bot"
+              ? "An XAU/USD scalp trading bot with dual-model Nvidia AI verification. The 4-timeframe engine analyzes trend, support/resistance, pullbacks, and entry candles. Users interact via Telegram commands and monitor live results on a real-time Next.js dashboard — all powered by NVIDIA NIM free-tier AI models."
+              : p.description}
         </p>
 
         <div
@@ -990,6 +1331,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         )}
 
         {p.id === "calfit" && <CalFitDetails />}
+        {p.id === "analyzer-bot" && <AnalyzerBotDetails />}
       </div>
     </main>
   );
