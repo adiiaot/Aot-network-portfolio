@@ -12,6 +12,7 @@ export const projects: Project[] = [
     accent: "#a855f7",
     year: 2026,
     liveUrl: "https://trivian-technologies-demo-website.vercel.app",
+    githubUrl: "https://github.com/adiiaot/AI-Native-Website",
     technologies: [
       "Next.js",
       "TypeScript",
