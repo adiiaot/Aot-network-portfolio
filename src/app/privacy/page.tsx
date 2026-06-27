@@ -40,25 +40,24 @@ export default function PrivacyPage() {
         >
           <Section title="1. Introduction">
             <p>
-              AOT Network ("we," "our," or "us") is committed to protecting your
-              privacy. This Privacy Policy explains how we collect, use, disclose,
-              and safeguard your information when you visit our website or use our
-              services.
+              I am committed to protecting your privacy. This Privacy Policy
+              explains how I collect, use, disclose, and safeguard your
+              information when you visit my website or use my services.
             </p>
             <p>
-              By using our website and services, you agree to the collection and
+              By using my website and services, you agree to the collection and
               use of information in accordance with this policy.
             </p>
           </Section>
 
-          <Section title="2. Information We Collect">
-            <p>We may collect the following types of information:</p>
+          <Section title="2. Information I Collect">
+            <p>I may collect the following types of information:</p>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong style={{ color: "var(--text-secondary)" }}>
                   Personal Information:
                 </strong>{" "}
-                Name, email address, and contact details when you fill out our
+                Name, email address, and contact details when you fill out my
                 contact form or request services.
               </li>
               <li>
@@ -66,13 +65,13 @@ export default function PrivacyPage() {
                   Project Information:
                 </strong>{" "}
                 Details about your project, budget, and requirements shared
-                through our contact or consultation forms.
+                through my contact or consultation forms.
               </li>
               <li>
                 <strong style={{ color: "var(--text-secondary)" }}>
                   Usage Data:
                 </strong>{" "}
-                Information about how you interact with our website, including
+                Information about how you interact with my website, including
                 pages visited, time spent, and referral sources.
               </li>
               <li>
@@ -85,12 +84,12 @@ export default function PrivacyPage() {
             </ul>
           </Section>
 
-          <Section title="3. How We Use Your Information">
-            <p>We use the collected information for the following purposes:</p>
+          <Section title="3. How I Use Your Information">
+            <p>I use the collected information for the following purposes:</p>
             <ul className="list-disc list-inside space-y-1">
               <li>To respond to your inquiries and provide quotes</li>
-              <li>To deliver our development and consulting services</li>
-              <li>To improve our website and service offerings</li>
+              <li>To deliver development and consulting services</li>
+              <li>To improve my website and service offerings</li>
               <li>To communicate project updates and technical information</li>
               <li>To comply with legal obligations</li>
             </ul>
@@ -98,38 +97,38 @@ export default function PrivacyPage() {
 
           <Section title="4. Data Sharing and Disclosure">
             <p>
-              We do not sell, trade, or rent your personal information to third
-              parties. We may share your information only in the following
+              I do not sell, trade, or rent your personal information to third
+              parties. I may share your information only in the following
               circumstances:
             </p>
             <ul className="list-disc list-inside space-y-1">
               <li>
-                With service providers who assist us in operating our business
-                (e.g., hosting providers, payment processors)
+                With service providers who assist me in operating my website
+                (e.g., hosting providers, analytics)
               </li>
               <li>To comply with applicable laws and legal processes</li>
-              <li>To protect our rights, privacy, safety, or property</li>
+              <li>To protect my rights, privacy, safety, or property</li>
               <li>With your explicit consent</li>
             </ul>
           </Section>
 
           <Section title="5. Data Security">
             <p>
-              We implement appropriate technical and organizational security
+              I implement appropriate technical and organizational security
               measures to protect your personal information against unauthorized
               access, alteration, disclosure, or destruction. These include
               encryption, secure servers, and access controls.
             </p>
             <p>
               However, no method of transmission over the Internet or electronic
-              storage is 100% secure. While we strive to protect your data, we
+              storage is 100% secure. While I strive to protect your data, I
               cannot guarantee absolute security.
             </p>
           </Section>
 
           <Section title="6. Data Retention">
             <p>
-              We retain your personal information only as long as necessary to
+              I retain your personal information only as long as necessary to
               fulfill the purposes outlined in this policy, or as required by
               law. When no longer needed, your data will be securely deleted or
               anonymized.
@@ -146,7 +145,7 @@ export default function PrivacyPage() {
                 <strong style={{ color: "var(--text-secondary)" }}>
                   Access:
                 </strong>{" "}
-                Request a copy of the data we hold about you.
+                Request a copy of the data I hold about you.
               </li>
               <li>
                 <strong style={{ color: "var(--text-secondary)" }}>
@@ -174,7 +173,7 @@ export default function PrivacyPage() {
               </li>
             </ul>
             <p className="mt-3">
-              To exercise any of these rights, contact us at{" "}
+              To exercise any of these rights, contact me at{" "}
               <strong style={{ color: "var(--accent-primary)" }}>
                 aotnetworklabs@gmail.com
               </strong>
@@ -184,8 +183,8 @@ export default function PrivacyPage() {
 
           <Section title="8. Third-Party Services">
             <p>
-              Our website may use third-party services that collect, monitor,
-              and analyze data to improve our service. These include:
+              My website may use third-party services that collect, monitor, and
+              analyze data to improve the service. These include:
             </p>
             <ul className="list-disc list-inside space-y-1">
               <li>Vercel Analytics — for website usage statistics</li>
@@ -199,16 +198,16 @@ export default function PrivacyPage() {
 
           <Section title="9. Cookies">
             <p>
-              Our website uses minimal cookies, primarily for analytics purposes.
+              My website uses minimal cookies, primarily for analytics purposes.
               You can control cookie preferences through your browser settings.
-              Disabling cookies may affect certain features of our website.
+              Disabling cookies may affect certain features of my website.
             </p>
           </Section>
 
           <Section title="10. Changes to This Policy">
             <p>
-              We may update this Privacy Policy from time to time. Changes will
-              be posted on this page with an updated revision date. We encourage
+              I may update this Privacy Policy from time to time. Changes will
+              be posted on this page with an updated revision date. I encourage
               you to review this policy periodically.
             </p>
           </Section>
@@ -216,7 +215,7 @@ export default function PrivacyPage() {
           <Section title="11. Contact Us">
             <p>
               If you have any questions, concerns, or requests regarding this
-              Privacy Policy or our data practices, please contact us:
+              Privacy Policy or my data practices, please contact me:
             </p>
             <div
               className="mt-4 p-5 rounded-xl text-sm"
@@ -230,12 +229,6 @@ export default function PrivacyPage() {
                   Email:
                 </strong>{" "}
                 aotnetworklabs@gmail.com
-              </p>
-              <p>
-                <strong style={{ color: "var(--text-secondary)" }}>
-                  Website:
-                </strong>{" "}
-                aotnetworklabs.com
               </p>
             </div>
           </Section>

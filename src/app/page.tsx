@@ -4,7 +4,6 @@ import { Work } from "@/components/sections/Work";
 import { Upwork } from "@/components/sections/Upwork";
 import { Services } from "@/components/sections/Services";
 import { Pricing } from "@/components/sections/Pricing";
-import { FlexPricing } from "@/components/sections/FlexPricing";
 import { Process } from "@/components/sections/Process";
 import { Authority } from "@/components/sections/Authority";
 import { Contact } from "@/components/sections/Contact";
@@ -19,7 +18,6 @@ export default function Home() {
       <Upwork />
       <Services />
       <Pricing />
-      <FlexPricing />
       <Process />
       <Authority />
       <Contact />

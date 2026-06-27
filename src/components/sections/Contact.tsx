@@ -256,35 +256,26 @@ export function Contact() {
                     opacity: 0.7,
                   }}
                 >
-                  Budget Range
+                  Your Budget *
                 </label>
-                <select
+                <input
+                  type="text"
+                  placeholder="e.g. $2,000, or tell me what you're looking to invest..."
                   value={form.budget}
                   onChange={(e) =>
                     setForm({ ...form, budget: e.target.value })
                   }
                   className="w-full border rounded-xl px-4 py-3 text-sm transition-colors"
                   style={{
-                    background: "var(--bg-card)",
+                    background: "var(--bg-input)",
                     borderColor: "var(--border-color)",
                     color: "var(--text-primary)",
                   }}
-                >
-                  <option value="">Select range (optional)</option>
-                  <option value="Flexible — Let's discuss on a call">
-                    Flexible — Let&apos;s discuss on a call
-                  </option>
-                  <option value="$1,000 – $5,000">
-                    $1,000 – $5,000
-                  </option>
-                  <option value="$5,000 – $10,000+">
-                    $5,000 – $10,000+
-                  </option>
-                </select>
+                />
               </div>
               <button
                 onClick={handleSend}
-                disabled={!form.name || !form.email || !form.idea || sending}
+                disabled={!form.name || !form.email || !form.idea || !form.budget || sending}
                 className="w-full font-black py-4 rounded-xl text-sm tracking-widest mt-2 transition-all hover:opacity-90 disabled:opacity-40"
                 style={{
                   fontFamily: "'Inter', sans-serif",

@@ -132,52 +132,6 @@ export function Pricing() {
             </div>
           ))}
         </div>
-
-        <div
-          className="border rounded-2xl p-8 text-center"
-          style={{
-            borderColor: "var(--border-color)",
-            background: "var(--card-bg)",
-          }}
-        >
-          <div
-            className="text-[10px] mb-3 tracking-widest uppercase"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              color: "var(--text-dim)",
-              opacity: 0.7,
-            }}
-          >
-            Flexible Scope
-          </div>
-          <h3
-            className="text-2xl font-black mb-3"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
-          >
-            Working with a unique budget?
-          </h3>
-          <p
-            className="max-w-lg mx-auto mb-6 text-sm leading-relaxed"
-            style={{ color: "var(--text-muted)" }}
-          >
-            I selectively partner with founders at various stages depending on
-            project scope and long-term potential. Every great product started
-            somewhere—schedule a call and let&apos;s find the right structure for
-            your build.
-          </p>
-          <a
-            href="#contact?package=Custom+Scope"
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-bold transition-all hover:bg-[rgba(var(--accent-rgb),0.1)] hover:border-[var(--accent-secondary)]"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              letterSpacing: "0.1em",
-              border: "1px solid var(--border-color-strong)",
-              color: "var(--accent-primary)",
-            }}
-          >
-            Contact Me About Your Project
-          </a>
-        </div>
       </div>
     </section>
   );

@@ -15,9 +15,9 @@ export async function POST(req: Request) {
   try {
     const { name, email, idea, budget } = await req.json();
 
-    if (!name || !email || !idea) {
+    if (!name || !email || !idea || !budget) {
       return NextResponse.json(
-        { error: "Name, email, and idea are required." },
+        { error: "Name, email, idea, and budget are required." },
         { status: 400 }
       );
     }
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
         <h2>New Project Inquiry</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Budget:</strong> ${budget || "Not specified"}</p>
+        <p><strong>Budget:</strong> ${budget}</p>
         <p><strong>Idea:</strong></p>
         <p>${idea.replace(/\n/g, "<br>")}</p>
       `,
