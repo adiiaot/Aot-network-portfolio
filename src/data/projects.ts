@@ -11,7 +11,7 @@ export const projects: Project[] = [
     status: "Live",
     accent: "#a855f7",
     year: 2026,
-    liveUrl: "https://triviantech.com",
+    liveUrl: "https://trivian-technologies-demo-website.vercel.app",
     technologies: [
       "Next.js",
       "TypeScript",
