@@ -87,6 +87,15 @@ export function Pricing() {
                 >
                   {plan.price}
                 </div>
+                <div
+                  className="text-xs mt-0.5 mb-1"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: "var(--text-dim)",
+                  }}
+                >
+                  Range: {plan.range}
+                </div>
                 {plan.timeline && (
                   <div
                     className="text-xs mb-2 mt-1"

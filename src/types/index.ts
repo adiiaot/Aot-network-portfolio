@@ -26,6 +26,7 @@ export interface Service {
 export interface PricingPlan {
   name: string;
   price: string;
+  range: string;
   timeline: string;
   tag: string;
   description: string;
