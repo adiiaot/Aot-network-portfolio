@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { chatStream } from "@/lib/openai";
+import { chatComplete } from "@/lib/nvidia";
 import { buildSystemPrompt } from "@/lib/portfolio-context";
 
 export async function POST(req: Request) {
@@ -19,25 +19,9 @@ export async function POST(req: Request) {
       { role: "user" as const, content: message },
     ];
 
-    const encoder = new TextEncoder();
-    const stream = new ReadableStream({
-      async start(controller) {
-        try {
-          await chatStream(messages, (chunk) => {
-            controller.enqueue(encoder.encode(chunk));
-          });
-        } catch (err: unknown) {
-          const msg = err instanceof Error ? err.message : "Stream failed.";
-          controller.enqueue(encoder.encode(`\n\n[Error: ${msg}]`));
-        } finally {
-          controller.close();
-        }
-      },
-    });
+    const reply = await chatComplete(messages);
 
-    return new Response(stream, {
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
-    });
+    return NextResponse.json({ reply });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Something went wrong.";
     return NextResponse.json({ error: msg }, { status: 500 });
