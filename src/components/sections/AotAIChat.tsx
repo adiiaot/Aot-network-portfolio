@@ -1,16 +1,34 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { marked } from "marked";
 
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
 }
 
+const STORAGE_KEY = "aot-ai-chat";
+
+function loadChat(): ChatMessage[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return [];
+}
+
+function saveChat(msgs: ChatMessage[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
+  } catch {}
+}
+
 const WELCOME: ChatMessage = {
   role: "assistant",
   content:
-    "Hi, I'm AOT AI. I can tell you about past projects, explain how things are built, and help you figure out the best approach for yours.\n\nTry asking:\n\n• \"How much to build an AI Native Business Website?\"\n• \"I want to build a fitness app like CalFit\"\n• \"What do you build and how much does it cost?\"\n• \"Break down how you'd build a dashboard for me\"",
+    "Hi, I'm AOT AI. I can tell you about past projects, explain how things are built, and help you figure out the best approach for yours.\n\nTry asking:\n\n- **\"How much to build an AI Native Business Website?\"**\n- **\"I want to build a fitness app like CalFit\"**\n- **\"What do you build and how much does it cost?\"**\n- **\"Break down how you'd build a dashboard for me\"**",
 };
 
 const SUGGESTIONS = [
@@ -21,20 +39,31 @@ const SUGGESTIONS = [
 ];
 
 export function AotAIChat({ id }: { id?: string }) {
-  const [messages, setMessages] = useState<ChatMessage[]>([WELCOME]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    const saved = loadChat();
+    return saved.length > 0 ? saved : [WELCOME];
+  });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [streamingContent, setStreamingContent] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    if (messages.length > 1 || messages[0]?.content !== WELCOME.content) {
+      saveChat(messages);
+    }
+  }, [messages]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, streamingContent]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const pkg = params.get("package");
-      if (pkg) {
+      if (pkg && messages.length === 1 && messages[0]?.role === "assistant") {
         const msg = `I'm interested in the ${pkg} package. Can you help me figure out what I need and what it would cost?`;
         setTimeout(() => send(msg), 300);
       }
@@ -43,34 +72,55 @@ export function AotAIChat({ id }: { id?: string }) {
 
   async function send(msg: string) {
     if (!msg.trim() || loading) return;
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
 
     const userMsg: ChatMessage = { role: "user", content: msg.trim() };
     const updated = [...messages, userMsg];
     setMessages(updated);
     setInput("");
     setLoading(true);
+    setStreamingContent("");
 
     try {
       const history = updated
-        .filter((m) => m !== WELCOME)
         .slice(0, -1)
+        .filter((m) => m.content !== WELCOME.content)
         .map((m) => ({ role: m.role, content: m.content }));
 
       const res = await fetch("/api/aot-ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: msg.trim(), history }),
+        signal: abortRef.current.signal,
       });
 
-      const data = await res.json();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Error ${res.status}`);
+      }
 
-      if (!res.ok) throw new Error(data.error);
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No response body");
+
+      let full = "";
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const text = decoder.decode(value, { stream: true });
+        full += text;
+        setStreamingContent(full);
+      }
 
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: data.reply },
+        { role: "assistant", content: full },
       ]);
-    } catch (e) {
+      setStreamingContent("");
+    } catch (e: unknown) {
+      if (e instanceof DOMException && e.name === "AbortError") return;
       const msg = e instanceof Error ? e.message : "Something went wrong.";
       setMessages((prev) => [
         ...prev,
@@ -81,6 +131,7 @@ export function AotAIChat({ id }: { id?: string }) {
       ]);
     } finally {
       setLoading(false);
+      abortRef.current = null;
     }
   }
 
@@ -91,16 +142,69 @@ export function AotAIChat({ id }: { id?: string }) {
     }
   }
 
+  function clearChat() {
+    localStorage.removeItem(STORAGE_KEY);
+    setMessages([WELCOME]);
+    setStreamingContent("");
+  }
+
+  function renderContent(text: string) {
+    const html = marked.parse(text, { async: false }) as string;
+    return (
+      <div
+        className="prose prose-sm max-w-none"
+        style={
+          {
+            ["--prose-headings-color" as string]: "var(--text-primary)",
+            ["--prose-body-color" as string]: "var(--text-muted)",
+            ["--prose-bold-color" as string]: "var(--text-primary)",
+            ["--prose-code-color" as string]: "var(--accent-primary)",
+            ["--prose-code-bg" as string]: "var(--bg-code-tag)",
+            ["--prose-link-color" as string]: "var(--accent-primary)",
+            ["--prose-list-marker-color" as string]: "var(--text-dim)",
+          } as React.CSSProperties
+        }
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+
   return (
     <div id={id} className="flex flex-col" style={{ minHeight: "500px" }}>
-      <div className="flex-1 overflow-y-auto space-y-4 scrollbar-thin pr-2 mb-4">
+      <div className="flex items-center justify-between mb-3">
+        <span
+          className="text-[10px] tracking-widest uppercase"
+          style={{ color: "var(--text-dim)", fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {messages.length > 1
+            ? `${messages.filter((m) => m.role === "user").length} messages`
+            : "New conversation"}
+        </span>
+        {messages.length > 1 && (
+          <button
+            onClick={clearChat}
+            className="text-[10px] tracking-widest uppercase transition-colors hover:opacity-70"
+            style={{
+              color: "var(--text-dim)",
+              fontFamily: "'JetBrains Mono', monospace",
+            }}
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
+      <div
+        className="flex-1 overflow-y-auto space-y-4 scrollbar-thin pr-2 mb-4"
+        style={{ maxHeight: "60vh" }}
+      >
         {messages.map((m, i) => (
           <div
             key={i}
             className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap`}
+              className={`max-w-[88%] md:max-w-[78%] rounded-2xl px-4 py-3 text-sm leading-relaxed`}
               style={
                 m.role === "user"
                   ? {
@@ -116,12 +220,33 @@ export function AotAIChat({ id }: { id?: string }) {
                     }
               }
             >
-              {m.content}
+              {m.role === "user" ? (
+                <p className="whitespace-pre-wrap">{m.content}</p>
+              ) : (
+                renderContent(m.content)
+              )}
             </div>
           </div>
         ))}
 
-        {loading && (
+        {streamingContent && (
+          <div className="flex justify-start">
+            <div
+              className="max-w-[88%] md:max-w-[78%] rounded-2xl px-4 py-3 text-sm leading-relaxed"
+              style={{
+                background: "var(--bg-card)",
+                border: "1px solid var(--border-color)",
+                color: "var(--text-muted)",
+                borderBottomLeftRadius: "4px",
+              }}
+            >
+              {renderContent(streamingContent)}
+              <span className="inline-block w-2 h-4 ml-0.5 animate-pulse" style={{ background: "var(--accent-primary)" }} />
+            </div>
+          </div>
+        )}
+
+        {loading && !streamingContent && (
           <div className="flex justify-start">
             <div
               className="rounded-2xl rounded-bl-sm px-4 py-3 text-sm"
@@ -142,7 +267,7 @@ export function AotAIChat({ id }: { id?: string }) {
         <div ref={endRef} />
       </div>
 
-      {messages.length === 1 && !loading && (
+      {messages.length === 1 && !loading && !streamingContent && (
         <div className="flex flex-wrap gap-2 mb-4">
           {SUGGESTIONS.map((s) => (
             <button
@@ -198,6 +323,23 @@ export function AotAIChat({ id }: { id?: string }) {
         >
           Send
         </button>
+        {loading && (
+          <button
+            onClick={() => {
+              abortRef.current?.abort();
+              setLoading(false);
+              setStreamingContent("");
+            }}
+            className="px-3 py-2 rounded-xl text-xs font-bold"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              background: "var(--bg-code-tag)",
+              color: "var(--text-dim)",
+            }}
+          >
+            Stop
+          </button>
+        )}
       </div>
     </div>
   );
