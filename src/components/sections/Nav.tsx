@@ -29,7 +29,7 @@ export function Nav() {
       }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#hero" className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <AOTLogo size={34} />
           <div>
             <div
@@ -116,7 +116,7 @@ export function Nav() {
           </button>
 
           <a
-            href="#contact"
+            href="/#contact"
             className="inline-flex items-center gap-2 text-xs font-bold px-6 py-2.5 rounded-full transition-all"
             style={{
               fontFamily: "'Inter', sans-serif",
@@ -243,7 +243,7 @@ export function Nav() {
             GitHub
           </a>
           <a
-            href="#contact"
+            href="/#contact"
             className="mt-2 rounded-full py-3 text-center text-sm tracking-widest"
             style={{
               fontFamily: "'Inter', sans-serif",

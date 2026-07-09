@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Nav } from "@/components/sections/Nav";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
@@ -26,12 +27,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "AOT Network",
+    images: [{ url: "/images/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "AOT Network - Build. Ship. Scale.",
     description:
       "Premium contract development. Mobile apps, web platforms, AI systems.",
+    images: [{ url: "/images/og-image.png" }],
   },
   robots: {
     index: true,
@@ -45,12 +48,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full" data-theme="light">
+    <html lang="en" className="h-full" data-theme="light" suppressHydrationWarning>
       <head>
         <link href={FONT_LINK} rel="stylesheet" />
       </head>
       <body className="min-h-full antialiased">
         <ThemeProvider>
+          <Nav />
           {children}
           <Analytics />
         </ThemeProvider>

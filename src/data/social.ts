@@ -1,12 +1,12 @@
 import { NavLink, Stat } from "@/types";
 
 export const NAV_LINKS: NavLink[] = [
-  { label: "Home", href: "#hero" },
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Work", href: "#work" },
-  { label: "Services", href: "#services" },
+  { label: "Work", href: "/#work" },
+  { label: "Services", href: "/#services" },
   { label: "AOT AI", href: "/aot-ai" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const STATS: Stat[] = [

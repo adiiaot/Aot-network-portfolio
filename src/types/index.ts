@@ -71,8 +71,4 @@ export interface ContactForm {
   budget: string;
 }
 
-export interface FlexPricingForm {
-  name: string;
-  idea: string;
-  budget: string;
-}
+

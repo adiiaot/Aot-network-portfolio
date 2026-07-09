@@ -69,8 +69,9 @@ export function AotAISection() {
             Hi! Tell me about your project and I&apos;ll help you figure out the best approach, tech stack, and what it might cost.
           </div>
 
-          <div className="flex items-center gap-2 mt-4">
-            <div
+          <div className="flex items-center gap-2 mt-4" onClick={(e) => e.stopPropagation()}>
+            <Link
+              href="/aot-ai"
               className="h-9 flex-1 rounded-lg px-3 flex items-center text-xs"
               style={{
                 background: "var(--bg-input)",
@@ -79,8 +80,9 @@ export function AotAISection() {
               }}
             >
               Ask about projects, pricing, or services...
-            </div>
-            <div
+            </Link>
+            <Link
+              href="/aot-ai"
               className="text-xs font-bold px-4 py-2 rounded-lg"
               style={{
                 background: "var(--accent-primary)",
@@ -88,7 +90,7 @@ export function AotAISection() {
               }}
             >
               Send
-            </div>
+            </Link>
           </div>
 
           <div

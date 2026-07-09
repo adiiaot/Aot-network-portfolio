@@ -4,7 +4,7 @@ export const pricingPlans: PricingPlan[] = [
   {
     name: "Starter MVP",
     price: "$600",
-    range: "$300 – $1,000",
+    range: "$300 – $900",
     timeline: "~24 hrs · 1 week",
     tag: "Early-stage",
     description: "Validate your idea fast with a clean, functional product.",
@@ -20,7 +20,7 @@ export const pricingPlans: PricingPlan[] = [
   {
     name: "Growth Build",
     price: "$1,000",
-    range: "$1,000 – $3,000",
+    range: "$1,500 – $3,000",
     timeline: "~40 hrs · 1–2 weeks",
     tag: "Most Popular",
     description: "Full product build for startups ready to scale.",
@@ -37,7 +37,7 @@ export const pricingPlans: PricingPlan[] = [
   {
     name: "AI Systems",
     price: "$2,000",
-    range: "$600 – $4,000",
+    range: "$3,500 – $5,000",
     timeline: "~80 hrs · 2–3 weeks",
     tag: "Advanced",
     description: "AI-first products, automation systems, and complex logic.",
