@@ -7,7 +7,10 @@ import "./globals.css";
 const FONT_LINK =
   "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap";
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://aot-network-portfolio.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "AOT Network - Build. Ship. Scale.",
   description:
     "From MVP to production—fast, structured, and reliable. I build scalable mobile apps, web platforms, AI systems, and automation workflows.",
