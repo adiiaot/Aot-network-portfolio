@@ -29,24 +29,36 @@ export default function AboutPage() {
 
   const SKILLS = [
     {
+      category: "Frontend",
+      items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    },
+    {
       category: "Mobile",
-      items: ["React Native", "Expo", "React.js", "Next.js", "TypeScript"],
+      items: ["React Native", "Expo", "TypeScript", "NativeWind", "Reanimated"],
     },
     {
       category: "Backend",
-      items: ["Node.js", "Express.js", "REST APIs", "API Design", "Authentication"],
+      items: ["Node.js", "Python", "FastAPI", "REST APIs", "Next.js API Routes", "Service/Repository Pattern"],
     },
     {
       category: "Database",
-      items: ["PostgreSQL", "Prisma", "Supabase", "Firebase"],
+      items: ["PostgreSQL", "Prisma ORM", "Supabase", "Firebase Firestore", "Neon"],
     },
     {
-      category: "AI",
-      items: ["OpenAI API", "Claude API", "AI Integrations", "AI Workflows"],
+      category: "Auth & Security",
+      items: ["JWT Auth", "bcrypt", "Zod Validation", "Refresh Token Rotation", "Rate Limiting"],
     },
     {
-      category: "Tools",
-      items: ["Git", "GitHub", "AWS", "Google Cloud"],
+      category: "AI & ML",
+      items: ["NVIDIA NIM", "Llama 3.1/3.2/3.3", "OpenAI", "LangChain", "Deepgram STT"],
+    },
+    {
+      category: "Blockchain",
+      items: ["Solidity", "Ethers.js", "Hardhat", "Chainlink", "The Graph"],
+    },
+    {
+      category: "Tools & Infra",
+      items: ["Git/GitHub", "Vercel", "Railway", "Docker", "VS Code Extension API"],
     },
   ];
 
