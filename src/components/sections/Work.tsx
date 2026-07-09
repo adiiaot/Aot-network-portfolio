@@ -13,7 +13,9 @@ export function Work() {
   const [dragOffset, setDragOffset] = useState(0);
   const [dragStartX, setDragStartX] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [transitioning, setTransitioning] = useState(false);
   const autoSlideRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const allProjects = projects;
 
@@ -31,7 +33,10 @@ export function Work() {
 
   const goTo = useCallback(
     (dir: number) => {
+      setTransitioning(true);
       setActiveIndex((prev) => wrapIndex(prev + dir));
+      if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current);
+      transitionTimeoutRef.current = setTimeout(() => setTransitioning(false), 1000);
     },
     [wrapIndex]
   );
@@ -65,14 +70,15 @@ export function Work() {
   const startAutoSlide = useCallback(() => {
     if (autoSlideRef.current) clearInterval(autoSlideRef.current);
     autoSlideRef.current = setInterval(() => {
-      setActiveIndex((prev) => wrapIndex(prev + 1));
+      goTo(1);
     }, 10000);
-  }, [wrapIndex]);
+  }, [goTo]);
 
   useEffect(() => {
     startAutoSlide();
     return () => {
       if (autoSlideRef.current) clearInterval(autoSlideRef.current);
+      if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current);
     };
   }, [startAutoSlide]);
 
@@ -96,6 +102,8 @@ export function Work() {
 
   const dragClamped = Math.max(-containerWidth * 0.25, Math.min(containerWidth * 0.25, dragOffset));
   const dragProgress = containerWidth > 0 ? dragClamped / (containerWidth * 0.25) : 0;
+
+  const showContent = isMobile ? transitioning || !isDragging : true;
 
   const renderCard = (idx: number, pos: "prev" | "active" | "next") => {
     const p = allProjects[idx];
@@ -131,7 +139,7 @@ export function Work() {
           zIndex: isActive ? 30 : pos === "prev" || pos === "next" ? 20 : 10,
           transition: isDragging
             ? "none"
-            : "transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            : "transform 1s cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
         onClick={() => {
           if (!isActive) goTo(pos === "prev" ? -1 : 1);
@@ -142,8 +150,8 @@ export function Work() {
           style={{
             border: isActive ? `2px solid ${p.accent}50` : `1px solid ${p.accent}15`,
             background: isActive
-              ? `linear-gradient(135deg, ${p.accent}20 0%, #0f172a 100%)`
-              : `linear-gradient(135deg, ${p.accent}10 0%, #0f172a 100%)`,
+              ? `linear-gradient(135deg, ${p.accent}20 0%, var(--bg-card) 100%)`
+              : `linear-gradient(135deg, ${p.accent}10 0%, var(--bg-card) 100%)`,
             boxShadow: isActive
               ? `0 0 60px -5px ${p.accent}50`
               : "0 4px 20px rgba(0,0,0,0.2)",
@@ -153,7 +161,7 @@ export function Work() {
             className="w-full rounded-xl mb-3 relative overflow-hidden shrink-0"
             style={{
               aspectRatio: "16 / 11",
-              background: `linear-gradient(135deg,${p.accent}12 0%, #0f172a 100%)`,
+              background: `linear-gradient(135deg,${p.accent}12 0%, var(--bg-card) 100%)`,
               border: `1px solid ${p.accent}20`,
             }}
           >
@@ -203,7 +211,7 @@ export function Work() {
           >
             {p.name}
           </h3>
-          {isActive && (
+          {isActive && showContent && (
             <>
               <p
                 className="text-xs md:text-sm leading-relaxed mb-3 flex-1 line-clamp-2"
@@ -284,7 +292,7 @@ export function Work() {
           ref={containerRef}
           className="relative select-none rounded-3xl"
           style={{
-            height: isMobile ? "480px" : "500px",
+            height: isMobile ? "460px" : "500px",
           }}
           onMouseDown={(e) => handleDragStart(e.clientX)}
           onMouseMove={(e) => handleDragMove(e.clientX)}
@@ -299,24 +307,22 @@ export function Work() {
           {renderCard(next, "next")}
         </div>
 
-        <div className="flex justify-center items-center gap-3 mt-8 md:mt-10">
-          {!isMobile && (
-            <button
-              onClick={() => goTo(-1)}
-              className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
-              style={{
-                width: 36,
-                height: 36,
-                background: "var(--bg-elevated)",
-                border: "1px solid var(--border-color)",
-                color: "var(--text-muted)",
-              }}
-              aria-label="Previous project"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-          )}
-          <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center items-center gap-4 mt-8 md:mt-10">
+          <button
+            onClick={() => goTo(-1)}
+            className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
+            style={{
+              width: 36,
+              height: 36,
+              background: "var(--bg-elevated)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-muted)",
+            }}
+            aria-label="Previous project"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div className="flex gap-1.5">
             {allProjects.map((_, i) => (
               <button
                 key={i}
@@ -330,8 +336,8 @@ export function Work() {
                 }}
                 className="rounded-full transition-all duration-500"
                 style={{
-                  width: i === activeIndex ? isMobile ? 24 : 28 : 8,
-                  height: 8,
+                  width: i === activeIndex ? (isMobile ? 20 : 24) : 6,
+                  height: 6,
                   background:
                     i === activeIndex
                       ? "var(--accent-primary)"
@@ -341,22 +347,20 @@ export function Work() {
               />
             ))}
           </div>
-          {!isMobile && (
-            <button
-              onClick={() => goTo(1)}
-              className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
-              style={{
-                width: 36,
-                height: 36,
-                background: "var(--bg-elevated)",
-                border: "1px solid var(--border-color)",
-                color: "var(--text-muted)",
-              }}
-              aria-label="Next project"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          )}
+          <button
+            onClick={() => goTo(1)}
+            className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
+            style={{
+              width: 36,
+              height: 36,
+              background: "var(--bg-elevated)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-muted)",
+            }}
+            aria-label="Next project"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
     </section>
