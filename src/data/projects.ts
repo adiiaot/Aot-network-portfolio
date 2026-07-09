@@ -105,7 +105,7 @@ export const projects: Project[] = [
       "Glassmorphism UI",
     ],
     imageUrl: "/images/projects/bluepeakthumbnail.png",
-    featured: true,
+    featured: false,
   },
   {
     id: "primeledger",
@@ -131,7 +131,7 @@ export const projects: Project[] = [
       "Dark/Light Mode",
     ],
     imageUrl: "/images/projects/primeledgerthumbnail.png",
-    featured: true,
+    featured: false,
   },
   /*{
     id: "ai-agent",
