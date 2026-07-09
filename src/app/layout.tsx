@@ -39,6 +39,9 @@ export const metadata: Metadata = {
       "Premium contract development. Mobile apps, web platforms, AI systems.",
     images: [{ url: "/images/og-image.png" }],
   },
+  icons: {
+    icon: "/favicon.svg",
+  },
   robots: {
     index: true,
     follow: true,
