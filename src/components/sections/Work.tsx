@@ -54,7 +54,7 @@ export function Work() {
   const handleDragEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
-    const threshold = containerWidth * 0.1;
+    const threshold = containerWidth * 0.08;
     if (Math.abs(dragOffset) > threshold) {
       goTo(dragOffset > 0 ? -1 : 1);
     }
@@ -94,15 +94,15 @@ export function Work() {
   const prev = wrapIndex(activeIndex - 1);
   const next = wrapIndex(activeIndex + 1);
 
-  const dragClamped = Math.max(-containerWidth * 0.3, Math.min(containerWidth * 0.3, dragOffset));
-  const dragProgress = containerWidth > 0 ? dragClamped / (containerWidth * 0.3) : 0;
+  const dragClamped = Math.max(-containerWidth * 0.25, Math.min(containerWidth * 0.25, dragOffset));
+  const dragProgress = containerWidth > 0 ? dragClamped / (containerWidth * 0.25) : 0;
 
   const renderCard = (idx: number, pos: "prev" | "active" | "next") => {
     const p = allProjects[idx];
     const isActive = pos === "active";
 
-    const cardWidth = isMobile ? Math.min(containerWidth * 0.8, 320) : Math.min(containerWidth * 0.28, 340);
-    const overlap = cardWidth * 0.3;
+    const cardWidth = isMobile ? Math.min(containerWidth * 0.82, 340) : Math.min(containerWidth * 0.28, 330);
+    const overlap = cardWidth * 0.25;
     const sideOffset = cardWidth - overlap;
 
     let baseX: number;
@@ -110,15 +110,17 @@ export function Work() {
     else if (pos === "next") baseX = sideOffset;
     else baseX = 0;
 
-    if (isMobile && !isActive) {
-      return null;
-    }
+    if (isMobile && !isActive) return null;
 
-    const dragShift = dragProgress * (pos === "prev" ? -sideOffset * 0.5 : pos === "next" ? -sideOffset * 0.5 : 0);
+    const dragShift = dragProgress * (pos === "prev" ? -sideOffset * 0.4 : pos === "next" ? -sideOffset * 0.4 : 0);
     const translateX = baseX + dragShift;
 
-    const s = isActive ? 1 + Math.abs(dragProgress) * 0.1 : 0.85 - Math.abs(dragProgress) * 0.08;
-    const o = isActive ? 1 : Math.max(0.55, 0.85 - Math.abs(dragProgress) * 0.25);
+    const s = isActive
+      ? 1 + Math.abs(dragProgress) * 0.06
+      : 0.82 - Math.abs(dragProgress) * 0.06;
+    const o = isActive
+      ? 1
+      : Math.max(0.5, 0.82 - Math.abs(dragProgress) * 0.2);
 
     return (
       <div
@@ -129,22 +131,25 @@ export function Work() {
           left: "50%",
           transform: `translate(-50%, -50%) translateX(${translateX}px) scale(${Math.max(0.5, s)})`,
           opacity: o,
-          zIndex: isActive ? 20 : 10 - Math.abs(baseX / 50),
-          transition: "transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1)",
-          pointerEvents: isActive ? "auto" : "auto",
+          zIndex: isActive ? 30 : pos === "prev" || pos === "next" ? 20 : 10,
+          transition: isDragging
+            ? "none"
+            : "transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease",
         }}
         onClick={() => {
           if (!isActive) goTo(pos === "prev" ? -1 : 1);
         }}
       >
         <div
-          className="relative border-2 rounded-2xl p-5 flex flex-col"
+          className="relative rounded-2xl p-5 flex flex-col backdrop-blur-sm"
           style={{
-            borderColor: isActive ? `${p.accent}40` : `${p.accent}15`,
-            background: `linear-gradient(135deg,${p.accent}06 0%, var(--bg-primary) 100%)`,
+            border: isActive ? `2px solid ${p.accent}50` : `1px solid ${p.accent}15`,
+            background: isActive
+              ? `linear-gradient(135deg, ${p.accent}12 0%, rgba(15, 23, 42, 0.85) 100%)`
+              : `linear-gradient(135deg, ${p.accent}08 0%, rgba(15, 23, 42, 0.7) 100%)`,
             boxShadow: isActive
-              ? `0 0 50px -8px ${p.accent}60`
-              : "none",
+              ? `0 0 60px -5px ${p.accent}50, inset 0 0 80px -40px ${p.accent}20`
+              : "0 4px 20px rgba(0,0,0,0.15)",
           }}
         >
           {isActive && (
@@ -158,7 +163,7 @@ export function Work() {
             className="w-full rounded-xl mb-3 relative overflow-hidden shrink-0"
             style={{
               aspectRatio: "16 / 11",
-              background: `linear-gradient(135deg,${p.accent}12 0%, var(--bg-primary) 100%)`,
+              background: `linear-gradient(135deg,${p.accent}12 0%, rgba(15, 23, 42, 0.9) 100%)`,
               border: `1px solid ${p.accent}20`,
             }}
           >
@@ -180,7 +185,7 @@ export function Work() {
             <span
               className="text-[9px] px-2 py-0.5 rounded-md truncate max-w-[65%]"
               style={{
-                background: `${p.accent}15`,
+                background: `${p.accent}20`,
                 color: p.accent,
                 fontFamily: "'JetBrains Mono', monospace",
               }}
@@ -190,10 +195,10 @@ export function Work() {
             <span
               className={`text-[9px] px-2 py-0.5 rounded-md font-mono shrink-0 ${
                 p.status === "Live"
-                  ? "bg-green-500/10 text-green-400"
+                  ? "bg-emerald-500/15 text-emerald-400"
                   : p.status === "Open"
-                    ? "bg-fuchsia-500/10 text-fuchsia-400"
-                    : "bg-purple-500/10 text-purple-400"
+                    ? "bg-fuchsia-500/15 text-fuchsia-400"
+                    : "bg-purple-500/15 text-purple-400"
               }`}
             >
               {p.status}
@@ -211,7 +216,7 @@ export function Work() {
           {isActive && (
             <>
               <p
-                className="text-xs md:text-sm leading-relaxed mb-2 flex-1 line-clamp-2"
+                className="text-xs md:text-sm leading-relaxed mb-3 flex-1 line-clamp-2"
                 style={{ color: "var(--text-muted)" }}
               >
                 {p.description}
@@ -223,9 +228,9 @@ export function Work() {
                     className="text-[7px] md:text-[8px] px-1.5 py-0.5 rounded-md"
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
-                      background: "var(--bg-code-tag)",
-                      color: "var(--accent-primary)",
-                      border: "1px solid var(--border-color)",
+                      background: `${p.accent}15`,
+                      color: p.accent,
+                      border: `1px solid ${p.accent}25`,
                     }}
                   >
                     {tech}
@@ -234,13 +239,13 @@ export function Work() {
               </div>
               <Link
                 href={`/projects/${p.id}`}
-                className="block w-full text-center text-[10px] md:text-xs font-bold py-2.5 rounded-xl transition-all relative z-20 shrink-0"
+                className="block w-full text-center text-[10px] md:text-xs font-bold py-2.5 rounded-xl transition-all duration-200 relative z-20 shrink-0"
                 style={{
                   fontFamily: "'Inter', sans-serif",
                   letterSpacing: "0.05em",
-                  border: "1px solid var(--accent-primary)",
                   color: "#fff",
-                  background: "var(--accent-primary)",
+                  background: `linear-gradient(135deg, ${p.accent}, ${p.accent}cc)`,
+                  border: "none",
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
@@ -287,8 +292,13 @@ export function Work() {
 
         <div
           ref={containerRef}
-          className="relative select-none"
-          style={{ height: isMobile ? "460px" : "480px" }}
+          className="relative select-none rounded-3xl"
+          style={{
+            height: isMobile ? "480px" : "500px",
+            background: isMobile
+              ? "transparent"
+              : "radial-gradient(ellipse 80% 60% at 50% 55%, rgba(124,58,237,0.06) 0%, transparent 70%)",
+          }}
           onMouseDown={(e) => handleDragStart(e.clientX)}
           onMouseMove={(e) => handleDragMove(e.clientX)}
           onMouseUp={handleDragEnd}
@@ -302,7 +312,21 @@ export function Work() {
           {renderCard(next, "next")}
         </div>
 
-        <div className="flex justify-center items-center gap-2 mt-10">
+        <div className="flex justify-center items-center gap-3 mt-10">
+          <button
+            onClick={() => goTo(-1)}
+            className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
+            style={{
+              width: 36,
+              height: 36,
+              background: "var(--bg-elevated)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-muted)",
+            }}
+            aria-label="Previous project"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
           {allProjects.map((_, i) => (
             <button
               key={i}
@@ -314,7 +338,7 @@ export function Work() {
                 }
                 startAutoSlide();
               }}
-              className="rounded-full transition-all duration-300"
+              className="rounded-full transition-all duration-500"
               style={{
                 width: i === activeIndex ? 28 : 8,
                 height: 8,
@@ -326,6 +350,20 @@ export function Work() {
               aria-label={`Go to project ${i + 1}`}
             />
           ))}
+          <button
+            onClick={() => goTo(1)}
+            className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
+            style={{
+              width: 36,
+              height: 36,
+              background: "var(--bg-elevated)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-muted)",
+            }}
+            aria-label="Next project"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
     </section>
