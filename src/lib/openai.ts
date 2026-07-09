@@ -1,12 +1,18 @@
 import OpenAI from "openai";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 interface Message {
   role: "system" | "user" | "assistant";
   content: string;
+}
+
+function getClient() {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      "OPENAI_API_KEY is not set. Add it to your Vercel environment variables."
+    );
+  }
+  return new OpenAI({ apiKey });
 }
 
 export async function chatStream(
@@ -14,13 +20,7 @@ export async function chatStream(
   onChunk: (text: string) => void,
   signal?: AbortSignal
 ) {
-  const apiKey = process.env.OPENAI_API_KEY;
-
-  if (!apiKey) {
-    throw new Error(
-      "OPENAI_API_KEY is not set. Add it to your Vercel environment variables."
-    );
-  }
+  const client = getClient();
 
   const stream = await client.chat.completions.create({
     model: "gpt-4o-mini",
