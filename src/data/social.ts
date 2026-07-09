@@ -10,7 +10,7 @@ export const NAV_LINKS: NavLink[] = [
 ];
 
 export const STATS: Stat[] = [
-  { value: "14.5K+", label: "Across LinkedIn & X" },
+  { value: "16.5K+", label: "Across LinkedIn & X" },
   { value: "4+", label: "Years Building" },
   { value: "Fast", label: "MVP Delivery" },
 ];
