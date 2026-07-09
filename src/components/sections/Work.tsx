@@ -54,7 +54,7 @@ export function Work() {
   const handleDragEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
-    const threshold = Math.max(30, containerWidth * 0.06);
+    const threshold = containerWidth * 0.1;
     if (Math.abs(dragOffset) > threshold) {
       goTo(dragOffset > 0 ? -1 : 1);
     }
@@ -90,33 +90,35 @@ export function Work() {
     return () => container.removeEventListener("wheel", onWheel);
   }, [goTo]);
 
+  const isMobile = containerWidth < 640;
   const prev = wrapIndex(activeIndex - 1);
   const next = wrapIndex(activeIndex + 1);
 
-  const tiltClamped = Math.max(-containerWidth * 0.25, Math.min(containerWidth * 0.25, dragOffset));
-  const dragProgress = containerWidth > 0 ? tiltClamped / (containerWidth * 0.25) : 0;
+  const dragClamped = Math.max(-containerWidth * 0.3, Math.min(containerWidth * 0.3, dragOffset));
+  const dragProgress = containerWidth > 0 ? dragClamped / (containerWidth * 0.3) : 0;
 
   const renderCard = (idx: number, pos: "prev" | "active" | "next") => {
     const p = allProjects[idx];
-    
     const isActive = pos === "active";
 
-    const cardWidth = Math.min(containerWidth * 0.32, 360);
-    const gap = cardWidth * 0.15;
+    const cardWidth = isMobile ? Math.min(containerWidth * 0.8, 320) : Math.min(containerWidth * 0.28, 340);
+    const overlap = cardWidth * 0.3;
+    const sideOffset = cardWidth - overlap;
+
     let baseX: number;
-    if (pos === "prev") baseX = -(cardWidth / 2 + gap);
-    else if (pos === "next") baseX = cardWidth / 2 + gap;
+    if (pos === "prev") baseX = -sideOffset;
+    else if (pos === "next") baseX = sideOffset;
     else baseX = 0;
 
-    const dragShift = isActive ? 0 : dragProgress * baseX * 0.6;
-    const translateX = baseX + dragShift;
-
-    let s = isActive ? 1 + Math.abs(dragProgress) * 0.08 : 0.82 - Math.abs(dragProgress) * 0.08;
-    let o = isActive ? 1 : Math.max(0.4, 1 - Math.abs(dragProgress) * 0.5);
-
-    if (containerWidth < 500) {
+    if (isMobile && !isActive) {
       return null;
     }
+
+    const dragShift = dragProgress * (pos === "prev" ? -sideOffset * 0.5 : pos === "next" ? -sideOffset * 0.5 : 0);
+    const translateX = baseX + dragShift;
+
+    const s = isActive ? 1 + Math.abs(dragProgress) * 0.1 : 0.85 - Math.abs(dragProgress) * 0.08;
+    const o = isActive ? 1 : Math.max(0.55, 0.85 - Math.abs(dragProgress) * 0.25);
 
     return (
       <div
@@ -125,23 +127,24 @@ export function Work() {
         style={{
           width: cardWidth,
           left: "50%",
-          height: "auto",
           transform: `translate(-50%, -50%) translateX(${translateX}px) scale(${Math.max(0.5, s)})`,
           opacity: o,
-          zIndex: isActive ? 10 : 5,
-          transition: isActive
-            ? "none"
-            : "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-          pointerEvents: o < 0.3 ? "none" : "auto",
+          zIndex: isActive ? 20 : 10 - Math.abs(baseX / 50),
+          transition: "transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1)",
+          pointerEvents: isActive ? "auto" : "auto",
         }}
-        onClick={isActive ? undefined : () => goTo(pos === "prev" ? -1 : 1)}
+        onClick={() => {
+          if (!isActive) goTo(pos === "prev" ? -1 : 1);
+        }}
       >
         <div
-          className="relative border rounded-2xl p-5 flex flex-col"
+          className="relative border-2 rounded-2xl p-5 flex flex-col"
           style={{
-            borderColor: `${p.accent}25`,
+            borderColor: isActive ? `${p.accent}40` : `${p.accent}15`,
             background: `linear-gradient(135deg,${p.accent}06 0%, var(--bg-primary) 100%)`,
-            boxShadow: isActive ? `0 0 60px -10px ${p.accent}70` : `0 0 20px -5px ${p.accent}30`,
+            boxShadow: isActive
+              ? `0 0 50px -8px ${p.accent}60`
+              : "none",
           }}
         >
           {isActive && (
@@ -152,9 +155,9 @@ export function Work() {
             />
           )}
           <div
-            className="w-full rounded-xl mb-3 flex items-center justify-center relative overflow-hidden shrink-0"
+            className="w-full rounded-xl mb-3 relative overflow-hidden shrink-0"
             style={{
-              aspectRatio: "16 / 10",
+              aspectRatio: "16 / 11",
               background: `linear-gradient(135deg,${p.accent}12 0%, var(--bg-primary) 100%)`,
               border: `1px solid ${p.accent}20`,
             }}
@@ -169,7 +172,7 @@ export function Work() {
               />
             ) : (
               <div className="flex items-center justify-center w-full h-full" style={{ opacity: 0.25 }}>
-                <AOTLogo size={36} />
+                <AOTLogo size={32} />
               </div>
             )}
           </div>
@@ -197,7 +200,7 @@ export function Work() {
             </span>
           </div>
           <h3
-            className="text-sm md:text-base font-black mb-1 truncate shrink-0"
+            className="text-sm md:text-base font-black mb-1 truncate"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               color: "var(--text-primary)",
@@ -208,32 +211,30 @@ export function Work() {
           {isActive && (
             <>
               <p
-                className="text-xs md:text-sm leading-relaxed mb-2 flex-1 overflow-hidden line-clamp-2"
+                className="text-xs md:text-sm leading-relaxed mb-2 flex-1 line-clamp-2"
                 style={{ color: "var(--text-muted)" }}
               >
                 {p.description}
               </p>
-              {p.technologies.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-2 shrink-0">
-                  {p.technologies.slice(0, 3).map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-[7px] px-1.5 py-0.5 rounded-md"
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        background: "var(--bg-code-tag)",
-                        color: "var(--accent-primary)",
-                        border: "1px solid var(--border-color)",
-                      }}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-wrap gap-1 mb-3 shrink-0">
+                {p.technologies.slice(0, 4).map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-[7px] md:text-[8px] px-1.5 py-0.5 rounded-md"
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      background: "var(--bg-code-tag)",
+                      color: "var(--accent-primary)",
+                      border: "1px solid var(--border-color)",
+                    }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
               <Link
                 href={`/projects/${p.id}`}
-                className="block w-full text-center text-[10px] md:text-xs font-bold py-2 rounded-xl transition-all relative z-20 shrink-0"
+                className="block w-full text-center text-[10px] md:text-xs font-bold py-2.5 rounded-xl transition-all relative z-20 shrink-0"
                 style={{
                   fontFamily: "'Inter', sans-serif",
                   letterSpacing: "0.05em",
@@ -287,7 +288,7 @@ export function Work() {
         <div
           ref={containerRef}
           className="relative select-none"
-          style={{ height: containerWidth < 500 ? "auto" : "500px" }}
+          style={{ height: isMobile ? "460px" : "480px" }}
           onMouseDown={(e) => handleDragStart(e.clientX)}
           onMouseMove={(e) => handleDragMove(e.clientX)}
           onMouseUp={handleDragEnd}
@@ -296,80 +297,9 @@ export function Work() {
           onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
           onTouchEnd={handleDragEnd}
         >
-          {containerWidth < 500 ? (
-            <div className="flex flex-col items-center gap-6 px-4">
-              {(() => {
-                const p = allProjects[activeIndex];
-                return (
-                  <div
-                    className="relative border rounded-2xl p-5 flex flex-col w-full max-w-sm"
-                    style={{
-                      borderColor: `${p.accent}25`,
-                      background: `linear-gradient(135deg,${p.accent}06 0%, var(--bg-primary) 100%)`,
-                      boxShadow: `0 0 40px -10px ${p.accent}50`,
-                    }}
-                  >
-                    <Link
-                      href={`/projects/${p.id}`}
-                      className="absolute inset-0 z-10 rounded-2xl"
-                    />
-                    <div
-                      className="w-full rounded-xl mb-3 relative overflow-hidden"
-                      style={{
-                        aspectRatio: "16 / 10",
-                        background: `linear-gradient(135deg,${p.accent}12 0%, var(--bg-primary) 100%)`,
-                        border: `1px solid ${p.accent}20`,
-                      }}
-                    >
-                      {p.imageUrl ? (
-                        <Image src={p.imageUrl} alt={p.name} fill className="object-cover" sizes="100vw" />
-                      ) : (
-                        <div className="flex items-center justify-center w-full h-full" style={{ opacity: 0.25 }}>
-                          <AOTLogo size={36} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex items-start justify-between mb-2 gap-1">
-                      <span
-                        className="text-[9px] px-2 py-0.5 rounded-md truncate max-w-[65%]"
-                        style={{ background: `${p.accent}15`, color: p.accent, fontFamily: "'JetBrains Mono', monospace" }}
-                      >
-                        {p.tag}
-                      </span>
-                      <span className={`text-[9px] px-2 py-0.5 rounded-md font-mono shrink-0 ${p.status === "Live" ? "bg-green-500/10 text-green-400" : p.status === "Open" ? "bg-fuchsia-500/10 text-fuchsia-400" : "bg-purple-500/10 text-purple-400"}`}>
-                        {p.status}
-                      </span>
-                    </div>
-                    <h3 className="text-base font-black mb-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}>
-                      {p.name}
-                    </h3>
-                    <p className="text-xs leading-relaxed mb-2 line-clamp-2" style={{ color: "var(--text-muted)" }}>
-                      {p.description}
-                    </p>
-                    <Link
-                      href={`/projects/${p.id}`}
-                      className="block w-full text-center text-xs font-bold py-2.5 rounded-xl transition-all relative z-20"
-                      style={{
-                        fontFamily: "'Inter', sans-serif",
-                        letterSpacing: "0.05em",
-                        border: "1px solid var(--accent-primary)",
-                        color: "#fff",
-                        background: "var(--accent-primary)",
-                      }}
-                    >
-                      View Details →
-                    </Link>
-                  </div>
-                );
-              })()}
-            </div>
-          ) : (
-            <>
-              {renderCard(prev, "prev")}
-              {renderCard(activeIndex, "active")}
-              {renderCard(next, "next")}
-            </>
-          )}
+          {renderCard(prev, "prev")}
+          {renderCard(activeIndex, "active")}
+          {renderCard(next, "next")}
         </div>
 
         <div className="flex justify-center items-center gap-2 mt-10">
