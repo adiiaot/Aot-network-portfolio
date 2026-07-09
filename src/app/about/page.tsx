@@ -94,6 +94,7 @@ export default function AboutPage() {
     { label: "Portfolio", href: "https://aot-network-portfolio.vercel.app/" },
     { label: "LinkedIn", href: "https://linkedin.com/in/aotayo" },
     { label: "X (Twitter)", href: "https://x.com/Aot_ayo" },
+    { label: "Medium", href: "https://medium.com/@aotayo" },
     { label: "Email", href: "mailto:aotayom34@gmail.com" },
   ];
   return (

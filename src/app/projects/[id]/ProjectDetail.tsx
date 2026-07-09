@@ -709,6 +709,29 @@ function CalFitDetails() {
       >
         Read the full story: How I Built CalFit → Medium Blog Post
       </a>
+
+      <a
+        href="https://medium.com/@aotayo/primeledger-building-a-full-fintech-platform-in-7-days-with-ai-assisted-development-ba1e9208bf24"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block text-center text-sm font-bold py-4 px-6 rounded-xl transition-all"
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          letterSpacing: "0.05em",
+          border: "1px solid var(--border-color)",
+          color: "var(--text-muted)",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "var(--accent-secondary)";
+          e.currentTarget.style.color = "var(--accent-primary)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "var(--border-color)";
+          e.currentTarget.style.color = "var(--text-muted)";
+        }}
+      >
+        Read the full story: How I Built PrimeLedger in 7 Days → Medium Blog Post
+      </a>
     </>
   );
 }
