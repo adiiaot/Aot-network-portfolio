@@ -101,7 +101,7 @@ export function Work() {
     const p = allProjects[idx];
     const isActive = pos === "active";
 
-    const cardWidth = isMobile ? Math.min(containerWidth * 0.82, 340) : Math.min(containerWidth * 0.28, 330);
+    const cardWidth = isMobile ? Math.min(containerWidth * 0.88, 360) : Math.min(containerWidth * 0.28, 340);
     const overlap = cardWidth * 0.25;
     const sideOffset = cardWidth - overlap;
 
@@ -118,9 +118,6 @@ export function Work() {
     const s = isActive
       ? 1 + Math.abs(dragProgress) * 0.06
       : 0.82 - Math.abs(dragProgress) * 0.06;
-    const o = isActive
-      ? 1
-      : Math.max(0.5, 0.82 - Math.abs(dragProgress) * 0.2);
 
     return (
       <div
@@ -130,40 +127,33 @@ export function Work() {
           width: cardWidth,
           left: "50%",
           transform: `translate(-50%, -50%) translateX(${translateX}px) scale(${Math.max(0.5, s)})`,
-          opacity: o,
+          opacity: 1,
           zIndex: isActive ? 30 : pos === "prev" || pos === "next" ? 20 : 10,
           transition: isDragging
             ? "none"
-            : "transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease",
+            : "transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
         onClick={() => {
           if (!isActive) goTo(pos === "prev" ? -1 : 1);
         }}
       >
         <div
-          className="relative rounded-2xl p-5 flex flex-col backdrop-blur-sm"
+          className="relative rounded-2xl p-5 flex flex-col"
           style={{
             border: isActive ? `2px solid ${p.accent}50` : `1px solid ${p.accent}15`,
             background: isActive
-              ? `linear-gradient(135deg, ${p.accent}12 0%, rgba(15, 23, 42, 0.85) 100%)`
-              : `linear-gradient(135deg, ${p.accent}08 0%, rgba(15, 23, 42, 0.7) 100%)`,
+              ? `linear-gradient(135deg, ${p.accent}20 0%, #0f172a 100%)`
+              : `linear-gradient(135deg, ${p.accent}10 0%, #0f172a 100%)`,
             boxShadow: isActive
-              ? `0 0 60px -5px ${p.accent}50, inset 0 0 80px -40px ${p.accent}20`
-              : "0 4px 20px rgba(0,0,0,0.15)",
+              ? `0 0 60px -5px ${p.accent}50`
+              : "0 4px 20px rgba(0,0,0,0.2)",
           }}
         >
-          {isActive && (
-            <Link
-              href={`/projects/${p.id}`}
-              className="absolute inset-0 z-10 rounded-2xl"
-              aria-label={`View details for ${p.name}`}
-            />
-          )}
           <div
             className="w-full rounded-xl mb-3 relative overflow-hidden shrink-0"
             style={{
               aspectRatio: "16 / 11",
-              background: `linear-gradient(135deg,${p.accent}12 0%, rgba(15, 23, 42, 0.9) 100%)`,
+              background: `linear-gradient(135deg,${p.accent}12 0%, #0f172a 100%)`,
               border: `1px solid ${p.accent}20`,
             }}
           >
@@ -239,7 +229,7 @@ export function Work() {
               </div>
               <Link
                 href={`/projects/${p.id}`}
-                className="block w-full text-center text-[10px] md:text-xs font-bold py-2.5 rounded-xl transition-all duration-200 relative z-20 shrink-0"
+                className="block w-full text-center text-xs font-bold py-2.5 rounded-xl transition-all duration-200 relative z-20 shrink-0"
                 style={{
                   fontFamily: "'Inter', sans-serif",
                   letterSpacing: "0.05em",
@@ -262,14 +252,14 @@ export function Work() {
   return (
     <section
       id="work"
-      className="py-32 px-6 overflow-hidden"
+      className="py-24 md:py-32 px-4 md:px-6 overflow-hidden"
       style={{ background: "var(--section-work)" }}
     >
       <div className="max-w-6xl mx-auto">
         <SectionLabel>Selected Work</SectionLabel>
-        <div className="flex items-end justify-between mb-16 mt-4 flex-wrap gap-4">
+        <div className="flex items-end justify-between mb-12 md:mb-16 mt-4 flex-wrap gap-4">
           <h2
-            className="text-4xl md:text-6xl font-black"
+            className="text-3xl md:text-6xl font-black"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               color: "var(--text-primary)",
@@ -295,9 +285,6 @@ export function Work() {
           className="relative select-none rounded-3xl"
           style={{
             height: isMobile ? "480px" : "500px",
-            background: isMobile
-              ? "transparent"
-              : "radial-gradient(ellipse 80% 60% at 50% 55%, rgba(124,58,237,0.06) 0%, transparent 70%)",
           }}
           onMouseDown={(e) => handleDragStart(e.clientX)}
           onMouseMove={(e) => handleDragMove(e.clientX)}
@@ -312,58 +299,64 @@ export function Work() {
           {renderCard(next, "next")}
         </div>
 
-        <div className="flex justify-center items-center gap-3 mt-10">
-          <button
-            onClick={() => goTo(-1)}
-            className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
-            style={{
-              width: 36,
-              height: 36,
-              background: "var(--bg-elevated)",
-              border: "1px solid var(--border-color)",
-              color: "var(--text-muted)",
-            }}
-            aria-label="Previous project"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          {allProjects.map((_, i) => (
+        <div className="flex justify-center items-center gap-3 mt-8 md:mt-10">
+          {!isMobile && (
             <button
-              key={i}
-              onClick={() => {
-                setActiveIndex(i);
-                if (autoSlideRef.current) {
-                  clearInterval(autoSlideRef.current);
-                  autoSlideRef.current = null;
-                }
-                startAutoSlide();
-              }}
-              className="rounded-full transition-all duration-500"
+              onClick={() => goTo(-1)}
+              className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
               style={{
-                width: i === activeIndex ? 28 : 8,
-                height: 8,
-                background:
-                  i === activeIndex
-                    ? "var(--accent-primary)"
-                    : "var(--border-color-light)",
+                width: 36,
+                height: 36,
+                background: "var(--bg-elevated)",
+                border: "1px solid var(--border-color)",
+                color: "var(--text-muted)",
               }}
-              aria-label={`Go to project ${i + 1}`}
-            />
-          ))}
-          <button
-            onClick={() => goTo(1)}
-            className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
-            style={{
-              width: 36,
-              height: 36,
-              background: "var(--bg-elevated)",
-              border: "1px solid var(--border-color)",
-              color: "var(--text-muted)",
-            }}
-            aria-label="Next project"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-          </button>
+              aria-label="Previous project"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+          )}
+          <div className="flex justify-center items-center gap-2">
+            {allProjects.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setActiveIndex(i);
+                  if (autoSlideRef.current) {
+                    clearInterval(autoSlideRef.current);
+                    autoSlideRef.current = null;
+                  }
+                  startAutoSlide();
+                }}
+                className="rounded-full transition-all duration-500"
+                style={{
+                  width: i === activeIndex ? isMobile ? 24 : 28 : 8,
+                  height: 8,
+                  background:
+                    i === activeIndex
+                      ? "var(--accent-primary)"
+                      : "var(--border-color-light)",
+                }}
+                aria-label={`Go to project ${i + 1}`}
+              />
+            ))}
+          </div>
+          {!isMobile && (
+            <button
+              onClick={() => goTo(1)}
+              className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
+              style={{
+                width: 36,
+                height: 36,
+                background: "var(--bg-elevated)",
+                border: "1px solid var(--border-color)",
+                color: "var(--text-muted)",
+              }}
+              aria-label="Next project"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          )}
         </div>
       </div>
     </section>
