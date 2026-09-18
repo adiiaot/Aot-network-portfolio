@@ -7,7 +7,7 @@ export function AotAISection() {
   return (
     <section
       id="aot-ai"
-      className="py-32 px-6"
+      className="py-16 md:py-32 px-4 md:px-6"
       style={{ background: "var(--section-ai)" }}
     >
       <div className="max-w-3xl mx-auto text-center">

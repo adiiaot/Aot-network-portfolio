@@ -5,7 +5,7 @@ export function Process() {
   return (
     <section
       id="process"
-      className="py-32 px-6"
+      className="py-16 md:py-32 px-4 md:px-6"
       style={{ background: "var(--bg-primary)" }}
     >
       <div className="max-w-6xl mx-auto">

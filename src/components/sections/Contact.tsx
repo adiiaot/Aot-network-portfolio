@@ -55,7 +55,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-32 px-6"
+      className="py-16 md:py-32 px-4 md:px-6"
       style={{ background: "var(--section-contact)" }}
     >
       <div className="max-w-2xl mx-auto">
@@ -80,7 +80,7 @@ export function Contact() {
             </div>
           </div>
           <h2
-            className="text-5xl md:text-6xl font-black mb-4"
+            className="text-4xl sm:text-5xl md:text-6xl font-black mb-4"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               color: "var(--text-primary)",

@@ -5,7 +5,7 @@ export function Services() {
   return (
     <section
       id="services"
-      className="py-32 px-6"
+      className="py-16 md:py-32 px-4 md:px-6"
       style={{ background: "var(--bg-primary)" }}
     >
       <div className="max-w-6xl mx-auto">
@@ -29,9 +29,9 @@ export function Services() {
           className="mb-16 max-w-md text-sm"
           style={{ fontFamily: "'Inter', sans-serif", color: "var(--text-muted)" }}
         >
-          Three focused service lines. All done by me. No subcontractors.
+          Four focused service lines. All designed and shipped by me.
         </p>
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {services.map((s) => (
             <div
               key={s.title}

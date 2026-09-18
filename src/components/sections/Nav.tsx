@@ -36,13 +36,13 @@ export function Nav() {
               className="font-black text-sm leading-none tracking-[0.2em]"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
             >
-              ΔOT
+              AOT
             </div>
             <div
               className="text-[7px] tracking-[0.35em] leading-none mt-0.5"
               style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--accent-primary)" }}
             >
-              NETWORK
+              BUILDER
             </div>
           </div>
         </a>

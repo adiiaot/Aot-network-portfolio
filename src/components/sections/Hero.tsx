@@ -76,7 +76,7 @@ export function Hero() {
         </div>
 
         <h1
-          className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4"
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             color: "var(--text-primary)",
@@ -87,7 +87,7 @@ export function Hero() {
         </h1>
 
         <div
-          className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 min-h-[1.25em] flex items-center justify-center gap-2"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-8 min-h-[1.25em] flex items-center justify-center gap-2 flex-wrap text-center px-2"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
           <span
@@ -101,7 +101,7 @@ export function Hero() {
             {typed}
           </span>
           <span
-            className="inline-block w-1 h-16 md:h-20 lg:h-24 animate-pulse rounded-sm"
+            className="inline-block w-1 h-10 sm:h-16 md:h-20 lg:h-24 animate-pulse rounded-sm"
             style={{ background: "var(--accent-primary)" }}
           />
         </div>
