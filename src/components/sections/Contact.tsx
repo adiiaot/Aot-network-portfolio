@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AOTLogo } from "@/components/ui/AOTLogo";
 import {
   WHATSAPP_NUMBER,
@@ -18,19 +18,6 @@ export function Contact() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.hash.split("?")[1] || "");
-    const pkg = params.get("package");
-    if (pkg) {
-      setForm((prev) => ({
-        ...prev,
-        idea: prev.idea
-          ? prev.idea
-          : `I'm interested in the ${pkg} package. `,
-      }));
-    }
-  }, []);
 
   const handleSend = async () => {
     if (!form.name || !form.email || !form.idea) return;
@@ -138,8 +125,8 @@ export function Contact() {
           >
             Telegram
           </a>{" "}
-          — I respond much faster there. Include your project idea and budget
-          and I&apos;ll get back to you ASAP.
+          — I respond much faster there. Include your project idea
+          and I&apos;ll get back to you ASAP with a custom quote.
         </div>
 
         <div
@@ -256,11 +243,11 @@ export function Contact() {
                     opacity: 0.7,
                   }}
                 >
-                  Your Budget *
+                  Budget (optional)
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. $2,000, or tell me what you're looking to invest..."
+                  placeholder="Rough range helps me quote — or leave blank"
                   value={form.budget}
                   onChange={(e) =>
                     setForm({ ...form, budget: e.target.value })

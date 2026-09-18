@@ -15,9 +15,9 @@ export async function POST(req: Request) {
   try {
     const { name, email, idea, budget } = await req.json();
 
-    if (!name || !email || !idea || !budget) {
+    if (!name || !email || !idea) {
       return NextResponse.json(
-        { error: "All fields are required." },
+        { error: "Name, email, and project idea are required." },
         { status: 400 }
       );
     }
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
         <h2>Custom Scope Request</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Budget:</strong> ${budget}</p>
+        ${budget ? `<p><strong>Budget (optional):</strong> ${budget}</p>` : ""}
         <p><strong>Idea:</strong></p>
         <p>${idea.replace(/\n/g, "<br>")}</p>
       `,

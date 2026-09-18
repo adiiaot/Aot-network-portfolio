@@ -22,7 +22,7 @@ export function Services() {
               WebkitTextFillColor: "transparent",
             }}
           >
-            execute.
+            do.
           </span>
         </h2>
         <p

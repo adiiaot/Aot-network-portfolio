@@ -57,17 +57,6 @@ export function AotAIChat({ id }: { id?: string }) {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const pkg = params.get("package");
-      if (pkg && messages.length === 1 && messages[0]?.role === "assistant") {
-        const msg = `I'm interested in the ${pkg} package. Can you help me figure out what I need and what it would cost?`;
-        setTimeout(() => send(msg), 300);
-      }
-    }
-  }, []);
-
   async function send(msg: string) {
     if (!msg.trim() || loading) return;
 
@@ -264,7 +253,7 @@ export function AotAIChat({ id }: { id?: string }) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask about projects, pricing, or services..."
+          placeholder="Ask about my work, services, or your project..."
           rows={1}
           className="flex-1 bg-transparent text-sm outline-none resize-none px-2 py-1.5"
           style={{ color: "var(--text-primary)", fontFamily: "'Inter', sans-serif" }}

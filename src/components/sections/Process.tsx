@@ -1,5 +1,5 @@
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { processSteps } from "@/data/pricing";
+import { processSteps } from "@/data/process";
 
 export function Process() {
   return (

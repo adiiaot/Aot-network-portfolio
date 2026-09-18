@@ -15,9 +15,9 @@ export async function POST(req: Request) {
   try {
     const { name, email, idea, budget } = await req.json();
 
-    if (!name || !email || !idea || !budget) {
+    if (!name || !email || !idea) {
       return NextResponse.json(
-        { error: "Name, email, idea, and budget are required." },
+        { error: "Name, email, and project idea are required." },
         { status: 400 }
       );
     }
@@ -26,12 +26,12 @@ export async function POST(req: Request) {
       from: process.env.SMTP_EMAIL,
       replyTo: email,
       to: TO_EMAIL,
-      subject: `Project Request from ${name}`,
+      subject: `Custom Quote Request from ${name}`,
       html: `
-        <h2>New Project Inquiry</h2>
+        <h2>New Custom Quote Request</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Budget:</strong> ${budget}</p>
+        ${budget ? `<p><strong>Budget (optional):</strong> ${budget}</p>` : ""}
         <p><strong>Idea:</strong></p>
         <p>${idea.replace(/\n/g, "<br>")}</p>
       `,

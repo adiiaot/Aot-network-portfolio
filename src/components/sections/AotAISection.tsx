@@ -68,7 +68,7 @@ export function AotAISection() {
               borderBottomLeftRadius: "4px",
             }}
           >
-            Hi! Tell me about your project and I&apos;ll help you figure out the best approach, tech stack, and what it might cost.
+            Hi! Tell me about your project and I&apos;ll help you figure out the best approach, tech stack, and timeline — then point you to a custom quote.
           </div>
 
           <div className="flex items-center gap-2 mt-4" onClick={(e) => e.stopPropagation()}>
@@ -81,7 +81,7 @@ export function AotAISection() {
                 color: "var(--text-very-dim)",
               }}
             >
-              Ask about projects, pricing, or services...
+              Ask about my work, services, or your project...
             </Link>
             <Link
               href="/aot-ai"
