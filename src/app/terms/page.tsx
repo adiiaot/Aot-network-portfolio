@@ -40,7 +40,7 @@ export default function TermsPage() {
         >
           <Section title="1. Acceptance of Terms">
             <p>
-              By accessing or using the AOT Network website and services, you
+              By accessing or using the AOT website and services, you
               agree to be bound by these Terms &amp; Conditions. If you do not
               agree with any part of these terms, you must not use our website
               or services.
@@ -53,8 +53,8 @@ export default function TermsPage() {
 
           <Section title="2. Services Description">
             <p>
-              AOT Network provides software development, AI systems engineering,
-              mobile and web application development, and technology consulting
+              AOT provides software development, AI systems engineering,
+              trading systems, mobile and web application development, and technology consulting
               services. The specific scope, deliverables, timelines, and fees
               for each project are defined in a separate agreement or statement
               of work.
@@ -90,10 +90,10 @@ export default function TermsPage() {
                 color: "var(--text-secondary)",
               }}
             >
-              AOT Network IP
+              AOT IP
             </h3>
             <p>
-              AOT Network retains the right to use any general-purpose tools,
+              AOT retains the right to use any general-purpose tools,
               libraries, frameworks, and methodologies developed during the
               course of a project, provided that client-specific business logic
               and confidential information are excluded.
@@ -188,7 +188,7 @@ export default function TermsPage() {
 
           <Section title="8. Limitation of Liability">
             <p>
-              AOT Network shall not be liable for any indirect, incidental,
+              AOT shall not be liable for any indirect, incidental,
               special, consequential, or punitive damages arising out of or
               related to our services, including but not limited to loss of
               profits, data, or business opportunities.

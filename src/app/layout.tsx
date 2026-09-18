@@ -11,11 +11,11 @@ const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://aot-network-portfol
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
-  title: "AOT Network - Build. Ship. Scale.",
+  title: "AOT - Build. Ship. Scale.",
   description:
-    "From MVP to production—fast, structured, and reliable. I build scalable mobile apps, web platforms, AI systems, and automation workflows.",
+    "From MVP to production—fast, structured, and reliable. I build scalable mobile apps, web platforms, AI systems, trading systems, and automation workflows.",
   keywords: [
-    "AOT Network",
+    "AOT",
     "Mobile Development",
     "AI Development",
     "Web Development",
@@ -24,19 +24,19 @@ export const metadata: Metadata = {
     "MVP Development",
   ],
   openGraph: {
-    title: "AOT Network - Build. Ship. Scale.",
+    title: "AOT - Build. Ship. Scale.",
     description:
-      "Premium contract development. Mobile apps, web platforms, and AI systems.",
+      "Premium contract development. Mobile apps, web platforms, AI systems, and trading systems.",
     type: "website",
     locale: "en_US",
-    siteName: "AOT Network",
+    siteName: "AOT",
     images: [{ url: "/images/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AOT Network - Build. Ship. Scale.",
+    title: "AOT - Build. Ship. Scale.",
     description:
-      "Premium contract development. Mobile apps, web platforms, AI systems.",
+      "Premium contract development. Mobile apps, web platforms, AI systems, trading systems.",
     images: [{ url: "/images/og-image.png" }],
   },
   icons: {

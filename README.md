@@ -1,21 +1,21 @@
-# AOT Network
+# AOT
 
 **Build. Ship. Scale.**
 
-A premium, scalable portfolio platform for **AOT Network** — a product development and AI systems agency. Built with Next.js 15 App Router, TypeScript, Tailwind CSS, and designed to be fully data-driven so you never need to touch component code to update content.
+The personal portfolio of **Oluwadare Taye Ayo (AOT)** — founder and builder of L2 Signals. Product development, AI systems, and trading systems. Built with Next.js App Router, TypeScript, Tailwind CSS, and designed to be fully data-driven so content updates never need component code changes.
 
 ---
 
 ## Table of Contents
 
-- [About AOT Network](#about-aot-network)
+- [About AOT](#about-aot)
 - [Business Model](#business-model)
 - [Services](#services)
 ---
 
-## About AOT Network
+## About AOT
 
-AOT Network is a premium product development and AI systems agency that builds:
+AOT is a premium product development, AI systems, and trading-systems studio that builds:
 
 - **Mobile apps** — iOS & Android via React Native
 - **Web platforms** — SaaS dashboards, admin systems, landing pages
@@ -45,12 +45,12 @@ AOT Network is a premium product development and AI systems agency that builds:
 
 ## Business Model
 
-AOT Network operates on a structured, transparent engagement model:
+I operate on a structured, transparent engagement model:
 
 1. **Structured Packages** — Three clear tiers (Starter MVP, Growth Build, AI Systems) with defined scope, timeline, and pricing
 2. **Flexible Scope** — Selective partnerships with founders at various stages; discovery calls to determine fit
 3. **Monthly Client Cap** — One new client per month to ensure quality
-4. **No Subcontractors** — All work done in-house
+4. **Solo Builder** — Every project designed, built, and shipped by me personally
 
 ### Core Values
 
@@ -68,7 +68,8 @@ AOT Network operates on a structured, transparent engagement model:
 | **Mobile App Development** | Cross-platform iOS and Android apps from concept to App Store | React Native, iOS, Android, Push Notifications |
 | **Web & Dashboard Systems** | Scalable web platforms, SaaS dashboards, admin systems | Next.js, React, Supabase, REST APIs |
 | **AI Systems & Integrations** | LLM features, automation pipelines, intelligent workflows | OpenAI, Anthropic, Automation, Custom APIs |
+| **Trading Systems & Signals API** | Signal engines, verifiable ledgers, MT5 EA, API access — proven live by L2 Signals | MT5 EA, Dukascopy, Firestore, REST & Webhooks |
 
 ## License
 
-© 2024–2025 AOT Network. All rights reserved.
+© 2024–2026 AOT. All rights reserved.

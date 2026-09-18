@@ -58,7 +58,7 @@ export default function AboutPage() {
     },
     {
       category: "Tools & Infra",
-      items: ["Git/GitHub", "Vercel", "Railway", "Docker", "VS Code Extension API"],
+      items: ["Git/GitHub", "Vercel", "Render", "Railway", "Docker", "MT5 EA (MQL5)", "VS Code Extension API"],
     },
   ];
 
@@ -81,10 +81,12 @@ export default function AboutPage() {
       ],
     },
     {
-      role: "Founder / Product Engineer",
-      company: "AOT Network",
+      role: "Founder, Quant & Product Engineer",
+      company: "L2 Signals (AOT)",
       items: [
-        "Building software products and developer-focused systems",
+        "Live XAU/USD signal business — 3-strategy engine, hybrid execution, verifiable ledger (76.9% WR / PF 4.0 backtest)",
+        "Signals API access, custom trading systems, and fintech apps for clients",
+        "Growing a trading community + broker/prop-firm partnerships",
       ],
     },
   ];
@@ -134,8 +136,9 @@ export default function AboutPage() {
             className="text-base md:text-lg max-w-2xl mb-10 leading-relaxed"
             style={{ color: "var(--text-muted)" }}
           >
-            I&apos;m Oluwadare Taye Ayo (<strong style={{ fontWeight: 700, color: "var(--text-secondary)" }}>AOT Ayo</strong>), a Full Stack Product Engineer building cross-platform
-            applications, backend systems, and intelligent software experiences.
+            I&apos;m Oluwadare Taye Ayo (<strong style={{ fontWeight: 700, color: "var(--text-secondary)" }}>AOT</strong>), a Cross-Asset Quant and Product Engineer — founder of{" "}
+            <Link href="/projects/l2-signals" style={{ fontWeight: 700, color: "var(--accent-primary)" }}>L2 Signals</Link>, building systematic trading infrastructure
+            and production-grade software.
           </p>
           <div className="flex flex-wrap gap-4">
             <a
@@ -186,15 +189,15 @@ export default function AboutPage() {
             style={{ color: "var(--text-muted)" }}
           >
             <p>
-              I am a product-focused software engineer experienced in building
-              mobile applications, backend APIs, and AI-powered systems. I
-              specialize in React Native, TypeScript, Node.js, databases, cloud
-              services, and modern AI integrations.
+              I&apos;m building and scaling{" "}
+              <Link href="/projects/l2-signals" style={{ fontWeight: 700, color: "var(--text-secondary)" }}>L2 Signals</Link>{" "}
+              — an intraday trading system designed to bring systematic trading infrastructure to retail traders. I built L2 because retail gold trading is mostly discretion and emotion: no system, no ledger, no accountability. I wanted the opposite — a deterministic product that logs every trade, every R, every date, and compounds with 1–2% risk.
             </p>
             <p>
-              I enjoy turning ideas into production-ready products with clean
-              architecture and great user experiences. Every project I ship is
-              built with scalability, performance, and maintainability in mind.
+              Alongside trading systems, I build software products that turn complex workflows into practical, scalable systems — full-stack web and mobile apps, APIs, AI products. I use modern AI models to prototype, build, test and iterate faster — while focusing on architecture, data, UX, reliability and long-term scalability.
+            </p>
+            <p>
+              My strongest skill isn&apos;t a framework. It&apos;s taking a complex problem, breaking it into its underlying systems, and shipping something that actually works — from MVP to production, docs, and go-to-market.
             </p>
           </div>
         </div>

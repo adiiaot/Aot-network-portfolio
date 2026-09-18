@@ -8,7 +8,7 @@ import { STATS } from "@/data/social";
 
 export function Hero() {
   const typed = useTypewriter(
-    ["Mobile Apps.", "Web Platforms.", "AI Systems.", "Your Next Product."],
+    ["Mobile Apps.", "Web Platforms.", "AI Systems.", "Trading Systems.", "Your Next Product."],
     80,
     2300
   );
@@ -72,7 +72,7 @@ export function Hero() {
             opacity: 0.8,
           }}
         >
-          ── AOT NETWORK ──
+          ── AOT ──
         </div>
 
         <h1

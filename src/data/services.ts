@@ -16,10 +16,17 @@ export const services: Service[] = [
     tags: ["Next.js", "React", "Supabase", "REST APIs"],
   },
   {
-    icon: "\u25CE",
+    icon: "◎",
     title: "AI Systems & Integrations",
     description:
-      "LLM-powered features, automation pipelines, and intelligent workflows built for production\u2014not demos.",
+      "LLM-powered features, automation pipelines, and intelligent workflows built for production—not demos.",
     tags: ["OpenAI", "Anthropic", "Automation", "Custom APIs"],
+  },
+  {
+    icon: "⬔",
+    title: "Trading Systems & Signals API",
+    description:
+      "Systematic signal engines, verifiable trade ledgers, MT5 EA delivery, and API access — proven live by L2 Signals.",
+    tags: ["MT5 EA", "Dukascopy", "Firestore", "REST & Webhooks"],
   },
 ];

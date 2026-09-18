@@ -709,884 +709,111 @@ function CalFitDetails() {
       >
         Read the full story: How I Built CalFit → Medium Blog Post
       </a>
-
-      <a
-        href="https://medium.com/@aotayo/primeledger-building-a-full-fintech-platform-in-7-days-with-ai-assisted-development-ba1e9208bf24"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block text-center text-sm font-bold py-4 px-6 rounded-xl transition-all"
-        style={{
-          fontFamily: "'Inter', sans-serif",
-          letterSpacing: "0.05em",
-          border: "1px solid var(--border-color)",
-          color: "var(--text-muted)",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = "var(--accent-secondary)";
-          e.currentTarget.style.color = "var(--accent-primary)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = "var(--border-color)";
-          e.currentTarget.style.color = "var(--text-muted)";
-        }}
-      >
-        Read the full story: How I Built PrimeLedger in 7 Days → Medium Blog Post
-      </a>
     </>
   );
 }
 
-function AnalyzerBotDetails() {
-  const sections = [
-    {
-      title: "1. Architecture Overview",
-      content: (
-        <>
-          <p>
-            The Analyzer Bot is a dual-component system: a <strong style={{ color: "var(--accent-primary)" }}>FastAPI Python backend</strong> (bot) and a <strong style={{ color: "var(--accent-primary)" }}>Next.js 14 dashboard</strong> (web), connected through Firebase Firestore and NVIDIA NIM AI APIs.
-          </p>
-          <div
-            className="p-4 rounded-xl text-xs font-mono whitespace-pre leading-relaxed mb-4"
-            style={{ background: "var(--bg-code-tag)", color: "var(--text-muted)" }}
-          >
-{`Telegram User → Telegram Bot Handler
-       → SignalGenerator (4-TF Engine)
-       → TradingViewClient (RapidAPI OHLCV)
-       → Firebase Firestore → Telegram response
 
-User sends screenshot → MultiModelPipeline
-       → SignalGenerator (API data, parallel)
-       → NvidiaVisionAnalyzer (Llama 3.2 11B Vision)
-       → _verify_alignment() → score + adjusted confidence`}
-          </div>
-        </>
-      ),
-    },
-    {
-      title: "2. 4-Timeframe Signal Engine",
-      content: (
-        <>
-          <p>
-            The <strong style={{ color: "var(--accent-primary)" }}>SignalGenerator</strong> implements a four-level scalping framework for XAU/USD:
-          </p>
-          <ul className="list-disc list-inside space-y-1">
-            <li><strong style={{ color: "var(--text-secondary)" }}>Level 1 — Trend (1H + 4H):</strong> Counts HH/HL vs LH/LL across 10 candles. Both timeframes must agree on UP/DOWN/NEUTRAL.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Level 2 — S/R (15M):</strong> Scans 20 candles for swing lows (support) and highs (resistance).</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Level 3 — Pullback (5M):</strong> Checks price within 10 pips of key level with low volatility (ATR ratio &lt; 5%).</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Level 4 — Entry (1M):</strong> Detects reversal candle (pin bar or engulfing pattern) for final entry trigger.</li>
-          </ul>
-          <p className="mt-3">
-            Each signal builds 4 stacked entries with pyramiding: Entry 1 at market price with +20 pip TP (auto-close), then entries at -5/-10/-15 pips with TPs at +40/+60/+80 pips (manual). Base confidence starts at 0.75.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: "3. Dual-Model AI Verification Pipeline",
-      content: (
-        <>
-          <p>
-            The <strong style={{ color: "var(--accent-primary)" }}>MultiModelPipeline</strong> coordinates dual-verification between algorithmic API data and AI vision analysis:
-          </p>
-          <ul className="list-disc list-inside space-y-1">
-            <li><strong style={{ color: "var(--text-secondary)" }}>API-Only Mode:</strong> Runs SignalGenerator alone, returns signal with <code style={{ color: "var(--accent-primary)" }}>verified: false</code>.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>API + Screenshot Mode:</strong> Runs both in parallel, then computes an alignment score.</li>
-          </ul>
-          <p className="mt-3">
-            <strong style={{ color: "var(--text-secondary)" }}>Alignment Scoring:</strong> Support mismatch &gt; 0.5% (-15), resistance mismatch &gt; 0.5% (-15), trend mismatch (-20), trend match (+10), low vision confidence &lt; 50% (-20). Score clamped to 0-100, then mapped: ≥ 80 → +15% confidence boost, ≥ 60 → +5%, &lt; 40 → -10% penalty.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: "4. Telegram Bot Commands",
-      content: (
-        <>
-          <p>Seven commands implemented with <strong style={{ color: "var(--accent-primary)" }}>python-telegram-bot</strong> v20+:</p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Command</th>
-                  <th className="py-2 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["/signal", "Generate API-based signal via 4-TF engine, save to Firestore"],
-                  ["/log_trade", "4-step conversation: entry → exit → result → confirm with PnL"],
-                  ["/journal", "Free-text trading journal entry saved to Firestore"],
-                  ["/stats", "Display win rate, P&L, total signals from Firestore"],
-                  ["/dashboard", "Inline button linking to the web dashboard"],
-                  ["/analyze", "Upload a chart screenshot for dual-model verification"],
-                  ["/clear", "Reset chat history"],
-                  ["/help", "List all commands with usage examples"],
-                ].map(([cmd, desc]) => (
-                  <tr key={cmd} style={{ borderBottom: "1px solid var(--border-color)" }}>
-                    <td className="py-2 pr-4 font-mono whitespace-nowrap" style={{ color: "var(--accent-primary)" }}>{cmd}</td>
-                    <td className="py-2">{desc}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ),
-    },
-    {
-      title: "5. Dashboard — Analytics & Learning Hub",
-      content: (
-        <>
-          <p>
-            The <strong style={{ color: "var(--accent-primary)" }}>Next.js 14 dashboard</strong> provides real-time trading intelligence with five main pages:
-          </p>
-          <ul className="list-disc list-inside space-y-1">
-            <li><strong style={{ color: "var(--text-secondary)" }}>Dashboard Overview:</strong> KPI cards, cumulative P&L chart (Recharts), recent trades (auto-refresh 30s).</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Trades:</strong> Full trade log with result and date range filters.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Analytics:</strong> 4-tab view — Performance, Screenshot, Verification, Trade Insights.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Signals & Journal:</strong> Active signals table and journal entries with tag filters.</li>
-            <li><strong style={{ color: "var(--accent-primary)" }}>Learning Hub:</strong> Nvidia-powered Q&A chatbot + chart upload for AI analysis.</li>
-          </ul>
-          <p className="mt-3">
-            API routes proxy to the bot backend and NVIDIA NIM directly. Firebase Web SDK reads from the same Firestore collections the bot writes to, ensuring real-time sync between Telegram and the web interface.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: "6. Tech Stack & Infrastructure",
-      content: (
-        <>
-          <p>
-            <strong style={{ color: "var(--accent-primary)" }}>Backend:</strong> FastAPI (Python) with per-collection Firestore data layer (signals, trades, journal, logs), TradingView RapidAPI client, NVIDIA NIM vision/LLM integration.
-          </p>
-          <p>
-            <strong style={{ color: "var(--accent-primary)" }}>Frontend:</strong> Next.js 14 App Router, Tailwind CSS, Recharts, Firebase Web SDK, TypeScript.
-          </p>
-          <p>
-            <strong style={{ color: "var(--accent-primary)" }}>AI Models:</strong> Llama 3.2 11B Vision (chart analysis), Llama 3.3 70B Instruct (trade strategy), Llama 3.1 8B Instruct (fallback processor) — all via NVIDIA NIM free tier.
-          </p>
-          <p>
-            <strong style={{ color: "var(--accent-primary)" }}>Database:</strong> Firebase Firestore with camelCase fields matching TypeScript types across Python, seed scripts, and frontend.
-          </p>
-          <p>
-            <strong style={{ color: "var(--accent-primary)" }}>Deployment:</strong> Backend on Railway (Nixpacks, polling mode), frontend on Vercel. Health check at <code style={{ color: "var(--accent-primary)" }}>/health</code>.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: "7. Trading Strategy — XAU/USD Scalping",
-      content: (
-        <>
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
-            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Instrument</div>
-              <p className="text-sm font-bold" style={{ color: "var(--accent-primary)" }}>XAU/USD (Gold)</p>
-            </div>
-            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Approach</div>
-              <p className="text-sm font-bold" style={{ color: "var(--text-secondary)" }}>Scalping — 4-leg pyramiding</p>
-            </div>
-            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Entry 1</div>
-              <p className="text-sm" style={{ color: "var(--text-muted)" }}>Market price, TP +20 pips, <strong style={{ color: "#22c55e" }}>Auto-close</strong></p>
-            </div>
-            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Entry 2-4</div>
-              <p className="text-sm" style={{ color: "var(--text-muted)" }}>Price -5/-10/-15 pips, TP +40/+60/+80 pips, <strong style={{ color: "var(--accent-primary)" }}>Manual</strong></p>
-            </div>
-            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Risk</div>
-              <p className="text-sm" style={{ color: "var(--text-muted)" }}>Max hold 5 min, lot size 0.01, signal valid 3h</p>
-            </div>
-            <div className="p-4 rounded-xl" style={{ background: "var(--bg-code-tag)", border: "1px solid var(--border-color)" }}>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Rate Limit</div>
-              <p className="text-sm" style={{ color: "var(--text-muted)" }}>150 requests/month (free tier cap)</p>
-            </div>
-          </div>
-          <p>
-            All four entry conditions must be true: 1H/4H trend agreement, price at 15M S/R level, 5M pullback in progress within 10 pips, and a 1M reversal candle. One signal per candle cycle.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: "8. Firestore Data Layer",
-      content: (
-        <>
-          <p>Per-collection wrapper classes ensure consistent camelCase fields across backend, seed scripts, and frontend:</p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Collection</th>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Class</th>
-                  <th className="py-2 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Purpose</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["signals", "SignalsDB", "Save/query/update trading signals"],
-                  ["trades", "TradesDB", "Persist trades with PnL"],
-                  ["journal", "JournalDB", "Free-text trading journal"],
-                  ["signals_sent_log", "LogsDB", "Audit trail for all bot commands"],
-                ].map(([col, cls, purpose]) => (
-                  <tr key={col} style={{ borderBottom: "1px solid var(--border-color)" }}>
-                    <td className="py-2 pr-4 font-mono" style={{ color: "var(--accent-primary)" }}>{col}</td>
-                    <td className="py-2 pr-4 font-mono" style={{ color: "var(--text-secondary)" }}>{cls}</td>
-                    <td className="py-2">{purpose}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ),
-    },
+function L2SignalsDetails() {
+  const stats = [
+    { k: "BACKTEST", v: "76.9% WR · PF 4.0", s: "200 signals · real Dukascopy" },
+    { k: "HYBRID EOD", v: "74.2% · PF 5.12", s: "+103R net · limit+stop fills" },
+    { k: "LIVE DEMO", v: "$100 → $1,007", s: "37 days · 1–2% risk" },
+    { k: "EXECUTION", v: "21:00 UTC", s: "hard close · 50%@+1R → BE" },
   ];
-
   return (
     <>
-      <div className="mb-8">
-        <div
-          className="rounded-2xl p-6"
-          style={{
-            background: "var(--card-bg)",
-            border: "1px solid var(--border-color)",
-          }}
-        >
-          <div className="grid md:grid-cols-2 gap-6 text-sm">
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-                Tagline
-              </div>
-              <p style={{ color: "var(--accent-primary)", fontWeight: 700 }}>
-                XAU/USD scalp bot — dual-model Nvidia AI verification
-              </p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-                Platform
-              </div>
-              <p style={{ color: "var(--text-secondary)" }}>Telegram + Web Dashboard</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-                Backend
-              </div>
-              <p style={{ color: "var(--text-secondary)" }}>FastAPI (Python) + Firebase Firestore</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-                Frontend
-              </div>
-              <p style={{ color: "var(--text-secondary)" }}>Next.js 14 + Tailwind CSS + Recharts</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-                AI Models
-              </div>
-              <p style={{ color: "var(--text-secondary)" }}>Llama 3.2 11B Vision + Llama 3.3 70B (NVIDIA NIM)</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-                Live Links
-              </div>
-              <p style={{ color: "var(--text-secondary)" }}>
-                <a href="https://analyzer-dashboard-kohl.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-primary)" }}>Dashboard</a>
-                {" · "}
-                <a href="https://t.me/aot_analyzer_bot" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-primary)" }}>Telegram Bot</a>
-              </p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-                Developer
-              </div>
-              <p style={{ color: "var(--text-secondary)" }}>AOT (aotnetworklabs@gmail.com)</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div
-        className="rounded-2xl p-6 mb-8"
-        style={{
-          background: "linear-gradient(135deg, rgba(245,158,11,0.08) 0%, var(--bg-primary) 100%)",
-          border: "1px solid rgba(245,158,11,0.25)",
-        }}
+        className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-10 mb-6"
       >
-        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-          Key Differentiators
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {[
-            "Dual-Model AI Verification — Algorithmic + Vision AI in one pipeline",
-            "4-Timeframe Scalping Engine — 1H/4H trend, 15M S/R, 5M pullback, 1M entry",
-            "Telegram-Native Interface — Commands, inline keyboards, conversation flows",
-            "Real-Time Dashboard — Live Firestore sync between Telegram and web",
-            "Fully Zero-Cost AI — All models run on NVIDIA NIM free tier",
-            "Self-Contained Architecture — No dependencies on paid APIs or services",
-            "Comprehensive Audit Trail — Every command logged to Firestore",
-          ].map((item) => (
+        {stats.map((s) => (
+          <div
+            key={s.k}
+            className="rounded-xl p-4"
+            style={{
+              background: "linear-gradient(135deg, rgba(0,201,120,0.10) 0%, var(--bg-primary) 100%)",
+              border: "1px solid rgba(0,201,120,0.25)",
+            }}
+          >
             <div
-              key={item}
-              className="flex items-start gap-2 text-sm"
-              style={{ color: "var(--text-muted)" }}
+              className="text-[10px] tracking-widest uppercase mb-1.5"
+              style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}
             >
-              <span style={{ color: "#f59e0b" }}>✦</span>
-              {item}
+              {s.k}
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        {sections.map((s) => (
-          <SectionCard key={s.title} title={s.title}>
-            {s.content}
-          </SectionCard>
+            <div
+              className="text-base md:text-lg font-black"
+              style={{ fontFamily: "'JetBrains Mono', monospace", color: "#00c978" }}
+            >
+              {s.v}
+            </div>
+            <div
+              className="text-[11px] mt-1"
+              style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-muted)" }}
+            >
+              {s.s}
+            </div>
+          </div>
         ))}
       </div>
 
-      <a
-        href="https://t.me/aot_analyzer_bot"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block text-center text-sm font-bold py-4 px-6 rounded-xl transition-all"
-        style={{
-          fontFamily: "'Inter', sans-serif",
-          letterSpacing: "0.05em",
-          border: "1px solid var(--border-color)",
-          color: "var(--text-muted)",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = "var(--accent-secondary)";
-          e.currentTarget.style.color = "var(--accent-primary)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = "var(--border-color)";
-          e.currentTarget.style.color = "var(--text-muted)";
-        }}
-      >
-        Try the Bot on Telegram → @aot_analyzer_bot
-      </a>
-    </>
-  );
-}
-
-function BluePeakDetails() {
-  const sections = [
-    {
-      title: "1. Overview & Core Architecture",
-      content: (
-        <>
-          <p>
-            BluePeak is a premium task-based earning platform built with Next.js 14 (App Router). Users register, choose an investment plan, pay via bank transfer to the admin-configured bank account, receive an activation code from the admin via Telegram, and earn by completing daily tasks (₦5K/day) and referring others (₦7K/referral). Administrators manage payments (approve/reject), generate activation codes, oversee users, investments, withdrawals, and platform settings from a secure admin panel and a Telegram bot.
-          </p>
-          <SubHeading>Earning Model</SubHeading>
-          <p>BluePeak is a <strong style={{ color: "var(--text-secondary)" }}>task-based earning platform</strong>, not a passive investment platform. Earnings come from:</p>
-          <ul className="list-disc list-inside space-y-1">
-            <li><strong style={{ color: "var(--text-secondary)" }}>Daily Tasks:</strong> Claim ₦5,000 every day by completing a simple daily check-in.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Streak Bonus:</strong> At every 14-day claim streak milestone, claim an additional ₦7,000 bonus.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Referral Rewards:</strong> Earn ₦7,000 for every referred user who pays and activates their account.</li>
-          </ul>
-        </>
-      ),
-    },
-    {
-      title: "2. Activation Code Flow",
-      content: (
-        <>
-          <p>A 6-step verification flow ensures only paying users access the platform:</p>
-          <ol className="list-decimal list-inside space-y-1">
-            <li><strong style={{ color: "var(--text-secondary)" }}>Register</strong> — User provides Full Name, Email, Password only. Account created with <code style={{ color: "var(--accent-primary)" }}>status: PENDING</code>.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Choose Plan & Pay</strong> — User picks a plan (₦8K Starter / ₦18K Growth / ₦28K Premium, plus ₦2K activation code fee) and submits bank transfer details.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Admin Approves</strong> — Admin reviews payment. On approve: Investment record + Transaction created + Activation Code generated (<code style={{ color: "var(--accent-primary)" }}>10K-000001</code> format) + ₦7K referral reward auto-credited if referred.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Admin Shares Code</strong> — Code sent via Telegram (<code style={{ color: "var(--accent-primary)" }}>@BluePeakTele</code>).</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>First Login</strong> — User enters Email + Password + Activation Code. Code validated, marked used, account becomes <code style={{ color: "var(--accent-primary)" }}>ACTIVE</code>.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Subsequent Logins</strong> — Email + Password only.</li>
-          </ol>
-        </>
-      ),
-    },
-    {
-      title: "3 Database Schema",
-      content: (
-        <>
-          <p>PostgreSQL with Prisma ORM — <strong style={{ color: "var(--accent-primary)" }}>8 models</strong> with relations:</p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Table</th>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Key Columns</th>
-                  <th className="py-2 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Purpose</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["User", "userCode (BP-XXXXXX), role, status, claimStreak, referredBy", "User accounts with auth & referral tracking"],
-                  ["ActivationCode", "code (10K-000001), plan, used, usedBy", "Unique per-user activation codes"],
-                  ["Payment", "paymentReference (BP-PAY-XXXXXX), amount, status", "Payment submission & admin review"],
-                  ["InvestmentPlan", "name, amount, description, duration, active", "Configurable plan tiers"],
-                  ["Investment", "principal, startDate, endDate, status", "User investment tracking"],
-                  ["Withdrawal", "amount, bankName, accountNumber, status", "Withdrawal request pipeline"],
-                  ["Transaction", "type (INVESTMENT/PROFIT/WITHDRAWAL/ADJUSTMENT), amount, status", "All financial transactions"],
-                  ["AdminSetting", "bankName, accountName, accountNumber", "Dynamic bank details"],
-                ].map(([table, cols, purpose]) => (
-                  <tr key={table} style={{ borderBottom: "1px solid var(--border-color)" }}>
-                    <td className="py-2 pr-4 font-mono whitespace-nowrap" style={{ color: "var(--accent-primary)" }}>{table}</td>
-                    <td className="py-2 pr-4" style={{ maxWidth: "250px" }}><span className="text-[10px]">{cols}</span></td>
-                    <td className="py-2">{purpose}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ),
-    },
-    {
-      title: "4. API Architecture",
-      content: (
-        <>
-          <p><strong style={{ color: "var(--accent-primary)" }}>20+ API routes</strong> organized by domain:</p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Domain</th>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Endpoints</th>
-                  <th className="py-2 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Auth", "register, login, forgot-password, reset-password", "JWT + bcrypt with refresh token rotation"],
-                  ["Dashboard", "GET /api/dashboard", "Stats, balance, streak, recent investments"],
-                  ["Transactions", "claim, claim-streak-bonus, claim-status, list", "Daily task & streak reward system"],
-                  ["Payments", "CRUD + admin approve/reject", "Payment submission + activation code generation"],
-                  ["Investments", "list + admin status update", "Investment tracking lifecycle"],
-                  ["Withdrawals", "CRUD + admin processing", "Min ₦200K withdrawal pipeline"],
-                  ["Plans", "full CRUD (admin)", "Dynamic plan management"],
-                  ["Users", "list + profile CRUD", "User management with role-based access"],
-                  ["Admin", "stats + settings CRUD", "Platform-wide statistics & configuration"],
-                ].map(([domain, endpoints, desc]) => (
-                  <tr key={domain} style={{ borderBottom: "1px solid var(--border-color)" }}>
-                    <td className="py-2 pr-4 font-mono whitespace-nowrap" style={{ color: "var(--accent-primary)" }}>{domain}</td>
-                    <td className="py-2 pr-4"><span className="text-[10px]">{endpoints}</span></td>
-                    <td className="py-2">{desc}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ),
-    },
-    {
-      title: "5. Telegram Bot",
-      content: (
-        <>
-          <p>A standalone <strong style={{ color: "var(--accent-primary)" }}>Telegraf</strong> bot provides admin management via Telegram:</p>
-          <div className="grid md:grid-cols-2 gap-2 text-xs">
-            {[
-              ["/users", "List recent 20 users"],
-              ["/user {id}", "View user details"],
-              ["/pending", "List pending payments"],
-              ["/approve {id}", "Approve payment + generate code"],
-              ["/reject {id}", "Reject payment"],
-              ["/withdrawals", "List pending/approved withdrawals"],
-              ["/processwd {id}", "Mark withdrawal as paid"],
-              ["/plans", "List all investment plans"],
-              ["/addplan", "Add new plan"],
-              ["/removeplan {id}", "Delete plan"],
-              ["/stats", "Platform statistics"],
-              ["/setminwd {amount}", "Set min withdrawal"],
-            ].map(([cmd, desc]) => (
-              <div key={cmd} className="flex items-start gap-2 p-2 rounded-lg" style={{ background: "var(--bg-code-tag)" }}>
-                <code style={{ color: "var(--accent-primary)" }}>{cmd}</code>
-                <span style={{ color: "var(--text-muted)" }}>{desc}</span>
-              </div>
-            ))}
-          </div>
-        </>
-      ),
-    },
-    {
-      title: "6. User Flow",
-      content: (
-        <>
-          <div className="p-4 rounded-xl text-xs font-mono whitespace-pre leading-relaxed mb-4" style={{ background: "var(--bg-code-tag)", color: "var(--text-muted)" }}>
-{`Register → Choose Plan → Pay via Bank Transfer
-       → Admin Approves (generates activation code)
-       → Admin sends code via Telegram
-       → First Login (Email + Password + Code)
-       → Account Activated
-       → Daily Tasks (₦5K/day)
-       → Streak Bonus (₦7K every 14 days)
-       → Referrals (₦7K per active referral)
-       → Withdrawals (min ₦200K)`}
-          </div>
-        </>
-      ),
-    },
-    {
-      title: "7. Security & Architecture Highlights",
-      content: (
-        <>
-          <ul className="list-disc list-inside space-y-1">
-            <li><strong style={{ color: "var(--text-secondary)" }}>Authentication:</strong> JWT tokens stored in localStorage with automatic refresh via interceptor.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Authorization:</strong> Role-based guards (USER/ADMIN) on all routes.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Validation:</strong> Zod schemas on all API endpoints with XSS sanitization.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Database:</strong> Prisma ORM with parameterized queries preventing SQL injection.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>HTTP Security:</strong> CSP, X-Frame-Options DENY, XSS-Protection, Referrer-Policy, Permissions-Policy.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Architecture:</strong> Service/Repository layer separation, atomic transactions, rate limiting (10 req/10s window).</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Design:</strong> Glassmorphism UI with Frosted glass effects, gold accent theme, mobile-first responsive layout.</li>
-          </ul>
-        </>
-      ),
-    },
-    {
-      title: "8. The Production Story",
-      content: (
-        <>
-          <p className="mb-3">
-            <strong style={{ color: "var(--accent-primary)" }}>BluePeak is currently live in production processing real transactions for active users.</strong> The platform handles the complete lifecycle: user registration, payment verification, activation code generation, daily task claims, streak bonuses, referral rewards, and withdrawal processing — all managed through a secure admin panel and Telegram bot.
-          </p>
-          <p className="mb-3">
-            The same architecture that powers BluePeak also powers <strong style={{ color: "var(--text-secondary)" }}>PrimeLedger</strong>, a public demo version built from scratch to showcase the same engineering decisions without exposing any client data.
-          </p>
-        </>
-      ),
-    },
-  ];
-
-  return (
-    <>
-      <div className="mb-8">
-        <div className="rounded-2xl p-6" style={{ background: "var(--card-bg)", border: "1px solid var(--border-color)" }}>
-          <div className="grid md:grid-cols-2 gap-6 text-sm">
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Tagline</div>
-              <p style={{ color: "var(--accent-primary)", fontWeight: 700 }}>
-                Premium task-based earning platform — live in production
-              </p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Platform</div>
-              <p style={{ color: "var(--text-secondary)" }}>Web (Next.js 14) + Telegram Bot</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Backend</div>
-              <p style={{ color: "var(--text-secondary)" }}>Next.js API Routes + Prisma ORM + PostgreSQL (Neon)</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Auth</div>
-              <p style={{ color: "var(--text-secondary)" }}>JWT with refresh token rotation + bcrypt (12 rounds)</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Bot</div>
-              <p style={{ color: "var(--text-secondary)" }}>Telegraf — admin commands + user support via Telegram</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Live Links</div>
-              <p style={{ color: "var(--text-secondary)" }}>
-                <a href="https://blue-peak-earn.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-primary)" }}>Production Platform</a>
-                {" · Telegram: @BluePeakTele"}
-              </p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Developer</div>
-              <p style={{ color: "var(--text-secondary)" }}>AOT (aotnetworklabs@gmail.com)</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-2xl p-6 mb-8" style={{ background: "linear-gradient(135deg, rgba(234,179,8,0.08) 0%, var(--bg-primary) 100%)", border: "1px solid rgba(234,179,8,0.25)" }}>
-        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-          Key Differentiators
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {[
-            "Live Production System — Processing real users and real transactions",
-            "Unique Activation Code Flow — 6-step payment-to-activation pipeline",
-            "Admin Telegram Bot — Full platform management via Telegram commands",
-            "Task-Based Earning — Daily claims, streak bonuses, referral rewards",
-            "Service/Repository Architecture — Clean separation of concerns",
-            "Atomic Transactions — Race-condition-safe operations for financial actions",
-            "Rate Limiting — In-memory limiter on critical transaction endpoints",
-            "Responsive Glassmorphism UI — Black/gold/white theme, mobile-first",
-          ].map((item) => (
-            <div key={item} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
-              <span style={{ color: "#EAB308" }}>✦</span>
-              {item}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="space-y-6">
-        {sections.map((s) => (
-          <SectionCard key={s.title} title={s.title}>
-            {s.content}
-          </SectionCard>
-        ))}
-      </div>
-    </>
-  );
-}
-
-function PrimeLedgerDetails() {
-  const sections = [
-    {
-      title: "1. Overview & Purpose",
-      content: (
-        <>
+        <SectionCard title="1. Signal Engine — 3 Strategies, One Discipline">
           <p>
-            PrimeLedger is a fully functional fintech + crypto earning platform demo. It simulates a complete investment ecosystem where users can deposit funds via cryptocurrency (BTC, ETH, USDT, BNB, DOGE, LTC), invest in 6 tiered plans (Starter through Premium), earn daily rewards, track referrals, request withdrawals, and manage their profile — all within a polished, responsive UI.
+            L2 runs a <strong style={{ color: "var(--accent-primary)" }}>3-tier 15M stack</strong> on XAU/USD: EMA bounce, consolidation breakout, and trend continuation (+ ORB on opens). Direction-aware routing gates entries on price vs EMA20 (1H); violations soften confidence instead of blocking, so the engine degrades gracefully instead of going blind.
           </p>
-          <SubHeading>Why This Project Exists</SubHeading>
+          <SubHeading>Hybrid execution</SubHeading>
           <p>
-            This is a <strong style={{ color: "var(--accent-primary)" }}>public demo version</strong> of a private production fintech platform (BluePeak) that handles real users and transactions. I rebuilt PrimeLedger from scratch to showcase the same architecture, features, and engineering decisions without exposing any client data. It demonstrates everything I built for the production platform in a zero-dependency, instantly deployable format.
+            Every signal ships <strong style={{ color: "var(--accent-primary)" }}>limit + stop legs with identical SL/TP</strong> — whichever level touches first fills, the other is cancelled, with a stop-fallback at 2.0× ATR. Trades run to the 21:00 UTC hard close; the exit playbook takes 50% at +1R, moves SL to breakeven, and rides the rest to TP.
           </p>
-        </>
-      ),
-    },
-    {
-      title: "2. System Architecture",
-      content: (
-        <>
-          <p>Zero database — everything runs on client-side mock data for instant deployment:</p>
-          <div className="p-4 rounded-xl text-xs font-mono whitespace-pre leading-relaxed mb-4" style={{ background: "var(--bg-code-tag)", color: "var(--text-muted)" }}>
-{`Next.js 14 App Router
-  ├── Public Pages (Home, Login, Register, FAQ, Guide, Terms, Privacy)
-  ├── Dashboard Pages (8) — AuthContext protects
-  └── Admin Pages (9) — RoleGuard + AdminGuard
+        </SectionCard>
 
-React Context Layer:
-  AuthContext  → Session management (localStorage + cookie)
-  ThemeContext → Dark/light mode toggle (persisted)
-  WalletContext → Balance persistence (localStorage + addBalance/deductBalance)
+        <SectionCard title="2. Data Pipeline — Real Feed, PC-Free Uptime">
+          <p>
+            Candles come from the <strong style={{ color: "var(--accent-primary)" }}>real Dukascopy XAU/USD feed</strong> (no synthetic data), written by a dedicated Render worker into a shared Firestore cache with cooldowns and freshness guards — the web app is read-only and never hammers the feed. A 1-minute auto-scorer grades every triggered signal from first-touch chronology (full win / directional ≥+1R / loss / expired-flat), so the ledger is engine-measured, not hand-waved.
+          </p>
+        </SectionCard>
 
-Data Layer:
-  constants.ts → App config, wallet addresses, plan definitions, rewards
-  mock-data.ts → Demo users, investments, transactions, dashboard stats
-
-UI Layer:
-  Tailwind CSS + React Icons + react-hot-toast`}
+        <SectionCard title="3. Business — Proof Converts to Revenue">
+          <p>
+            The verifiable ledger <em>is</em> the go-to-market: a trading community pays for signal access (sustaining the engine), while the same track record lands high-ticket client work — <strong style={{ color: "var(--accent-primary)" }}>Signals API access, custom trading systems</strong> built on client strategies or from scratch, <strong style={{ color: "var(--accent-primary)" }}>business websites and fintech apps</strong>, plus long-term broker and prop-firm partnerships.
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <a
+              href="https://l2signals-landing.vercel.app/services"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold py-2.5 px-5 rounded-xl transition-all"
+              style={{ fontFamily: "'Inter', sans-serif", background: "linear-gradient(135deg, #00c978, #00a854)", color: "#fff" }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
+            >
+              Services — API, Systems, Apps →
+            </a>
+            <a
+              href="https://l2signals-landing.vercel.app/quote"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold py-2.5 px-5 rounded-xl transition-all"
+              style={{ fontFamily: "'Inter', sans-serif", border: "1px solid var(--border-color-strong)", color: "var(--accent-primary)" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(var(--accent-rgb), 0.1)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+            >
+              Get a Custom Quote →
+            </a>
+            <a
+              href="https://t.me/l2signals"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold py-2.5 px-5 rounded-xl transition-all"
+              style={{ fontFamily: "'Inter', sans-serif", border: "1px solid var(--border-color-light)", color: "var(--text-muted)" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--accent-secondary)"; e.currentTarget.style.color = "var(--accent-primary)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border-color-light)"; e.currentTarget.style.color = "var(--text-muted)"; }}
+            >
+              Telegram Channel
+            </a>
           </div>
-          <p>
-            No network requests hit a real server. 13 API routes exist as placeholders returning mock JSON — they are not required for the app to function.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: "3. Investment Tiers",
-      content: (
-        <>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Tier</th>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Deposit Range</th>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Profit Rate</th>
-                  <th className="py-2 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Duration</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Starter", "$10–$799", "5%", "3 days"],
-                  ["Basic", "$800–$4,999", "10%", "7 days"],
-                  ["Pro", "$5,000–$24,999", "20%", "14 days"],
-                  ["Elite", "$25,000–$99,999", "30%", "21 days"],
-                  ["Mega", "$100,000–$499,999", "40%", "30 days"],
-                  ["Premium", "$500,000–$1,000,000", "50%", "45 days"],
-                ].map(([tier, range, rate, duration]) => (
-                  <tr key={tier} style={{ borderBottom: "1px solid var(--border-color)" }}>
-                    <td className="py-2 pr-4 font-mono whitespace-nowrap" style={{ color: "var(--accent-primary)" }}>{tier}</td>
-                    <td className="py-2 pr-4">{range}</td>
-                    <td className="py-2 pr-4">{rate}</td>
-                    <td className="py-2">{duration}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ),
-    },
-    {
-      title: "4. Features Showcase",
-      content: (
-        <>
-          <p><strong style={{ color: "var(--text-secondary)" }}>Dashboard</strong> — Wallet balance (persisted), total earnings, referral count, pending withdrawals, daily task claim with streak tracking, active investments with progress bars, recent transactions.</p>
-          <p><strong style={{ color: "var(--text-secondary)" }}>Deposit Flow</strong> — Freeform USD input (min $10), 6 crypto options with wallet addresses + one-click copy, processing simulation with 4s spinner delay, post-deposit success screen.</p>
-          <p><strong style={{ color: "var(--text-secondary)" }}>Activity</strong> — Full transaction history with credit/debit indicators, filter by All/Credits/Debits, color-coded amounts.</p>
-          <p><strong style={{ color: "var(--text-secondary)" }}>Referrals</strong> — Unique referral link with copy, $50 per active referral, referral list with status badges.</p>
-          <p><strong style={{ color: "var(--text-secondary)" }}>Withdrawals</strong> — Amount input (min $20), method selection (BTC/ETH/USDT/BNB), history table with status badges.</p>
-          <p><strong style={{ color: "var(--text-secondary)" }}>Support</strong> — FAQ accordion + contact form with success toast.</p>
-          <p><strong style={{ color: "var(--text-secondary)" }}>Admin Panel</strong> — 9 pages: Dashboard, Users, Payments, Investments, Withdrawals, Plans, Settings, Tickets, Changelog. Full CRUD with inline approve/reject actions.</p>
-        </>
-      ),
-    },
-    {
-      title: "5. Design System",
-      content: (
-        <>
-          <p>
-            <strong style={{ color: "var(--accent-primary)" }}>Gold accent (#EAB308)</strong> on dark/light mode with professional solid-color approach (no gradients). Dark background uses <code style={{ color: "var(--accent-primary)" }}>radial-gradient(#020617 → #0f172a → #1a1200)</code>, light uses <code style={{ color: "var(--accent-primary)" }}>radial-gradient(white → #fefce8 → #fffbeb)</code>.
-          </p>
-          <p>
-            <strong style={{ color: "var(--text-secondary)" }}>Typography:</strong> Inter (Google Fonts, weights 300–900), <code style={{ color: "var(--accent-primary)" }}>font-extrabold</code> headings with <code style={{ color: "var(--accent-primary)" }}>tracking-tight</code>.
-          </p>
-          <p>
-            <strong style={{ color: "var(--text-secondary)" }}>Components:</strong> Solid buttons, rounded-xl cards, gold focus rings, fixed sidebar on desktop (256px), overlay on mobile with backdrop blur.
-          </p>
-          <p>
-            <strong style={{ color: "var(--text-secondary)" }}>Dark Mode:</strong> Toggle via sun/moon icon, persisted to localStorage, <code>class</code> strategy on <code>&lt;html&gt;</code>.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: "6. Key Technical Decisions",
-      content: (
-        <>
-          <ul className="list-disc list-inside space-y-1">
-            <li><strong style={{ color: "var(--text-secondary)" }}>Mock Data Layer:</strong> Zero database dependencies — entire app runs from static exports. No Prisma, no PostgreSQL, no deployment complexity.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>WalletContext:</strong> Balance persisted to localStorage, wraps entire dashboard, exposes <code style={{ color: "var(--accent-primary)" }}>addBalance()</code> / <code style={{ color: "var(--accent-primary)" }}>deductBalance()</code>.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Deposit Simulation:</strong> 4-second delay with spinner + status text for realistic feel.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Solid Colors:</strong> Switched from gold→emerald gradients to solid <code>bg-gold-500</code> for cleaner, professional design.</li>
-            <li><strong style={{ color: "var(--text-secondary)" }}>Demo Auth:</strong> "Enter Demo Mode" button creates session in localStorage + cookie — no signup, no password, no email.</li>
-          </ul>
-        </>
-      ),
-    },
-    {
-      title: "7. What This Demonstrates",
-      content: (
-        <>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
-                  <th className="py-2 pr-4 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Skill</th>
-                  <th className="py-2 text-left font-bold" style={{ color: "var(--text-secondary)" }}>Evidence</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["System Architecture", "Complete fintech platform with dashboard, deposit, membership tiers, referrals, withdrawal pipeline, admin panel"],
-                  ["React + Next.js 14", "App Router, server/client components, layout nesting, context providers, dynamic routes"],
-                  ["TypeScript", "Full type coverage — interfaces for all data models, typed context providers, typed props"],
-                  ["State Management", "3 React Context providers (Auth, Theme, Wallet) with localStorage persistence"],
-                  ["Tailwind CSS", "Responsive mobile-first layout, dark mode via class strategy, custom gold color palette"],
-                  ["UI/UX Design", "Gold-accented design, loading skeletons, toast notifications, responsive navigation, processing animations"],
-                  ["Component Architecture", "Reusable components (Logo, Navbar, Sidebar, PlanBadge, Skeleton), consistent API across pages"],
-                ].map(([skill, evidence]) => (
-                  <tr key={skill} style={{ borderBottom: "1px solid var(--border-color)" }}>
-                    <td className="py-2 pr-4 font-mono whitespace-nowrap" style={{ color: "var(--accent-primary)" }}>{skill}</td>
-                    <td className="py-2">{evidence}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ),
-    },
-    {
-      title: "8. The Production Connection",
-      content: (
-        <>
-          <p>
-            <strong style={{ color: "var(--accent-primary)" }}>PrimeLedger mirrors the architecture of BluePeak</strong>, a live production platform currently processing real transactions for active users. While BluePeak's codebase is confidential (due to user data), PrimeLedger was rebuilt from scratch as a public showcase — same architecture, same features, same engineering decisions, but with mock data and zero backend dependencies.
-          </p>
-          <p>
-            <strong style={{ color: "var(--text-secondary)" }}>What's different:</strong> PrimeLedger uses client-side mock data instead of PostgreSQL/Prisma, crypto deposits instead of bank transfers, and demo auth instead of JWT/bcrypt. The UI, dashboard, admin panel, and user experience are architecturally identical.
-          </p>
-        </>
-      ),
-    },
-  ];
-
-  return (
-    <>
-      <div className="mb-8">
-        <div className="rounded-2xl p-6" style={{ background: "var(--card-bg)", border: "1px solid var(--border-color)" }}>
-          <div className="grid md:grid-cols-2 gap-6 text-sm">
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Tagline</div>
-              <p style={{ color: "var(--accent-primary)", fontWeight: 700 }}>
-                Full-stack fintech demo — public showcase of a live production architecture
-              </p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Platform</div>
-              <p style={{ color: "var(--text-secondary)" }}>Web (Next.js 14) · Zero Backend Dependencies</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Data Layer</div>
-              <p style={{ color: "var(--text-secondary)" }}>Client-side mock data + localStorage persistence</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Auth</div>
-              <p style={{ color: "var(--text-secondary)" }}>Demo Mode — One-click access, no signup required</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Crypto</div>
-              <p style={{ color: "var(--text-secondary)" }}>6 options: BTC, ETH, USDT, BNB, DOGE, LTC</p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Live Links</div>
-              <p style={{ color: "var(--text-secondary)" }}>
-                <a href="https://prime-ledger-website.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-primary)" }}>Live Demo</a>
-                {" · "}
-                <a href="https://github.com/adiiaot/PrimeLedger-Website" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-primary)" }}>GitHub</a>
-              </p>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>Developer</div>
-              <p style={{ color: "var(--text-secondary)" }}>AOT (aotnetworklabs@gmail.com)</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-2xl p-6 mb-8" style={{ background: "linear-gradient(135deg, rgba(234,179,8,0.08) 0%, var(--bg-primary) 100%)", border: "1px solid rgba(234,179,8,0.25)" }}>
-        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-dim)" }}>
-          Key Differentiators
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {[
-            "Public Demo of Live Production Platform — Same architecture, zero backend",
-            "6 Cryptocurrency Payment Options — With realistic processing simulation",
-            "Persistent Wallet — Balance survives page refreshes via localStorage",
-            "Full Admin Panel — 9 pages with CRUD, stats, approve/reject workflows",
-            "Zero Database Deployment — Entire app runs from static exports",
-            "Dark/Light Mode — Gold-accented design system, professional solid colors",
-            "6 Investment Tiers — Starter ($10) through Premium ($1M) with progress tracking",
-            "Demo-First Architecture — Instant deployment, no signup required",
-          ].map((item) => (
-            <div key={item} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
-              <span style={{ color: "#EAB308" }}>✦</span>
-              {item}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        {sections.map((s) => (
-          <SectionCard key={s.title} title={s.title}>
-            {s.content}
-          </SectionCard>
-        ))}
+        </SectionCard>
       </div>
     </>
   );
@@ -1696,13 +923,9 @@ export function ProjectDetail({ project }: { project: Project }) {
         >
           {p.id === "calfit"
             ? "A full-featured fitness and nutrition app powered by AI — personalized workouts, meal plans, calorie tracking, AI coach, food scanner, sleep/fasting/measurement tracking, accountability partners, and detailed analytics. One codebase ships to iOS, Android, and Web."
-            : p.id === "analyzer-bot"
-              ? "An XAU/USD scalp trading bot with dual-model Nvidia AI verification. The 4-timeframe engine analyzes trend, support/resistance, pullbacks, and entry candles. Users interact via Telegram commands and monitor live results on a real-time Next.js dashboard — all powered by NVIDIA NIM free-tier AI models."
-              : p.id === "bluepeak"
-                ? "A premium task-based earning platform live in production with real users. Users register, choose an investment plan, pay via bank transfer, receive an activation code from the admin via Telegram, and earn by completing daily tasks (₦5K/day) and referring others (₦7K/referral). Full admin panel and Telegram bot for management."
-                : p.id === "primeledger"
-                  ? "A feature-complete fintech + crypto earning platform demo built to showcase full-stack development capabilities. Zero database — everything runs on client-side mock data for instant deployment. Public demo version of the confidential BluePeak production platform."
-                  : p.description}
+            : p.id === "l2-signals"
+              ? "A systematic XAU/USD intraday signal business — 3-strategy 15M engine with hybrid limit+stop execution, backtested on real Dukascopy data (76.9% WR / PF 4.0) and forward-validated live (demo $100→$1,007.41 in 37 days). Verifiable trade ledger, Signals API access, and custom trading-system builds for clients."
+              : p.description}
         </p>
 
         <div
@@ -1875,9 +1098,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         )}
 
         {p.id === "calfit" && <CalFitDetails />}
-        {p.id === "analyzer-bot" && <AnalyzerBotDetails />}
-        {p.id === "bluepeak" && <BluePeakDetails />}
-        {p.id === "primeledger" && <PrimeLedgerDetails />}
+        {p.id === "l2-signals" && <L2SignalsDetails />}
       </div>
     </main>
   );

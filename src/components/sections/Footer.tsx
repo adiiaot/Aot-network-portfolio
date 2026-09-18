@@ -19,7 +19,7 @@ export function Footer() {
                 className="font-black text-xl tracking-wider"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "var(--text-primary)" }}
               >
-                AOT Network
+                AOT
               </div>
               <div
                 className="text-[9px] tracking-[0.35em]"
@@ -60,7 +60,7 @@ export function Footer() {
               color: "var(--text-very-dim)",
             }}
           >
-            © {new Date().getFullYear()} AOT Network. All rights reserved.
+            © {new Date().getFullYear()} AOT. All rights reserved.
           </p>
           <div className="flex gap-6">
             {[
